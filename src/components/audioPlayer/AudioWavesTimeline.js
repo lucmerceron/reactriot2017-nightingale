@@ -17,18 +17,17 @@ class AudioWavesTimeline extends Component {
     const currentPlayTime = (player && player !== undefined) ? Math.ceil(player.getCurrentTime()) : 0
     const progression = Math.floor((currentPlayTime / duration) * 100)
 
-    console.log(progression)
-
     return (
-      <div className="audio-timeline-container">
+      <div className="audio-timeline-container row">
         <span className="audio-timeline-current-play">{TimeFormat.fromS(currentPlayTime)}</span>
         <div className="audio-waves-container">
-          { Array(...{ length: 40 }).map((item, index) => (
+          { Array(...{ length: 60 }).map((item, index) => (
             <span
               className="audio-wave"
               style={{
-                height: `${Math.floor(Math.random() * 44) + 1}px`,
-                width: `${((index / 40) * 100 < progression) ? '3' : '1'}px`,
+                height: `${(player && player.getPlayerState() === 1) ? Math.floor(Math.random() * 44) + 1 : '1'}px`,
+                width: `${((index / 60) * 100 < progression) ? '2' : '1'}px`,
+                margin: `0 ${((index / 60) * 100 < progression) ? '0.5' : '1'}px`,
               }}
             />))
           }

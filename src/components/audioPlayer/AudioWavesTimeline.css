@@ -10,15 +10,15 @@
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  align-content: space-around;
+  align-content: center;
+  justify-content: center;
   height: 44px; /*in px to avoid responsive conflicts with randoms*/
-  padding: 0 1rem;
+  width: 12.22rem;
 }
 
 .audio-wave {
   display: inline-block;
   background-color: #000;
-  margin: 0 1px;
   transition:
     height 1s ease-in-out,
     width 1s ease-in-out;

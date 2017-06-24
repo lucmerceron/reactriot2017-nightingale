@@ -94,9 +94,7 @@ class AudioPlayer extends Component {
             onStateChange={this.onPlayerStateChange}
           />
         </div>
-        <div className="audio-player-timeline">
-          <AudioWavesTimeline player={this.state.YTPlayer} />
-        </div>
+        <AudioWavesTimeline player={this.state.YTPlayer} />
         <div className="audio-player-controls">
           <div className="audio-player-controls-btn-sm" onClick={() => this.onMute()} style={{ marginRight: '-0.4444rem' }} ><i className="ion-ios-volume-high" /></div>
           <div className="audio-player-controls-btn-lg" onClick={() => this.props.onVideoTogglePlay()} ><i className="ion-ios-play-outline" style={{ marginLeft: '0.4444rem' }} /></div>
