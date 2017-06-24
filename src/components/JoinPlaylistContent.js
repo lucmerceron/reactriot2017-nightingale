@@ -11,7 +11,7 @@ const JoinPlaylistContent = () => (
     <h2>Join a Playlist</h2>
     <p>scan a QR code to join</p>
     <div className="join-playlist-qr">
-      <QrScanner maxImageSize="500" onScan={() => console.log('scan')} onError={() => console.log('error')} />
+      <QrScanner onScan={() => console.log('scan')} onError={() => console.log('error')} />
     </div>
     <p>or search for a playlist</p>
     <FormInputText placeholder="search for a playlist" onChange={(value) => console.log(value)} />
