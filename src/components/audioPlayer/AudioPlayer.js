@@ -6,11 +6,60 @@ import AudioWavesTimeline from './AudioWavesTimeline'
 
 import './AudioPlayer.css'
 
+const YT_PLAYER_EVENT_ENDED = 0
+
 class AudioPlayer extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = {
+      volume: 100,
+      muted: false,
+    }
+
+    this.onPlayerReady = this.onPlayerReady.bind(this)
+    this.onPlayerStateChange = this.onPlayerStateChange.bind(this)
+  }
+
+  onPlayerReady(event) {
+    event.target.setVolume(100)
+    this.setState({ YTPlayer: event.target })
+  }
+
+  onPlayerStateChange(event) {
+    if (event.data === YT_PLAYER_EVENT_ENDED) {
+      this.props.onVideoChanged()
+    }
+  }
+
+  onPlayPauseClick() {
+    this.props.onVideoTogglePlay()
+  }
+
+  onMute() {
+    const { muted, YTPlayer } = this.state
+    if (muted) {
+      YTPlayer.unMute()
+    } else {
+      YTPlayer.mute()
+    }
+    this.setState({ muted: !muted })
+  }
+
+  onSetVolume(event) {
+    const { value: newVolume } = event.target
+    const { muted, YTPlayer } = this.state
+    if (muted && newVolume > 0) {
+      YTPlayer.setVolume(newVolume)
+      YTPlayer.unMute()
+      this.setState({ muted: false, volume: newVolume })
+    } else if (!muted && newVolume === 0) {
+      YTPlayer.setVolume(newVolume)
+      YTPlayer.mute()
+      this.setState({ muted: true, volume: newVolume })
+    } else {
+      YTPlayer.setVolume(newVolume)
+      this.setState({ volume: newVolume })
     }
   }
 
@@ -27,6 +76,7 @@ class AudioPlayer extends Component {
         modestbranding: 1,
         rel: 0,
         showinfo: 0,
+        enablejsapi: 1,
       },
     }
 
@@ -34,13 +84,15 @@ class AudioPlayer extends Component {
       <div className="audio-player">
         <div className="audio-player-container">
           <YoutubePlayer
-            videoId="iEEOHUMFfZE"
+            videoId={this.props.playlist[0]}
             className="audio-player-youtube-frame"
             opts={opts}
+            onReady={this.onPlayerReady}
+            onStateChange={this.onPlayerStateChange}
           />
         </div>
         <div className="audio-player-timeline">
-          <AudioWavesTimeline currentPlayTime={456} musicDuration={1009} musicHasLoad />
+          <AudioWavesTimeline player={this.state.YTPlayer} />
         </div>
         <div className="audio-player-controls">
           <div className="audio-player-controls-btn-sm" onClick={() => console.log} >sound</div>
@@ -54,7 +106,14 @@ class AudioPlayer extends Component {
 }
 
 AudioPlayer.propTypes = {
-  
+  playlist: PropTypes.arrayOf(PropTypes.string).isRequired,
+  isPlaying: PropTypes.boolean,
+  onVideoChanged: PropTypes.func.isRequired,
+  onVideoTogglePlay: PropTypes.func.isRequired,
+}
+
+AudioPlayer.defaultProps = {
+  isPlaying: false,
 }
 
 export default AudioPlayer
