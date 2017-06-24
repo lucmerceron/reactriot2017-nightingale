@@ -21,7 +21,7 @@ class MainPlaylistView extends Component {
         <div>
           <AudioPlayer />
           <ul>
-            <MusicListItem />
+            <MusicListItem youtubeSearch={[]} musics={[]} addMusic={() => {}} likeMusic={() => {}} />
           </ul>
         </div>
         <div>feed panel</div>
