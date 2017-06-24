@@ -1,6 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { Route, Switch, withRouter } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
 import LandingView from './components/LandingView'
 import MainPlaylistView from './components/MainPlaylistView'
@@ -26,7 +25,7 @@ class Routes extends React.Component {
   render() {
     return (
       <Switch>
-        {this.routes.map(({...props}) => <Route {...props} />)}
+        {this.routes.map(({ ...props }) => <Route {...props} />)}
       </Switch>
     )
   }
