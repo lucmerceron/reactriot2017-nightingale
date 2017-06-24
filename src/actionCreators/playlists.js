@@ -9,6 +9,9 @@ export const GET_PRIVATE_PLAYLIST_FAILED = 'GET_PRIVATE_PLAYLIST_FAILED'
 export const CREATE_PRIVATE_PLAYLIST_REQUEST = 'CREATE_PRIVATE_PLAYLIST_REQUEST'
 export const CREATE_PRIVATE_PLAYLIST_SUCCESS = 'CREATE_PRIVATE_PLAYLIST_SUCCESS'
 export const CREATE_PRIVATE_PLAYLIST_FAILED = 'CREATE_PRIVATE_PLAYLIST_FAILED'
+export const CREATE_PUBLIC_PLAYLIST_REQUEST = 'CREATE_PUBLIC_PLAYLIST_REQUEST'
+export const CREATE_PUBLIC_PLAYLIST_SUCCESS = 'CREATE_PUBLIC_PLAYLIST_SUCCESS'
+export const CREATE_PUBLIC_PLAYLIST_FAILED = 'CREATE_PUBLIC_PLAYLIST_FAILED'
 
 /* Action creators */
 export const getPrivatePlaylistRequest = makeActionCreator(GET_PRIVATE_PLAYLIST_REQUEST)
@@ -17,6 +20,9 @@ export const getPrivatePlaylistFailed = makeActionCreator(GET_PRIVATE_PLAYLIST_F
 export const createPrivatePlaylistRequest = makeActionCreator(CREATE_PRIVATE_PLAYLIST_REQUEST)
 export const createPrivatePlaylistSuccess = makeActionCreator(CREATE_PRIVATE_PLAYLIST_SUCCESS)
 export const createPrivatePlaylistFailed = makeActionCreator(CREATE_PRIVATE_PLAYLIST_FAILED, 'error')
+export const createPublicPlaylistRequest = makeActionCreator(CREATE_PUBLIC_PLAYLIST_REQUEST)
+export const createPublicPlaylistSuccess = makeActionCreator(CREATE_PUBLIC_PLAYLIST_SUCCESS)
+export const createPublicPlaylistFailed = makeActionCreator(CREATE_PUBLIC_PLAYLIST_FAILED, 'error')
 
 /* Thunk action creators */
 export function getPrivatePlaylist(playlistId) {
@@ -46,6 +52,11 @@ export function createPrivatePlaylist(playlist) {
     // Retrieve the key for onDisconnect use
     const newPlaylistKey = firebase.database().ref('private_playlists').push().key
 
+    // Listen on the reference key to make account the creation
+    firebase.database().ref(`private_playlists/${newPlaylistKey}`).on('value', snap => {
+      if (snap.val()) createPrivatePlaylistSuccess(snap.val())
+    })
+
     // Create the playlist
     firebase.database().ref().update({ [`private_playlists/${newPlaylistKey}`]: {
       name: playlist.name,
@@ -64,5 +75,40 @@ export function createPrivatePlaylist(playlist) {
 
     // Remove the user on onDisconnect
     firebase.database().ref(`private_playlists/${newPlaylistKey}/users/${userId}`).onDisconnect().remove()
+  }
+}
+
+export function createPublicPlaylist(playlist) {
+  return (dispatch, getState) => {
+    const firebase = getState().firebase
+    const fakeName = faker.name.findName()
+    const userId = firebase.auth().currentUser.uid
+
+    dispatch(createPublicPlaylistRequest())
+
+    // Retrieve the key for onDisconnect use
+    const newPlaylistKey = firebase.database().ref('public_playlists').push().key
+
+    // We don't need to listen for modification as we registered a listener
+    // at the user connexion
+
+    // Create the playlist
+    firebase.database().ref().update({ [`public_playlists/${newPlaylistKey}`]: {
+      name: playlist.name,
+      tag: playlist.tag,
+      admin: {
+        [userId]: fakeName,
+      },
+      users: {
+        [userId]: fakeName,
+      },
+      currentlyPlaying: {
+      },
+      musics: {
+      },
+    } })
+
+    // Remove the user on onDisconnect
+    firebase.database().ref(`public_playlists/${newPlaylistKey}/users/${userId}`).onDisconnect().remove()
   }
 }
