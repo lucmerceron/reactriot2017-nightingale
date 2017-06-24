@@ -2,10 +2,13 @@ import React from 'react'
 // import PropTypes from 'prop-types'
 
 import AudioPlayer from './audioPlayer/AudioPlayer'
+import SearchPanel from './SearchPanel'
 
 const MainPlaylistView = () => (
   <div>
-    <div>search panel</div>
+    <div>
+      <SearchPanel />
+    </div>
     <div>
       <AudioPlayer />
       <div>list playlist</div>
