@@ -65,6 +65,20 @@ class AudioPlayer extends Component {
     }
   }
 
+  playVideo() {
+    const { YTPlayer } = this.state
+    if (YTPlayer) {
+      this.state.YTPlayer.playVideo()
+    }
+  }
+
+  pauseVideo() {
+    const { YTPlayer } = this.state
+    if (YTPlayer) {
+      this.state.YTPlayer.pauseVideo()
+    }
+  }
+
   render() {
     const opts = {
       height: '200',
@@ -82,6 +96,12 @@ class AudioPlayer extends Component {
       },
     }
     const { muted, volume } = this.state
+
+    if (this.props.isPlaying) {
+      this.playVideo()
+    } else {
+      this.pauseVideo()
+    }
 
     return (
       <div className="audio-player">
