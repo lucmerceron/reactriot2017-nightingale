@@ -11,7 +11,8 @@ const YOUTUBE_MAX_RESULTS = 10
  * @return {Promise}
  */
 const searchVideos = (term) => {
-  const query = `${YOUTUBE_ENDPOINT}/search/?key=${YOUTUBE_API_KEY}&part=snippet&type=video&videoEmbeddable=true&maxResults=${YOUTUBE_MAX_RESULTS}&q=${term}`
+  const query = `${YOUTUBE_ENDPOINT}/search/?key=${YOUTUBE_API_KEY}&part=snippet&type=video&videoEmbeddable=true`
+    + `&maxResults=${YOUTUBE_MAX_RESULTS}&q=${term}`
   return fetch(query)
     .then(response => response.json())
     .then(data => {
@@ -25,10 +26,10 @@ const searchVideos = (term) => {
  * @param  {Array<Object>} results The results from searchVideos function
  * @return {Promise}
  */
-const cleanResults = (results) => {
-  return new Promise((resolve) => {
+const cleanResults = (results) =>
+  new Promise((resolve) => {
     const cleaned = []
-    results.map(result => {
+    results.foreach(result => {
       const { videoId } = result.id
       const { title, channelTitle, thumbnails } = result.snippet
       const { url: thumbnailUrl } = thumbnails.high
@@ -36,7 +37,6 @@ const cleanResults = (results) => {
     })
     resolve(cleaned)
   })
-}
 
 /**
  * Parse an ISO8601 datetime string and return an "HH:mm:ss" formatted one
@@ -45,7 +45,7 @@ const cleanResults = (results) => {
  */
 const parseDuration = (rawDuration) => {
   const parsed = parse(rawDuration)
-  const { hours, minutes, seconds} = parsed
+  const { hours, minutes, seconds } = parsed
   return (hours > 0) ? `${hours}:${minutes}:${seconds}` : `${minutes}:${seconds}`
 }
 
@@ -57,7 +57,7 @@ const parseDuration = (rawDuration) => {
  */
 const cleanExtraInformartion = (results) => {
   const cleaned = {}
-  results.map(result => {
+  results.foreach(result => {
     const { id: videoId } = result
     const { duration: rawDuration } = result.contentDetails
     cleaned[videoId] = { duration: parseDuration(rawDuration) }
@@ -74,7 +74,7 @@ const cleanExtraInformartion = (results) => {
  */
 const associateVideosAndExtraInformation = (videosResults, extraInformations) => {
   const finalResults = {}
-  videosResults.map(videoResult => {
+  videosResults.foreach(videoResult => {
     const { videoId, ...others } = videoResult
     const extraInformation = extraInformations[videoId]
     finalResults[videoId] = { ...others, ...extraInformation }
@@ -89,7 +89,7 @@ const associateVideosAndExtraInformation = (videosResults, extraInformations) =>
  */
 const getVideosExtraInformation = (results) => {
   const ids = []
-  results.map(result => {
+  results.foreach(result => {
     ids.push(result.videoId)
   })
   const query = `${YOUTUBE_ENDPOINT}/videos/?key=${YOUTUBE_API_KEY}&part=contentDetails&id=${ids.join(',')}`
@@ -109,11 +109,10 @@ const getVideosExtraInformation = (results) => {
  * @param  {string} term The term to search
  * @return {Object}
  */
-const search = (term) => {
-  return searchVideos(term)
+const search = (term) =>
+  searchVideos(term)
     .then(cleanResults)
     .then(getVideosExtraInformation)
-}
 
 export default {
   search,
