@@ -1,5 +1,6 @@
 .ng-btn {
   border: 0.05556rem solid #2196f3;
+  color: #2196f3;
   border-radius: 1rem;
   padding: 0.3333rem 2rem;
   transition: 
@@ -8,7 +9,7 @@
     border-color 0.3s ease-in-out;
 }
 
-.ng-btn:hover {
+.btn-blue:hover {
   background-color: #2196f3;
   border-color: #2196f3;
   color: #fff

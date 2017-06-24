@@ -1,11 +1,16 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
-import Button from './generalPurpose/Button'
+import ButtonMorphing from './generalPurpose/ButtonMorphing'
+import CreatePlaylistContent from './CreatePlaylistContent'
+import JoinPlaylistContent from './JoinPlaylistContent'
 
 const LandingView = () => (
   <div>
-    <Button label="ta mere" onClick={() => console.log('ta mere')} />
+    <img />
+    <ButtonMorphing label="join a playlist" onClick={() => console.log('ta mere')} content={JoinPlaylistContent} />
+    <ButtonMorphing label="create a playlist" onClick={() => console.log('ta mere')} content={CreatePlaylistContent} />
+    <span>gggg</span>
   </div>
 )
 
