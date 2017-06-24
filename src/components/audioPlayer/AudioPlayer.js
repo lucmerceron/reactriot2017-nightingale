@@ -19,6 +19,7 @@ class AudioPlayer extends Component {
 
     this.onPlayerReady = this.onPlayerReady.bind(this)
     this.onPlayerStateChange = this.onPlayerStateChange.bind(this)
+    this.onSetVolume = this.onSetVolume.bind(this)
   }
 
   onPlayerReady(event) {
@@ -32,22 +33,20 @@ class AudioPlayer extends Component {
     }
   }
 
-  onPlayPauseClick() {
-    this.props.onVideoTogglePlay()
-  }
-
   onMute() {
-    const { muted, YTPlayer } = this.state
+    const { muted, volume, YTPlayer } = this.state
     if (muted) {
       YTPlayer.unMute()
+      this.setState(volume === 0 ? { muted: !muted, volume: 5 } : { muted: !muted })
     } else {
       YTPlayer.mute()
+      this.setState({ muted: !muted })
     }
-    this.setState({ muted: !muted })
   }
 
   onSetVolume(event) {
-    const { value: newVolume } = event.target
+    const { value } = event.target
+    const newVolume = Number(value)
     const { muted, YTPlayer } = this.state
     if (muted && newVolume > 0) {
       YTPlayer.setVolume(newVolume)
@@ -79,6 +78,7 @@ class AudioPlayer extends Component {
         enablejsapi: 1,
       },
     }
+    const { muted, volume } = this.state
 
     return (
       <div className="audio-player">
@@ -95,9 +95,12 @@ class AudioPlayer extends Component {
           <AudioWavesTimeline player={this.state.YTPlayer} />
         </div>
         <div className="audio-player-controls">
-          <div className="audio-player-controls-btn-sm" onClick={() => console.log} >sound</div>
-          <div className="audio-player-controls-btn-lg" onClick={() => console.log} >play</div>
-          <div className="audio-player-controls-btn-sm" onClick={() => console.log} >next</div>
+          Volume<br />
+          {(muted) ? 'Muted' : volume}<br />
+          <input type="range" min="0" max="100" value={this.state.volume} onChange={this.onSetVolume} />
+          <div className="audio-player-controls-btn-sm" onClick={() => this.onMute()} >mute</div>
+          <div className="audio-player-controls-btn-lg" onClick={() => this.props.onVideoTogglePlay()} >play</div>
+          <div className="audio-player-controls-btn-sm" onClick={() => this.props.onVideoChanged()} >next</div>
         </div>
         <div onClick={() => console.log}>full screen</div>
       </div>
