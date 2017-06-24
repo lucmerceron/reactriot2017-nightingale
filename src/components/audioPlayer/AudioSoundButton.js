@@ -27,7 +27,10 @@ class AusioSoundButton extends Component {
           borderRadius: `${toggleSoundRange ? '2rem' : '50%'}`,
         }}
       >
-        <i className="ion-ios-volume-high" />{toggleSoundRange && <input className="audio-player-sound-range" type="range" min="0" max="100" value={value} onChange={(e) => onChange(e)} />}
+        <i className="ion-ios-volume-high" />
+        {toggleSoundRange &&
+          <input className="audio-player-sound-range" type="range" min="0" max="100" value={value} onChange={(e) => onChange(e)} />
+        }
       </div>
     )
   }

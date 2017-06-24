@@ -82,7 +82,7 @@ class AudioPlayer extends Component {
         enablejsapi: 1,
       },
     }
-    const { muted, volume } = this.state
+    const { volume } = this.state
 
     return (
       <div className="audio-player">
@@ -98,8 +98,16 @@ class AudioPlayer extends Component {
         <AudioWavesTimeline player={this.state.YTPlayer} />
         <div className="audio-player-controls">
           <AudioSoundButton value={volume} onChange={this.onSetVolume} />
-          <div className="audio-player-controls-btn-lg" onClick={() => this.props.onVideoTogglePlay()} ><i className="ion-ios-play-outline" style={{ marginLeft: '0.4444rem' }} /></div>
-          <div className="audio-player-controls-btn-sm" onClick={() => this.props.onVideoChanged(this.props.playlist[0])} style={{ marginLeft: '-0.4444rem' }} ><i className="ion-ios-skipforward-outline" /></div>
+          <div className="audio-player-controls-btn-lg" onClick={() => this.props.onVideoTogglePlay()} >
+            <i className="ion-ios-play-outline" style={{ marginLeft: '0.4444rem' }} />
+          </div>
+          <div
+            className="audio-player-controls-btn-sm"
+            onClick={() => this.props.onVideoChanged(this.props.playlist[0])}
+            style={{ marginLeft: '-0.4444rem' }}
+          >
+            <i className="ion-ios-skipforward-outline" />
+          </div>
           <div onClick={() => console.log} style={{ display: 'none' }}>full screen</div>
         </div>
       </div>
