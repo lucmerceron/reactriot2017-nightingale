@@ -18,7 +18,15 @@ class SearchPanel extends Component {
   }
 
   render() {
-    const { youtubeSearch, musicsToDisplay, youtubeCompare, addMusic, likeMusic } = this.props
+    const {
+      playlist,
+      youtubeSearch,
+      musicsToDisplay,
+      youtubeCompare,
+      addMusic,
+      likeMusic,
+      unlikeMusic,
+      removeMusic } = this.props
 
     return (
       <div>
@@ -27,10 +35,13 @@ class SearchPanel extends Component {
           onChange={youtubeSearch}
         />
         <MusicListItem
+          playlist={playlist}
           musicsToDisplay={musicsToDisplay}
           youtubeCompare={youtubeCompare}
           addMusic={addMusic}
           likeMusic={likeMusic}
+          unlikeMusic={unlikeMusic}
+          removeMusic={removeMusic}
         />
       </div>
     )
@@ -40,18 +51,24 @@ class SearchPanel extends Component {
 SearchPanel.propTypes = {
   youtubeSearch: PropTypes.func.isRequired,
   musicsToDisplay: PropTypes.object.isRequired,
+  playlist: PropTypes.object.isRequired,
   youtubeCompare: PropTypes.object.isRequired,
   addMusic: PropTypes.func.isRequired,
   likeMusic: PropTypes.func.isRequired,
+  unlikeMusic: PropTypes.func.isRequired,
+  removeMusic: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => ({
   musicsToDisplay: state.youtubeSearch,
+  playlist: state.playlists[ownProps.match.params.playlistId],
   youtubeCompare: state.playlists[ownProps.match.params.playlistId] ? state.playlists[ownProps.match.params.playlistId].musics : {},
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   youtubeSearch: search => dispatch(getYoutubeResults(search)),
+  removeMusic: (id) =>
+    dispatch(updatePlaylist(ownProps.match.params.playlistId, `musics/${id}`, null)),
   addMusic: (id, music) =>
     dispatch(updatePlaylist(ownProps.match.params.playlistId, `musics/${id}`, {
       ...music,
@@ -66,6 +83,11 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         ownProps.match.params.playlistId,
         `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`,
         true)),
+  unlikeMusic: id =>
+    dispatch(
+      updatePlaylist(
+        ownProps.match.params.playlistId,
+        `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`, null)),
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchPanel))
