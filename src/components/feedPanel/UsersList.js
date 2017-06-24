@@ -1,18 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import FeedListItem from './FeedListItem'
+import FeedListUserContent from './FeedListUserContent'
+
 import './UsersList.css'
 
-const UsersList = props => {
-  return (
-    <div>
-
-    </div>
-  )
-}
+const UsersList = ({ users }) =>
+  <ul>{users.map(user => <FeedListItem><FeedListUserContent user={user} /></FeedListItem>)}</ul>
 
 UsersList.propTypes = {
-
+  users: PropTypes.array(PropTypes.string).isRequired,
 }
 
 export default UsersList

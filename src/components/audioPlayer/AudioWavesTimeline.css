@@ -1,0 +1,8 @@
+.audio-wave {
+  display: inline-block;
+  background-color: #000;
+  margin: 0 1px;
+  transition:
+    height 0.3s ease-in-out,
+    width 0.3s ease-in-out;
+}

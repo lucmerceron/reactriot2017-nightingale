@@ -7,7 +7,7 @@ import MusicListItem from './MusicListItem'
 import { getYoutubeResults } from '../actionCreators/youtubeSearch'
 import { updatePlaylist } from '../actionCreators/playlists'
 
-import './SearchPanel.css'
+// import './SearchPanel.css'
 
 class SearchPanel extends Component {
   constructor() {
