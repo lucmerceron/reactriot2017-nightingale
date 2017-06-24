@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const FeedListItem = props => {
+const RoundedPlayerPreview = props => {
   return (
     <div>
       
@@ -9,8 +9,8 @@ const FeedListItem = props => {
   )
 }
 
-FeedListItem.propTypes = {
+RoundedPlayerPreview.propTypes = {
   
 }
 
-export default FeedListItem
+export default RoundedPlayerPreview

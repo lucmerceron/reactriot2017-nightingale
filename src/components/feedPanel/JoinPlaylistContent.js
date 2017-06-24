@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const FeedListItem = props => {
+const JoinPlaylistContent = props => {
   return (
     <div>
       
@@ -9,8 +9,8 @@ const FeedListItem = props => {
   )
 }
 
-FeedListItem.propTypes = {
+JoinPlaylistContent.propTypes = {
   
 }
 
-export default FeedListItem
+export default JoinPlaylistContent
