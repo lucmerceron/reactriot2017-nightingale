@@ -24,7 +24,7 @@ class AudioWavesTimeline extends Component {
         <div className="audio-waves-container">
           { Array(...{ length: 60 }).map((item, index) => (
             <span
-              className="audio-wave"
+              className={`audio-wave ${((index / 60) * 100 < progression) ? '' : 'lowop'}`}
               style={{
                 height: `${(isPlaying) ? Math.floor(Math.random() * 44) + 1 : '1'}px`,
                 width: `${((index / 60) * 100 < progression) ? '2' : '1'}px`,
