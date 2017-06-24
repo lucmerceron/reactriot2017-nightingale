@@ -10,7 +10,7 @@ const UsersList = ({ users }) =>
   <ul>{users.map(user => <FeedListItem><FeedListUserContent user={user} /></FeedListItem>)}</ul>
 
 UsersList.propTypes = {
-  users: PropTypes.array(PropTypes.string).isRequired,
+  users: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
 
 export default UsersList

@@ -4,30 +4,14 @@ import PropTypes from 'prop-types'
 import './AudioWavesTimeline.css'
 
 const AudioWavesTimeline = ({ currentPlayTime, musicDuration }) => {
-  const audioWaveStyle = {
-    height: `${Math.floor(Math.random() * 6) + 1}px`,
-    width: '3px',
-  }
 
   return (
     <div className="audio-timeline-container">
-      <span>{currentPlayTime}</span>
+      <span className="audio-timeline-current-play">{currentPlayTime}</span>
       <div className="audio-waves-container">
-        <span className="audio-wave" style={audioWaveStyle} />
-        <span className="audio-wave" style={audioWaveStyle} />
-        <span className="audio-wave" style={audioWaveStyle} />
-        <span className="audio-wave" style={audioWaveStyle} />
-        <span className="audio-wave" style={audioWaveStyle} />
-        <span className="audio-wave" style={audioWaveStyle} />
-        <span className="audio-wave" style={audioWaveStyle} />
-        <span className="audio-wave" style={audioWaveStyle} />
-        <span className="audio-wave" style={audioWaveStyle} />
-        <span className="audio-wave" style={audioWaveStyle} />
-        <span className="audio-wave" style={audioWaveStyle} />
-        <span className="audio-wave" style={audioWaveStyle} />
-        <span className="audio-wave" style={audioWaveStyle} />
+        { Array(...{ length: 20 }).map(() => <span className="audio-wave" style={{ height: `${Math.floor(Math.random() * 38) + 1}px`, width: '3px' }} />) }
       </div>
-      <span>{musicDuration}</span>
+      <span className="audio-timeline-duration">{musicDuration}</span>
     </div>
   )
 }

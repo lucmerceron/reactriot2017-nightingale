@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import AudioPlayer from './audioPlayer/AudioPlayer'
 import SearchPanel from './SearchPanel'
 import MusicListItem from './MusicListItem'
+import FeedPanel from './FeedPanel'
 
 class MainPlaylistView extends Component {
   constructor() {
@@ -21,10 +22,10 @@ class MainPlaylistView extends Component {
         <div>
           <AudioPlayer />
           <ul>
-            <MusicListItem />
+            <MusicListItem youtubeSearch={[]} musics={[]} addMusic={() => {}} likeMusic={() => {}} />
           </ul>
         </div>
-        <div>feed panel</div>
+        <FeedPanel />
       </div>
     )
   }
