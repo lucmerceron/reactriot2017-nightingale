@@ -15,6 +15,7 @@ class AudioPlayer extends Component {
     this.state = {
       volume: 100,
       muted: false,
+      YTPlayer: null,
     }
 
     this.onPlayerReady = this.onPlayerReady.bind(this)
@@ -29,7 +30,9 @@ class AudioPlayer extends Component {
 
   onPlayerStateChange(event) {
     if (event.data === YT_PLAYER_EVENT_ENDED) {
-      this.props.onVideoChanged()
+      const { YTPlayer } = this.state
+      YTPlayer.loadVideoById(this.props.playlist[0] || '')
+      this.props.onVideoChanged(this.props.playlist[0])
     }
   }
 
@@ -84,7 +87,7 @@ class AudioPlayer extends Component {
       <div className="audio-player">
         <div className="audio-player-container">
           <YoutubePlayer
-            videoId={this.props.playlist[0]}
+            videoId={this.props.playingId}
             className="audio-player-youtube-frame"
             opts={opts}
             onReady={this.onPlayerReady}
@@ -100,7 +103,7 @@ class AudioPlayer extends Component {
           <input type="range" min="0" max="100" value={this.state.volume} onChange={this.onSetVolume} />
           <div className="audio-player-controls-btn-sm" onClick={() => this.onMute()} >mute</div>
           <div className="audio-player-controls-btn-lg" onClick={() => this.props.onVideoTogglePlay()} >play</div>
-          <div className="audio-player-controls-btn-sm" onClick={() => this.props.onVideoChanged()} >next</div>
+          <div className="audio-player-controls-btn-sm" onClick={() => this.props.onVideoChanged(this.props.playlist[0])} >next</div>
         </div>
         <div onClick={() => console.log}>full screen</div>
       </div>
@@ -109,6 +112,7 @@ class AudioPlayer extends Component {
 }
 
 AudioPlayer.propTypes = {
+  playingId: PropTypes.string.isRequired,
   playlist: PropTypes.arrayOf(PropTypes.string).isRequired,
   isPlaying: PropTypes.boolean,
   onVideoChanged: PropTypes.func.isRequired,

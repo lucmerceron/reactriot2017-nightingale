@@ -12,6 +12,7 @@ class MainPlaylistView extends Component {
 
     this.state = {
       state: false,
+      playingId: '0F1_OEi7p_8',
     }
   }
 
@@ -19,13 +20,14 @@ class MainPlaylistView extends Component {
     return (
       <div className="main-playlist row" >
         <div className="col-sm-12 col-md-3 flex-center" >
-          <SearchPanel /> 
+          <SearchPanel />
         </div>
         <div className="col-sm-12 col-md-6 flex-center" >
           <AudioPlayer
-            playlist={['NG2IUO6bibE', '0F1_OEi7p_8', '386JJLzeV5Y', 'Yfqj8_nDu6c']}
+            playingId={this.state.playingId}
+            playlist={['386JJLzeV5Y', 'NG2IUO6bibE', 'Yfqj8_nDu6c']}
             isPlaying
-            onVideoChanged={() => { console.log('video changed') }}
+            onVideoChanged={(value) => { this.setState({ playingId: value }) }}
             onVideoTogglePlay={() => { console.log('video play toggled') }}
           />
           <ul>
