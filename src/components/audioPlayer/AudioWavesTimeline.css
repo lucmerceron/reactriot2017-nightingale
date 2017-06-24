@@ -4,6 +4,12 @@
   align-items: center;
 }
 
+.audio-timeline-current-play,
+.audio-timeline-duration {
+  width: 2.778rem;
+  text-align: center;
+}
+
 /*waves*/
 
 .audio-waves-container {
