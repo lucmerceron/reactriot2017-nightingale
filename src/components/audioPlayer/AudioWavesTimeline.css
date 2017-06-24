@@ -4,10 +4,15 @@
   align-items: center;
 }
 
+/*waves*/
+
 .audio-waves-container {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+  align-content: space-around;
+  height: 44px; /*in px to avoid responsive conflicts with randoms*/
+  padding: 0 1rem;
 }
 
 .audio-wave {

@@ -95,11 +95,11 @@ class AudioPlayer extends Component {
           <AudioWavesTimeline player={this.state.YTPlayer} />
         </div>
         <div className="audio-player-controls">
-          <div className="audio-player-controls-btn-sm" onClick={() => console.log} >sound</div>
-          <div className="audio-player-controls-btn-lg" onClick={() => console.log} >play</div>
-          <div className="audio-player-controls-btn-sm" onClick={() => console.log} >next</div>
+          <div className="audio-player-controls-btn-sm" onClick={() => console.log} style={{ marginRight: '-0.4444rem' }} ><i className="ion-ios-volume-high" /></div>
+          <div className="audio-player-controls-btn-lg" onClick={() => console.log} ><i className="ion-ios-play-outline" style={{ marginLeft: '0.4444rem' }} /></div>
+          <div className="audio-player-controls-btn-sm" onClick={() => console.log} style={{ marginLeft: '-0.4444rem' }} ><i className="ion-ios-skipforward-outline" /></div>
         </div>
-        <div onClick={() => console.log}>full screen</div>
+        <div onClick={() => console.log} style={{ display: 'none' }}>full screen</div>
       </div>
     )
   }
