@@ -26,8 +26,8 @@ class SearchPanel extends Component {
           onChange={youtubeSearch}
         />
         <MusicListItem
-          youtubeResults={youtubeResults}
-          musics={musics}
+          musicsToDisplay={youtubeResults}
+          youtubeCompare={musics}
           addMusic={addMusic}
           likeMusic={likeMusic}
         />
