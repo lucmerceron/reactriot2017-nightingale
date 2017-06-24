@@ -1,23 +1,51 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Provider } from 'react-redux'
+import { Provider, connect } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 
+import { updatePublicPlaylists } from './actionCreators/playlists'
 import Routes from './Routes'
 import './App.css'
 
-const App = ({ store }) => (
-  <BrowserRouter>
-    <Provider store={store}>
-      <div className="App">
-        <Routes />
-      </div>
-    </Provider>
-  </BrowserRouter>
-)
+class App extends React.Component {
+  componentWillMount() {
+    const { firebase, setPublicPlaylists } = this.props
 
-App.propTypes = {
-  store: PropTypes.object.isRequired,
+    // Listen for playlists change when authChanged
+    firebase.auth().onAuthStateChanged(() => {
+      firebase.database().ref('public_playlists').on('value', snap => {
+        if (snap.val()) setPublicPlaylists(snap.val())
+        else setPublicPlaylists({})
+      })
+    })
+  }
+  render() {
+    const { store } = this.props
+
+    return (
+      <BrowserRouter>
+        <Provider store={store}>
+          <div className="App">
+            <Routes />
+          </div>
+        </Provider>
+      </BrowserRouter>
+    )
+  }
 }
 
-export default App
+App.propTypes = {
+  firebase: PropTypes.object.isRequired,
+  store: PropTypes.object.isRequired,
+  setPublicPlaylists: PropTypes.func.isRequired,
+}
+
+const mapStateToProps = state => ({
+  firebase: state.firebase,
+})
+
+const mapDispatchToProps = dispatch => ({
+  setPublicPlaylists: playlists => dispatch(updatePublicPlaylists(playlists)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
