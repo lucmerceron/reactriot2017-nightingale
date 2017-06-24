@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { keys } from 'lodash'
+import { keys, orderBy } from 'lodash'
 
 import './MusicListItem.css'
 
@@ -23,20 +23,21 @@ const MusicListItem = ({ musicsToDisplay, addMusic, removeMusic, likeMusic, unli
   return (
     <div className="search-panel-list">
       <ul>
-        {keys(musicsToDisplay).map(youtubeId => (
-          <li key={youtubeId}>
-            <div className="search-panel-result-thumbnail">{musicsToDisplay[youtubeId].thumbnailUrl}</div>
-            <div className="search-panel-result-title">{musicsToDisplay[youtubeId].title}</div>
-            <div className="search-panel-result-channel">{musicsToDisplay[youtubeId].channelTitle}</div>
-            <div className="search-panel-result-duration">{musicsToDisplay[youtubeId].duration}</div>
-            <div className="search-panel-result-action">
-              {getLikeAdd(youtubeId)}
-              {isCreatorOrAdmin(musicsToDisplay[youtubeId]) && isInPlaylist(youtubeId)
-                ? <div className="search-panel-result-remove" onClick={() => removeMusic(youtubeId)}>Remove</div>
-                : null
-              }
-            </div>
-          </li>
+        {orderBy(keys(musicsToDisplay), a => -keys(musicsToDisplay[a].likes || []).length)
+          .map(youtubeId => (
+            <li key={youtubeId}>
+              <div className="search-panel-result-thumbnail">{musicsToDisplay[youtubeId].thumbnailUrl}</div>
+              <div className="search-panel-result-title">{musicsToDisplay[youtubeId].title}</div>
+              <div className="search-panel-result-channel">{musicsToDisplay[youtubeId].channelTitle}</div>
+              <div className="search-panel-result-duration">{musicsToDisplay[youtubeId].duration}</div>
+              <div className="search-panel-result-action">
+                {getLikeAdd(youtubeId)}
+                {isCreatorOrAdmin(musicsToDisplay[youtubeId]) && isInPlaylist(youtubeId)
+                  ? <div className="search-panel-result-remove" onClick={() => removeMusic(youtubeId)}>Remove</div>
+                  : null
+                }
+              </div>
+            </li>
         ))}
       </ul>
     </div>
