@@ -23,6 +23,10 @@ class MainPlaylistView extends Component {
   render() {
     const { musicsToDisplay, removeMusic, likeMusic, unlikeMusic, playlist } = this.props
 
+    const musics = playlist && playlist.musics ? playlist.musics : []
+
+    console.log(musics)
+
     return (
       <div className="main-playlist row" >
         <div className="col-sm-12 col-md-3 flex-center" >
