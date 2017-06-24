@@ -1,9 +1,13 @@
 import { combineReducers } from 'redux'
 
-import playlists from './playlists'
+import privatePlaylist from './privatePlaylist'
+import publicPlaylists from './publicPlaylists'
+import firebase from './firebase'
 
 const rootReducer = combineReducers({
-  playlists,
+  privatePlaylist,
+  publicPlaylists,
+  firebase,
 })
 
 export default rootReducer
