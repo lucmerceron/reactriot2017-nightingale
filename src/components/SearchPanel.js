@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 import FormInputText from './generalPurpose/form/FormInputText'
 import MusicListItem from './MusicListItem'
@@ -17,7 +18,7 @@ class SearchPanel extends Component {
   }
 
   render() {
-    const { youtubeSearch, youtubeResults, musics, addMusic, likeMusic } = this.props
+    const { youtubeSearch, musicsToDisplay, youtubeCompare, addMusic, likeMusic } = this.props
 
     return (
       <div>
@@ -26,8 +27,8 @@ class SearchPanel extends Component {
           onChange={youtubeSearch}
         />
         <MusicListItem
-          musicsToDisplay={youtubeResults}
-          youtubeCompare={musics}
+          musicsToDisplay={musicsToDisplay}
+          youtubeCompare={youtubeCompare}
           addMusic={addMusic}
           likeMusic={likeMusic}
         />
@@ -38,21 +39,21 @@ class SearchPanel extends Component {
 
 SearchPanel.propTypes = {
   youtubeSearch: PropTypes.func.isRequired,
-  youtubeResults: PropTypes.object.isRequired,
-  musics: PropTypes.object.isRequired,
+  musicsToDisplay: PropTypes.object.isRequired,
+  youtubeCompare: PropTypes.object.isRequired,
   addMusic: PropTypes.func.isRequired,
   likeMusic: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
-  youtubeResults: state.youtubeSearch,
-  musics: state.playlists,
+const mapStateToProps = (state, ownProps) => ({
+  musicsToDisplay: state.youtubeSearch,
+  youtubeCompare: state.playlists[ownProps.match.params.playlistId] ? state.playlists[ownProps.match.params.playlistId].musics : {},
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   youtubeSearch: search => dispatch(getYoutubeResults(search)),
   addMusic: (id, music) =>
-    dispatch(updatePlaylist(ownProps.match.params.playlistId, `/musics/${id}`, {
+    dispatch(updatePlaylist(ownProps.match.params.playlistId, `musics/${id}`, {
       ...music,
       likes: {
         [localStorage.getItem('nightingaleUid')]: true,
@@ -63,9 +64,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(
       updatePlaylist(
         ownProps.match.params.playlistId,
-        `/musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`,
+        `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`,
         true)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchPanel)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchPanel))
 

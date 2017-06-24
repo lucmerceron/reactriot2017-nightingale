@@ -14,9 +14,9 @@ const MusicListItem = ({ musicsToDisplay, youtubeCompare, addMusic, likeMusic })
           <div className="search-panel-result-channel">{musicsToDisplay[youtubeId].channelTitle}</div>
           <div className="search-panel-result-duration">{musicsToDisplay[youtubeId].duration}</div>
           <div className="search-panel-result-action">
-            {(youtubeCompare[youtubeId])
-              ? <div className="search-panel-result-like" onClick={addMusic} />
-              : <div className="search-panel-result-add" onClick={likeMusic} />
+            {youtubeCompare[youtubeId]
+              ? <div className="search-panel-result-add" onClick={() => likeMusic(youtubeId)}>Like</div>
+              : <div className="search-panel-result-like" onClick={() => addMusic(youtubeId)}>Add</div>
             }
           </div>
         </li>
