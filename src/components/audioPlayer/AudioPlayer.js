@@ -35,7 +35,7 @@ class AudioPlayer extends Component {
     if (event.data === 1 && !this.seekToDone) {
       if (this.props.seekTo) {
         YTPlayer.seekTo(this.props.seekTo)
-        if(!this.props.isPlaying) this.pauseVideo()
+        if (!this.props.isPlaying) this.pauseVideo()
       }
       this.seekToDone = true
     }
