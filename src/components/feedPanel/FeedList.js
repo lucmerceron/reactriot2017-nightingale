@@ -6,17 +6,8 @@ import FeedListAddMusicContent from './FeedListAddMusicContent'
 
 import './FeedList.css'
 
-const FeedList = props => {
-  const { musicsFeed } = props
-
-  return (
-    <ul>
-      {
-        musicsFeed.map(musicFeed => <FeedListItem><FeedListAddMusicContent musicFeed={musicFeed} /></FeedListItem>)
-      }
-    </ul>
-  )
-}
+const FeedList = ({ musicsFeed }) =>
+  <ul>{musicsFeed.map(musicFeed => <FeedListItem><FeedListAddMusicContent musicFeed={musicFeed} /></FeedListItem>)}</ul>
 
 FeedList.propTypes = {
   musicsFeed: PropTypes.array(PropTypes.shape({
