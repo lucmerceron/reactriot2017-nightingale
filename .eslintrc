@@ -1,6 +1,9 @@
 {
   "parser": "babel-eslint",
   "extends": "airbnb",
+  "env": {
+    browser: true"
+  },
   "rules": {
     "arrow-parens": "off",
     "generator-star-spacing": "off",

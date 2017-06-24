@@ -19,6 +19,5 @@ export function getYoutubeResults(search) {
     youtube.search(search)
       .then(results => dispatch(getAutocompleteParcelsSuccess(results)))
       .catch(error => dispatch(getAutocompleteParcelsFailed(error)))
-    // Call the youtube API with search and treat the result here with results or error
   }
 }
