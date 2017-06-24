@@ -10,11 +10,11 @@ const FeedList = ({ musicsFeed }) =>
   <ul>{musicsFeed.map(musicFeed => <FeedListItem><FeedListAddMusicContent musicFeed={musicFeed} /></FeedListItem>)}</ul>
 
 FeedList.propTypes = {
-  musicsFeed: PropTypes.shape({
+  musicsFeed: PropTypes.arrayOf(PropTypes.shape({
     username: PropTypes.string.isRequired,
     thumbnail: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-  }).isRequired,
+  })).isRequired,
 }
 
 export default FeedList

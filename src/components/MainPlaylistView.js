@@ -20,7 +20,12 @@ class MainPlaylistView extends Component {
       <div>
         <SearchPanel />
         <div>
-          <AudioPlayer />
+          <AudioPlayer
+            playlist={['NG2IUO6bibE', '0F1_OEi7p_8', '386JJLzeV5Y', 'Yfqj8_nDu6c']}
+            isPlaying
+            onVideoChanged={() => { console.log('video changed') }}
+            onVideoTogglePlay={() => { console.log('video play toggled') }}
+          />
           <ul>
             <MusicListItem youtubeSearch={[]} musics={[]} addMusic={() => {}} likeMusic={() => {}} />
           </ul>
