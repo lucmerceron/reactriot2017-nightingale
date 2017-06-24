@@ -9,8 +9,8 @@ const LandingView = () => (
   <div>
     <img />
     <ButtonMorphing label="join a playlist" onClick={() => console.log('ta mere')} content={<JoinPlaylistContent />} />
-    <ButtonMorphing label="create a playlist" onClick={() => console.log('ta mere')} content={CreatePlaylistContent} />
-    <span>gggg</span>
+    <ButtonMorphing label="create a playlist" onClick={() => console.log('ta mere')} content={<CreatePlaylistContent />} />
+    <span>developed by the Wing dev team with love</span>
   </div>
 )
 
