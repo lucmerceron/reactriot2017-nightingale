@@ -1,5 +1,6 @@
 import 'whatwg-fetch'
 import { parse } from 'iso8601-duration'
+import CancelablePromise from 'cancelable-promise'
 
 const YOUTUBE_API_KEY = 'AIzaSyCHlaW6yCNuVSwYOM8a9jjMv5Bc5L7aXM0'
 const YOUTUBE_ENDPOINT = 'https://www.googleapis.com/youtube/v3'
@@ -29,7 +30,7 @@ const searchVideos = (term) => {
 const cleanResults = (results) =>
   new Promise((resolve) => {
     const cleaned = []
-    results.foreach(result => {
+    results.forEach(result => {
       const { videoId } = result.id
       const { title, channelTitle, thumbnails } = result.snippet
       const { url: thumbnailUrl } = thumbnails.high
@@ -57,7 +58,7 @@ const parseDuration = (rawDuration) => {
  */
 const cleanExtraInformartion = (results) => {
   const cleaned = {}
-  results.foreach(result => {
+  results.forEach(result => {
     const { id: videoId } = result
     const { duration: rawDuration } = result.contentDetails
     cleaned[videoId] = { duration: parseDuration(rawDuration) }
@@ -74,7 +75,7 @@ const cleanExtraInformartion = (results) => {
  */
 const associateVideosAndExtraInformation = (videosResults, extraInformations) => {
   const finalResults = {}
-  videosResults.foreach(videoResult => {
+  videosResults.forEach(videoResult => {
     const { videoId, ...others } = videoResult
     const extraInformation = extraInformations[videoId]
     finalResults[videoId] = { ...others, ...extraInformation }
@@ -89,7 +90,7 @@ const associateVideosAndExtraInformation = (videosResults, extraInformations) =>
  */
 const getVideosExtraInformation = (results) => {
   const ids = []
-  results.foreach(result => {
+  results.forEach(result => {
     ids.push(result.videoId)
   })
   const query = `${YOUTUBE_ENDPOINT}/videos/?key=${YOUTUBE_API_KEY}&part=contentDetails&id=${ids.join(',')}`
@@ -109,10 +110,22 @@ const getVideosExtraInformation = (results) => {
  * @param  {string} term The term to search
  * @return {Object}
  */
-const search = (term) =>
-  searchVideos(term)
-    .then(cleanResults)
-    .then(getVideosExtraInformation)
+
+// Adding a cancelablePromise in order to remove last request
+// if a new request comes
+let myResponsePromise = null
+
+const search = (term) => {
+  if (myResponsePromise) myResponsePromise.cancel()
+
+  if (!term) return new Promise((resolve) => resolve({}))
+  myResponsePromise = new CancelablePromise(resolve =>
+    searchVideos(term)
+      .then(cleanResults)
+      .then(getVideosExtraInformation)
+      .then(resolve))
+  return myResponsePromise
+}
 
 export default {
   search,

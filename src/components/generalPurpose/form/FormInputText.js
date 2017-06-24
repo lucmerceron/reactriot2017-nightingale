@@ -6,7 +6,7 @@ import './FormInputText.css'
 const FormInputText = ({ placeholder, onChange, label }) => (
   <div>
     {label && <p>{label}</p>}
-    <input type="text" placeholder={placeholder} onChange={(e) => onChange(e.value)} />
+    <input type="text" placeholder={placeholder} onChange={(e) => onChange(e.target.value)} />
   </div>
 )
 

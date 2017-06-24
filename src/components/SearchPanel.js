@@ -46,7 +46,9 @@ SearchPanel.propTypes = {
 
 const mapStateToProps = state => ({
   youtubeResults: state.youtubeSearch,
+  musics: state.playlists,
 })
+
 const mapDispatchToProps = (dispatch, ownProps) => ({
   youtubeSearch: search => dispatch(getYoutubeResults(search)),
   addMusic: (id, music) =>

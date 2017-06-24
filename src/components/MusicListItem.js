@@ -4,15 +4,15 @@ import { keys } from 'lodash'
 
 import './MusicListItem.css'
 
-const MusicListItem = ({ youtubeSearch, musics, addMusic, likeMusic }) => (
+const MusicListItem = ({ youtubeResults, musics, addMusic, likeMusic }) => (
   <div className="search-panel-list">
     <ul>
-      {keys(youtubeSearch).map(youtubeId => (
+      {keys(youtubeResults).map(youtubeId => (
         <li key={youtubeId}>
-          <div className="search-panel-result-thumbnail">{youtubeSearch[youtubeId].thumbnailUrl}</div>
-          <div className="search-panel-result-title">{youtubeSearch[youtubeId].title}</div>
-          <div className="search-panel-result-channel">{youtubeSearch[youtubeId].channelTitle}</div>
-          <div className="search-panel-result-duration">{youtubeSearch[youtubeId].duration}</div>
+          <div className="search-panel-result-thumbnail">{youtubeResults[youtubeId].thumbnailUrl}</div>
+          <div className="search-panel-result-title">{youtubeResults[youtubeId].title}</div>
+          <div className="search-panel-result-channel">{youtubeResults[youtubeId].channelTitle}</div>
+          <div className="search-panel-result-duration">{youtubeResults[youtubeId].duration}</div>
           <div className="search-panel-result-action">
             {(musics[youtubeId])
               ? <div className="search-panel-result-like" onClick={addMusic} />
@@ -26,7 +26,7 @@ const MusicListItem = ({ youtubeSearch, musics, addMusic, likeMusic }) => (
 )
 
 MusicListItem.propTypes = {
-  youtubeSearch: PropTypes.object.isRequired,
+  youtubeResults: PropTypes.object.isRequired,
   musics: PropTypes.object.isRequired,
   addMusic: PropTypes.func.isRequired,
   likeMusic: PropTypes.func.isRequired,
