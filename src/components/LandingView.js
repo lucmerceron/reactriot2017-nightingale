@@ -1,9 +1,11 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 
+import Button from './generalPurpose/Button'
+
 const LandingView = () => (
   <div>
-    LandingView
+    <Button label="ta mere" onClick={() => console.log('ta mere')} />
   </div>
 )
 
