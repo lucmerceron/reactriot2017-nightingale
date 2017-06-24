@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import YoutubePlayer from 'react-youtube'
 
 import AudioWavesTimeline from './AudioWavesTimeline'
-import AudioSoundButton from './AudioSoundButton'
 
 import './AudioPlayer.css'
 
@@ -28,15 +27,17 @@ class AudioPlayer extends Component {
 
   onPlayerReady(event) {
     event.target.setVolume(100)
-    console.log('Oyo', this.props)
     this.setState({ YTPlayer: event.target })
   }
 
   onPlayerStateChange(event) {
     const { YTPlayer } = this.state
     if (event.data === 1 && !this.seekToDone) {
-      // if (this.props.seekTo) YTPlayer.seekTo(this.props.seekTo)
-      // this.seekToDone = true
+      if (this.props.seekTo) {
+        YTPlayer.seekTo(this.props.seekTo)
+        if(!this.props.isPlaying) this.pauseVideo()
+      }
+      this.seekToDone = true
     }
     if (event.data === YT_PLAYER_EVENT_ENDED) {
       YTPlayer.loadVideoById(this.props.playlist[0] || '')
@@ -112,7 +113,7 @@ class AudioPlayer extends Component {
         enablejsapi: 1,
       },
     }
-    const { volume } = this.state
+    const { muted, volume } = this.state
 
     if (this.props.isPlaying) {
       this.playVideo()
@@ -133,19 +134,14 @@ class AudioPlayer extends Component {
         </div>
         <AudioWavesTimeline player={this.state.YTPlayer} />
         <div className="audio-player-controls">
-          <AudioSoundButton value={volume} onChange={this.onSetVolume} />
-          <div className="audio-player-controls-btn-lg" onClick={() => this.handleTogglePlay()} >
-            <i className="ion-ios-play-outline" style={{ marginLeft: '0.4444rem' }} />
-          </div>
-          <div
-            className="audio-player-controls-btn-sm"
-            onClick={() => this.props.onVideoChanged(this.props.playlist[0])}
-            style={{ marginLeft: '-0.4444rem' }}
-          >
-            <i className="ion-ios-skipforward-outline" />
-          </div>
+          <div className="audio-player-controls-btn-sm" onClick={() => this.onMute()} style={{ marginRight: '-0.4444rem' }} ><i className="ion-ios-volume-high" /></div>
+          <div className="audio-player-controls-btn-lg" onClick={() => this.handleTogglePlay()} ><i className="ion-ios-play-outline" style={{ marginLeft: '0.4444rem' }} /></div>
+          <div className="audio-player-controls-btn-sm" onClick={() => this.props.onVideoChanged(this.props.playlist[0])} style={{ marginLeft: '-0.4444rem' }} ><i className="ion-ios-skipforward-outline" /></div>
           <div onClick={() => console.log} style={{ display: 'none' }}>full screen</div>
         </div>
+        Volume<br />
+        {(muted) ? 'Muted' : volume}<br />
+        <input type="range" min="0" max="100" value={this.state.volume} onChange={this.onSetVolume} />
       </div>
     )
   }
@@ -154,14 +150,13 @@ class AudioPlayer extends Component {
 AudioPlayer.propTypes = {
   playingId: PropTypes.string.isRequired,
   playlist: PropTypes.arrayOf(PropTypes.string).isRequired,
-  isPlaying: PropTypes.boolean,
+  isPlaying: PropTypes.bool.isRequired,
   seekTo: PropTypes.number.isRequired,
   onVideoChanged: PropTypes.func.isRequired,
   onVideoTogglePlay: PropTypes.func.isRequired,
 }
 
 AudioPlayer.defaultProps = {
-  isPlaying: false,
 }
 
 export default AudioPlayer
