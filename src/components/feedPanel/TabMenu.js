@@ -67,17 +67,17 @@ class TabMenu extends Component {
 }
 
 TabMenu.propTypes = {
-  musicsFeed: PropTypes.array(PropTypes.shape({
+  musicsFeed: PropTypes.shape({
     username: PropTypes.string.isRequired,
     thumbnail: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-  })).isRequired,
-  likesFeed: PropTypes.array(PropTypes.shape({
+  }).isRequired,
+  likesFeed: PropTypes.shape({
     username: PropTypes.string.isRequired,
     thumbnail: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-  })).isRequired,
-  users: PropTypes.array(PropTypes.string).isRequired,
+  }).isRequired,
+  users: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
 
 export default TabMenu

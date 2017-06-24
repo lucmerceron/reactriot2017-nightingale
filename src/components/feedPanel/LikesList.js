@@ -10,11 +10,11 @@ const LikesList = ({ likesFeed }) =>
   <ul>{likesFeed.map(likeFeed => <FeedListItem><FeedListLikeMusicContent likeFeed={likeFeed} /></FeedListItem>)}</ul>
 
 LikesList.propTypes = {
-  likesFeed: PropTypes.array(PropTypes.shape({
+  likesFeed: PropTypes.shape({
     username: PropTypes.string.isRequired,
     thumbnail: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-  })).isRequired,
+  }).isRequired,
 }
 
 export default LikesList
