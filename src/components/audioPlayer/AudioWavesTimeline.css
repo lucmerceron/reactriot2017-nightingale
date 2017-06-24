@@ -1,3 +1,15 @@
+.audio-timeline-container {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.audio-waves-container {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
 .audio-wave {
   display: inline-block;
   background-color: #000;
