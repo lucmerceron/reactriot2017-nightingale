@@ -6,17 +6,8 @@ import FeedListLikeMusicContent from './FeedListLikeMusicContent'
 
 import './LikesList.css'
 
-const LikesList = props => {
-  const { likesFeed } = props
-
-  return (
-    <ul>
-      {
-        likesFeed.map(likeFeed => <FeedListItem><FeedListLikeMusicContent likeFeed={likeFeed} /></FeedListItem>)
-      }
-    </ul>
-  )
-}
+const LikesList = ({ likesFeed }) =>
+  <ul>{likesFeed.map(likeFeed => <FeedListItem><FeedListLikeMusicContent likeFeed={likeFeed} /></FeedListItem>)}</ul>
 
 LikesList.propTypes = {
   likesFeed: PropTypes.array(PropTypes.shape({
