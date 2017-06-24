@@ -1,0 +1,10 @@
+.audio-player-container {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.audio-player-youtube-frame {
+  pointer-events: none;
+}

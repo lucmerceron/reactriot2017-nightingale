@@ -1,20 +1,41 @@
-import React from 'react'
+import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 
 import AudioPlayer from './audioPlayer/AudioPlayer'
 import SearchPanel from './SearchPanel'
+import MusicListItem from './MusicListItem'
 
-const MainPlaylistView = () => (
-  <div>
-    <div>
-      <SearchPanel />
-    </div>
-    <div>
-      <AudioPlayer />
-      <div>list playlist</div>
-    </div>
-    <div>feed panel</div>
-  </div>
-)
+class MainPlaylistView extends Component {
+  constructor() {
+    super()
+
+    this.state = {
+      state: false,
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <SearchPanel />
+        <div>
+          <AudioPlayer />
+          <ul>
+            <MusicListItem />
+          </ul>
+        </div>
+        <div>feed panel</div>
+      </div>
+    )
+  }
+}
+
+MainPlaylistView.propTypes = {
+
+}
+
+MainPlaylistView.defaultProps = {
+
+}
 
 export default MainPlaylistView
