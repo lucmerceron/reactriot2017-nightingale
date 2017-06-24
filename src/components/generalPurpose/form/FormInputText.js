@@ -5,9 +5,7 @@ import './FormInputText.css'
 
 const FormInputText = props => {
   return (
-    <div>
-      
-    </div>
+    <input type="text" placeholder="search a playlist" />
   )
 }
 

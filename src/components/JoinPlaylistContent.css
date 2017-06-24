@@ -1,0 +1,17 @@
+.join-playlist-qr {
+  height: 16.67rem;
+  width: 16.67rem;
+  overflow: hidden;
+}
+
+.join-playlist-qr video {
+    width: 16.67rem;
+    height: 16.67rem;
+    object-fit: cover !important;
+    object-position: center;
+}
+
+.join-playlist-qr img {
+    width: 16.67rem;
+    height: 16.67rem;
+}
