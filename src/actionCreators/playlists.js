@@ -6,7 +6,7 @@ import makeActionCreator from './makeActionCreator'
 export const GET_PRIVATE_PLAYLIST_REQUEST = 'GET_PRIVATE_PLAYLIST_REQUEST'
 export const GET_PRIVATE_PLAYLIST_SUCCESS = 'GET_PRIVATE_PLAYLIST_SUCCESS'
 export const GET_PRIVATE_PLAYLIST_FAILED = 'GET_PRIVATE_PLAYLIST_FAILED'
-export const UPDATE_PUBLIC_PLAYLIST = 'UPDATE_PUBLIC_PLAYLIST'
+export const UPDATE_PUBLIC_PLAYLISTS = 'UPDATE_PUBLIC_PLAYLISTS'
 export const CREATE_PRIVATE_PLAYLIST_REQUEST = 'CREATE_PRIVATE_PLAYLIST_REQUEST'
 export const CREATE_PRIVATE_PLAYLIST_SUCCESS = 'CREATE_PRIVATE_PLAYLIST_SUCCESS'
 export const CREATE_PUBLIC_PLAYLIST_REQUEST = 'CREATE_PUBLIC_PLAYLIST_REQUEST'
@@ -15,7 +15,7 @@ export const CREATE_PUBLIC_PLAYLIST_REQUEST = 'CREATE_PUBLIC_PLAYLIST_REQUEST'
 export const getPrivatePlaylistRequest = makeActionCreator(GET_PRIVATE_PLAYLIST_REQUEST)
 export const getPrivatePlaylistSuccess = makeActionCreator(GET_PRIVATE_PLAYLIST_SUCCESS, 'playlist')
 export const getPrivatePlaylistFailed = makeActionCreator(GET_PRIVATE_PLAYLIST_FAILED, 'error')
-export const updatePublicPlaylists = makeActionCreator(UPDATE_PUBLIC_PLAYLIST, 'playlists')
+export const updatePublicPlaylists = makeActionCreator(UPDATE_PUBLIC_PLAYLISTS, 'playlists')
 export const createPrivatePlaylistRequest = makeActionCreator(CREATE_PRIVATE_PLAYLIST_REQUEST)
 export const createPrivatePlaylistSuccess = makeActionCreator(CREATE_PRIVATE_PLAYLIST_SUCCESS)
 export const createPublicPlaylistRequest = makeActionCreator(CREATE_PUBLIC_PLAYLIST_REQUEST)
