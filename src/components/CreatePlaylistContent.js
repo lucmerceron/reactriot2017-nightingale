@@ -46,7 +46,7 @@ class CreatePlaylistContent extends React.Component {
     const diffId = diffIds[0]
     // If the video created belonged to me, switch to it
     if (nextPlaylists[diffId] && nextPlaylists[diffId].admin[localStorage.getItem('nightingaleUid')]) {
-      switchToNewPlaylist(diffIds[0])
+      switchToNewPlaylist(diffId)
     }
   }
 
