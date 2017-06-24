@@ -7,40 +7,35 @@ import UsersList from './UsersList'
 
 import './TabMenu.css'
 
-
-const FEED_TAB = 0
-const LIKES_TAB = 1
-const USERS_TAB = 2
-
 class TabMenu extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      active: FEED_TAB,
+      active: 0,
     }
   }
 
   render() {
     const { active } = this.state
     return (
-      <div>
-        <div>
+      <div className="tab-menu-wrapper">
+        <div className="tab-menu-selectors">
           <div
-            className={`tab-menu-category${(active === 'FEED_TAB') ? ' active' : ''}`}
-            onClick={() => this.setState({ active: FEED_TAB })}
+            className={`tab-menu-category${(active === 0) ? ' active' : ''}`}
+            onClick={() => this.setState({ active: 0 })}
           >
             Feed
           </div>
           <div
-            className={`tab-menu-category${(active === 'LIKES_TAB') ? ' active' : ''}`}
-            onClick={() => this.setState({ active: LIKES_TAB })}
+            className={`tab-menu-category${(active === 1) ? ' active' : ''}`}
+            onClick={() => this.setState({ active: 1 })}
           >
             Likes
           </div>
           <div
-            className={`tab-menu-category${(active === 'USERS_TAB') ? ' active' : ''}`}
-            onClick={() => this.setState({ active: USERS_TAB })}
+            className={`tab-menu-category${(active === 2) ? ' active' : ''}`}
+            onClick={() => this.setState({ active: 2 })}
           >
             Users
           </div>
@@ -49,11 +44,11 @@ class TabMenu extends Component {
           {
             () => {
               switch (active) {
-                case FEED_TAB:
+                case 0:
                   return <FeedList musicsFeed={this.props.musicsFeed} />
-                case LIKES_TAB:
+                case 1:
                   return <LikesList likesFeed={this.props.likesFeed} />
-                case USERS_TAB:
+                case 2:
                   return <UsersList users={this.props.users} />
                 default:
                   return <FeedList musicsFeed={this.props.musicsFeed} />

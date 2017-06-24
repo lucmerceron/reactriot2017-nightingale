@@ -17,15 +17,19 @@ class MainPlaylistView extends Component {
 
   render() {
     return (
-      <div>
-        <SearchPanel />
-        <div>
+      <div className="main-playlist row" >
+        <div className="col-sm-12 col-md-3 flex-center" >
+          <SearchPanel /> 
+        </div>
+        <div className="col-sm-12 col-md-6 flex-center" >
           <AudioPlayer />
           <ul>
             <MusicListItem youtubeSearch={[]} musics={[]} addMusic={() => {}} likeMusic={() => {}} />
           </ul>
         </div>
-        <FeedPanel />
+        <div className="col-sm-12 col-md-3" >
+          <FeedPanel />
+        </div>
       </div>
     )
   }

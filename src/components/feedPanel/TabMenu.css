@@ -1,0 +1,14 @@
+.tab-menu-wrapper {
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.tab-menu-selectors {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+}
+
+.tab-menu-category.active {
+  font-weight: 700;
+}
