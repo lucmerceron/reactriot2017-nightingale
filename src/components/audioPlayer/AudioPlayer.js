@@ -26,6 +26,7 @@ class AudioPlayer extends Component {
 
   onPlayerReady(event) {
     event.target.setVolume(100)
+    event.target.seekTo(this.props.seekTo)
     this.setState({ YTPlayer: event.target })
   }
 
@@ -33,7 +34,9 @@ class AudioPlayer extends Component {
     if (event.data === YT_PLAYER_EVENT_ENDED) {
       const { YTPlayer } = this.state
       YTPlayer.loadVideoById(this.props.playlist[0] || '')
-      this.props.onVideoChanged(this.props.playlist[0])
+      if (this.props.playlist[0]) {
+        this.props.onVideoChanged(this.props.playlist[0])
+      }
     }
   }
 
@@ -66,6 +69,27 @@ class AudioPlayer extends Component {
     }
   }
 
+  playVideo() {
+    const { YTPlayer } = this.state
+    if (YTPlayer) {
+      this.state.YTPlayer.playVideo()
+    }
+  }
+
+  pauseVideo() {
+    const { YTPlayer } = this.state
+    if (YTPlayer) {
+      this.state.YTPlayer.pauseVideo()
+    }
+  }
+
+  handleTogglePlay() {
+    const { YTPlayer } = this.state
+    if (YTPlayer) {
+      this.props.onVideoTogglePlay(Math.floor(YTPlayer.getCurrentTime()))
+    }
+  }
+
   render() {
     const opts = {
       height: '200',
@@ -84,6 +108,12 @@ class AudioPlayer extends Component {
     }
     const { volume } = this.state
 
+    if (this.props.isPlaying) {
+      this.playVideo()
+    } else {
+      this.pauseVideo()
+    }
+
     return (
       <div className="audio-player">
         <div className="audio-player-container">
@@ -98,7 +128,7 @@ class AudioPlayer extends Component {
         <AudioWavesTimeline player={this.state.YTPlayer} />
         <div className="audio-player-controls">
           <AudioSoundButton value={volume} onChange={this.onSetVolume} />
-          <div className="audio-player-controls-btn-lg" onClick={() => this.props.onVideoTogglePlay()} >
+          <div className="audio-player-controls-btn-lg" onClick={() => this.handleTogglePlay()} >
             <i className="ion-ios-play-outline" style={{ marginLeft: '0.4444rem' }} />
           </div>
           <div
@@ -119,12 +149,14 @@ AudioPlayer.propTypes = {
   playingId: PropTypes.string.isRequired,
   playlist: PropTypes.arrayOf(PropTypes.string).isRequired,
   isPlaying: PropTypes.boolean,
+  seekTo: PropTypes.number,
   onVideoChanged: PropTypes.func.isRequired,
   onVideoTogglePlay: PropTypes.func.isRequired,
 }
 
 AudioPlayer.defaultProps = {
   isPlaying: false,
+  seekTo: 0,
 }
 
 export default AudioPlayer
