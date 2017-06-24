@@ -1,5 +1,11 @@
 import firebaseInit from 'firebase'
 
+// Special stuff there: calling action from reducer
+// We could have called it from the main view but we
+// would have need to register onAuthStateChanged from there and
+// it is cool to abstract that from the main component
+const { updatePublicPlaylist } = '../actionCreators/playlists'
+
 // Connect to Firebase
 const firebaseApp = firebaseInit.initializeApp({
   apiKey: 'AIzaSyAGBITBgNOGOo6Q9OQJQtR7V8AmRVxbwgE',
@@ -13,8 +19,8 @@ const firebaseApp = firebaseInit.initializeApp({
 // Listen for playlists change
 firebaseApp.auth().onAuthStateChanged(() => {
   firebaseApp.database().ref('public_playlists').on('value', snap => {
-    console.log(snap.val())
-    // Call action depending on the snap received
+    if (snap.val()) updatePublicPlaylist(snap.val())
+    else updatePublicPlaylist({})
   })
 })
 
