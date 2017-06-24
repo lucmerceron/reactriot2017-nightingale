@@ -32,14 +32,26 @@ class MainPlaylistView extends Component {
 
     const musicOrdered = orderBy(keys(musicsToDisplay), a => -keys(musicsToDisplay[a].likes || []).length)
 
-    const onVideoTogglePlay = () => {
+    const onVideoTogglePlay = (currentTime) => {
       if (musicToPlay) {
-        return pauseCurrentlyPlaying(musicToPlay.url, !musicToPlay.paused)
+        const currentDate = new Date()
+        currentDate.setSeconds(currentDate.getSeconds() - currentTime)
+
+        return pauseCurrentlyPlaying(!musicToPlay.paused, currentDate.getTime())
       }
       return musicOrdered[0] ? changeCurrentlyPlaying(musicOrdered[0], musicsToDisplay[musicOrdered[0]]) : {}
     }
 
     const onVideoNext = () => (musicOrdered[0] ? changeCurrentlyPlaying(musicOrdered[0], musicsToDisplay[musicOrdered[0]]) : {})
+
+    const getSeekTo = () => {
+      const startedDate = new Date(musicToPlay.startedTime)
+      const currentDate = new Date()
+
+      const difference = (currentDate - startedDate) / 1000
+
+      return difference
+    }
 
     return (
       <div className="main-playlist row" >
@@ -48,6 +60,7 @@ class MainPlaylistView extends Component {
         </div>
         <div className="col-sm-12 col-md-6 flex-center" >
           <AudioPlayer
+            seekTo={musicToPlay ? getSeekTo() : null}
             playingId={musicToPlay ? musicToPlay.url : ''}
             playlist={musicOrdered}
             isPlaying={musicToPlay ? !musicToPlay.paused : false}
@@ -121,11 +134,16 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         ownProps.match.params.playlistId,
         `musics/${id}`, null))
   },
-  pauseCurrentlyPlaying: (musicId, paused) =>
+  pauseCurrentlyPlaying: (paused, timestamp) => {
     dispatch(
       updatePlaylist(
         ownProps.match.params.playlistId,
-        `currentlyPlaying/${musicId}/paused`, paused)),
+        'currentlyPlaying/paused', paused))
+    dispatch(
+      updatePlaylist(
+        ownProps.match.params.playlistId,
+        'currentlyPlaying/startedTime', timestamp))
+  },
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MainPlaylistView))
