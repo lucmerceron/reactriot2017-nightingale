@@ -1,21 +1,30 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Provider, connect } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
+
+import Routes from './Routes'
+import logo from './logo.svg'
+import './App.css'
 
 class App extends Component {
   render() {
+    const { store } = this.props
+
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <BrowserRouter>
+        <Provider store={store}>
+          <div className="App">
+            <Routes />
+          </div>
+        </Provider>
+      </BrowserRouter>
     );
   }
 }
 
-export default App;
+App.propTypes = {
+  store: PropTypes.object.isRequired,
+}
+
+export default App
