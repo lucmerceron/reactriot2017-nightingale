@@ -8,8 +8,8 @@ import JoinPlaylistContent from './JoinPlaylistContent'
 const LandingView = () => (
   <div>
     <img />
-    <ButtonMorphing label="join a playlist" onClick={() => console.log('join playlist call')} content={<JoinPlaylistContent />} />
-    <ButtonMorphing label="create a playlist" onClick={() => console.log('join create playlist')} content={<CreatePlaylistContent />} />
+    <ButtonMorphing label="join a playlist" onClick={() => {}} content={<JoinPlaylistContent />} />
+    <ButtonMorphing label="create a playlist" onClick={() => {}} content={<CreatePlaylistContent />} />
     <span>developed by the Wing dev team with love</span>
   </div>
 )

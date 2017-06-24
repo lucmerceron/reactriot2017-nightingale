@@ -23,7 +23,7 @@ class ButtonMorphing extends Component {
   render() {
     const { label, content } = this.props
     const { isContentVisible } = this.state
-    console.log(content)
+
     return (
       <div onClick={this.handleOnClick} className={`ng-btn-morphing ${isContentVisible ? 'has-morphed' : ''}`}>
         {!isContentVisible && label}

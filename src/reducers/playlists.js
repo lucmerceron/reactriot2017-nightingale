@@ -1,4 +1,4 @@
-import { extend } from 'lodash'
+import { extend, pickBy } from 'lodash'
 
 import {
   UPDATE_PUBLIC_PLAYLISTS,
@@ -9,13 +9,19 @@ import {
 export default function publicPlaylists(state = {}, action) {
   switch (action.type) {
     case UPDATE_PUBLIC_PLAYLISTS: {
-      return extend({}, state, action.playlists)
+      const privateState = pickBy(state, value => value.private)
+
+      return extend({}, privateState, action.playlists)
     }
     case GET_PRIVATE_PLAYLIST_SUCCESS: {
-      return extend({}, state, action.playlist)
+      const publicState = pickBy(state, value => !value.private)
+
+      return extend({}, publicState, action.playlist)
     }
     case CREATE_PRIVATE_PLAYLIST_SUCCESS: {
-      return extend({}, state, action.playlist)
+      const publicState = pickBy(state, value => !value.private)
+
+      return extend({}, publicState, action.playlist)
     }
     default:
       return state

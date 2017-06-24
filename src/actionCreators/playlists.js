@@ -17,7 +17,7 @@ export const getPrivatePlaylistSuccess = makeActionCreator(GET_PRIVATE_PLAYLIST_
 export const getPrivatePlaylistFailed = makeActionCreator(GET_PRIVATE_PLAYLIST_FAILED, 'error')
 export const updatePublicPlaylists = makeActionCreator(UPDATE_PUBLIC_PLAYLISTS, 'playlists')
 export const createPrivatePlaylistRequest = makeActionCreator(CREATE_PRIVATE_PLAYLIST_REQUEST)
-export const createPrivatePlaylistSuccess = makeActionCreator(CREATE_PRIVATE_PLAYLIST_SUCCESS)
+export const createPrivatePlaylistSuccess = makeActionCreator(CREATE_PRIVATE_PLAYLIST_SUCCESS, 'playlist')
 export const createPublicPlaylistRequest = makeActionCreator(CREATE_PUBLIC_PLAYLIST_REQUEST)
 
 /* Thunk action creators */
@@ -28,7 +28,7 @@ export function getPrivatePlaylist(playlistId) {
     dispatch(getPrivatePlaylistRequest())
 
     firebase.database().ref(`private_playlists/${playlistId}`).on('value', snap => {
-      if (snap.val()) getPrivatePlaylistSuccess(snap.val())
+      if (snap.val()) getPrivatePlaylistSuccess({ [playlistId]: snap.val() })
       else {
         firebase.database.ref(`private_playlists/${playlistId}`).off()
         getPrivatePlaylistFailed('Oups ! This playlist does not exist :(')
@@ -49,7 +49,7 @@ export function createPrivatePlaylist(playlist) {
 
     // Listen on the reference key to take into account the creation
     firebase.database().ref(`private_playlists/${newPlaylistKey}`).on('value', snap => {
-      if (snap.val()) createPrivatePlaylistSuccess(snap.val())
+      if (snap.val()) dispatch(createPrivatePlaylistSuccess({ [newPlaylistKey]: snap.val() }))
     })
 
     // Create the playlist
@@ -62,10 +62,6 @@ export function createPrivatePlaylist(playlist) {
       },
       users: {
         [userId]: localStorage.getItem('nightingaleName'),
-      },
-      currentlyPlaying: {
-      },
-      musics: {
       },
     } })
 
@@ -97,10 +93,6 @@ export function createPublicPlaylist(playlist) {
       },
       users: {
         [userId]: localStorage.getItem('nightingaleName'),
-      },
-      currentlyPlaying: {
-      },
-      musics: {
       },
     } })
 
