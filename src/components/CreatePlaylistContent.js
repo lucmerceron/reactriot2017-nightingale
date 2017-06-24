@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import './CreatePlaylistContent.css'
+
 const CreatePlaylistContent = props => {
   return (
     <div>

@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const ClickableIcon = props => {
+import './Button.css'
+
+const Button = props => {
   return (
     <div>
       
@@ -9,8 +11,8 @@ const ClickableIcon = props => {
   )
 }
 
-ClickableIcon.propTypes = {
+Button.propTypes = {
   
 }
 
-export default ClickableIcon
+export default Button

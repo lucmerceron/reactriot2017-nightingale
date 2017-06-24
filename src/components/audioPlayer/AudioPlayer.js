@@ -5,6 +5,8 @@ import AudioPlayerButtons from './AudioPlayerButtons'
 import AudioWavesTimeline from './AudioWavesTimeline'
 import RoundedPlayerPreview from './RoundedPlayerPreview'
 
+import './AudioPlayer.css'
+
 const AudioPlayer = props => {
   return (
     <div>
