@@ -1,5 +1,5 @@
 import makeActionCreator from './makeActionCreator'
-// Api youtube import
+import youtube from '../utils/youtube'
 
 /* Action types */
 export const YOUTUBE_SEARCH_REQUEST = 'YOUTUBE_SEARCH_REQUEST'
@@ -15,6 +15,10 @@ export const getAutocompleteParcelsFailed = makeActionCreator(YOUTUBE_SEARCH_FAI
 export function getYoutubeResults(search) {
   return (dispatch) => {
     dispatch(getAutocompleteParcelsRequest())
+
+    youtube.search(search)
+      .then(results => dispatch(getAutocompleteParcelsSuccess(results)))
+      .catch(error => dispatch(getAutocompleteParcelsFailed(error)))
     // Call the youtube API with search and treat the result here with results or error
   }
 }
