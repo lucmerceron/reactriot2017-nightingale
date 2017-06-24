@@ -21,17 +21,23 @@ class AudioPlayer extends Component {
     this.onPlayerReady = this.onPlayerReady.bind(this)
     this.onPlayerStateChange = this.onPlayerStateChange.bind(this)
     this.onSetVolume = this.onSetVolume.bind(this)
+
+    this.seekToDone = false
   }
 
   onPlayerReady(event) {
     event.target.setVolume(100)
-    event.target.seekTo(this.props.seekTo)
+    console.log('Oyo', this.props)
     this.setState({ YTPlayer: event.target })
   }
 
   onPlayerStateChange(event) {
+    const { YTPlayer } = this.state
+    if (event.data === 1 && !this.seekToDone) {
+      // if (this.props.seekTo) YTPlayer.seekTo(this.props.seekTo)
+      // this.seekToDone = true
+    }
     if (event.data === YT_PLAYER_EVENT_ENDED) {
-      const { YTPlayer } = this.state
       YTPlayer.loadVideoById(this.props.playlist[0] || '')
       if (this.props.playlist[0]) {
         this.props.onVideoChanged(this.props.playlist[0])
@@ -143,14 +149,13 @@ AudioPlayer.propTypes = {
   playingId: PropTypes.string.isRequired,
   playlist: PropTypes.arrayOf(PropTypes.string).isRequired,
   isPlaying: PropTypes.boolean,
-  seekTo: PropTypes.number,
+  seekTo: PropTypes.number.isRequired,
   onVideoChanged: PropTypes.func.isRequired,
   onVideoTogglePlay: PropTypes.func.isRequired,
 }
 
 AudioPlayer.defaultProps = {
   isPlaying: false,
-  seekTo: 0,
 }
 
 export default AudioPlayer

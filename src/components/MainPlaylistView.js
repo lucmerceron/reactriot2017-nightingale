@@ -45,12 +45,14 @@ class MainPlaylistView extends Component {
     const onVideoNext = () => (musicOrdered[0] ? changeCurrentlyPlaying(musicOrdered[0], musicsToDisplay[musicOrdered[0]]) : {})
 
     const getSeekTo = () => {
+      if (!musicToPlay) return 0
       const startedDate = new Date(musicToPlay.startedTime)
       const currentDate = new Date()
 
       const difference = (currentDate - startedDate) / 1000
+      const diffNumber = difference | 0
 
-      return difference
+      return diffNumber
     }
 
     return (
@@ -60,7 +62,7 @@ class MainPlaylistView extends Component {
         </div>
         <div className="col-sm-12 col-md-6 flex-center" >
           <AudioPlayer
-            seekTo={musicToPlay ? getSeekTo() : null}
+            seekTo={getSeekTo()}
             playingId={musicToPlay ? musicToPlay.url : ''}
             playlist={musicOrdered}
             isPlaying={musicToPlay ? !musicToPlay.paused : false}
