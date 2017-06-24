@@ -98,14 +98,14 @@ class AudioPlayer extends Component {
           <AudioWavesTimeline player={this.state.YTPlayer} />
         </div>
         <div className="audio-player-controls">
-          Volume<br />
-          {(muted) ? 'Muted' : volume}<br />
-          <input type="range" min="0" max="100" value={this.state.volume} onChange={this.onSetVolume} />
-          <div className="audio-player-controls-btn-sm" onClick={() => this.onMute()} >mute</div>
-          <div className="audio-player-controls-btn-lg" onClick={() => this.props.onVideoTogglePlay()} >play</div>
-          <div className="audio-player-controls-btn-sm" onClick={() => this.props.onVideoChanged(this.props.playlist[0])} >next</div>
+          <div className="audio-player-controls-btn-sm" onClick={() => this.onMute()} style={{ marginRight: '-0.4444rem' }} ><i className="ion-ios-volume-high" /></div>
+          <div className="audio-player-controls-btn-lg" onClick={() => this.props.onVideoTogglePlay()} ><i className="ion-ios-play-outline" style={{ marginLeft: '0.4444rem' }} /></div>
+          <div className="audio-player-controls-btn-sm" onClick={() => this.props.onVideoChanged(this.props.playlist[0])} style={{ marginLeft: '-0.4444rem' }} ><i className="ion-ios-skipforward-outline" /></div>
+          <div onClick={() => console.log} style={{ display: 'none' }}>full screen</div>
         </div>
-        <div onClick={() => console.log}>full screen</div>
+        Volume<br />
+        {(muted) ? 'Muted' : volume}<br />
+        <input type="range" min="0" max="100" value={this.state.volume} onChange={this.onSetVolume} />
       </div>
     )
   }
