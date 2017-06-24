@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import YoutubePlayer from 'react-youtube'
 
-import AudioPlayerButtons from './AudioPlayerButtons'
 import AudioWavesTimeline from './AudioWavesTimeline'
-import RoundedPlayerPreview from './RoundedPlayerPreview'
 
 import './AudioPlayer.css'
 
@@ -42,6 +40,7 @@ class AudioPlayer extends Component {
           />
         </div>
         <div className="audio-player-timeline">
+          <AudioWavesTimeline currentPlayTime={456} musicDuration={1009} musicHasLoad />
         </div>
         <div className="audio-player-controls">
           <div className="audio-player-controls-btn-sm" onClick={() => console.log} >sound</div>
