@@ -4,16 +4,16 @@ import { keys } from 'lodash'
 
 import './MusicListItem.css'
 
-const MusicListItem = ({ musicsToDisplay, youtubeCompare, addMusic, removeMusic, likeMusic, unlikeMusic, playlist }) => {
+const MusicListItem = ({ musicsToDisplay, addMusic, removeMusic, likeMusic, unlikeMusic, playlist }) => {
   const myUid = localStorage.getItem('nightingaleUid')
 
   const isCreatorOrAdmin = music => music.creator === myUid || (playlist.admin && playlist.admin[myUid])
-  const isLiked = music => music.likes && music.likes[myUid]
-  const isInPlaylist = youtubeId => !youtubeCompare || youtubeCompare[youtubeId] || playlist[youtubeId]
+  const isLiked = music => music && music.likes && music.likes[myUid]
+  const isInPlaylist = youtubeId => playlist && playlist.musics && playlist.musics[youtubeId]
 
   const getLikeAdd = youtubeId => {
     if (isInPlaylist(youtubeId)) {
-      return isLiked(musicsToDisplay[youtubeId]) || (youtubeCompare && isLiked(youtubeCompare[youtubeId]))
+      return isLiked(musicsToDisplay[youtubeId]) || (playlist && isLiked(playlist.musics[youtubeId]))
         ? <div className="search-panel-result-like" onClick={() => unlikeMusic(youtubeId)}>Unlike</div>
         : <div className="search-panel-result-unlike" onClick={() => likeMusic(youtubeId)}>Like</div>
     }
@@ -46,11 +46,12 @@ const MusicListItem = ({ musicsToDisplay, youtubeCompare, addMusic, removeMusic,
 MusicListItem.propTypes = {
   musicsToDisplay: PropTypes.object.isRequired,
   playlist: PropTypes.object.isRequired,
-  youtubeCompare: PropTypes.object,
   addMusic: PropTypes.func,
   likeMusic: PropTypes.func.isRequired,
   unlikeMusic: PropTypes.func.isRequired,
   removeMusic: PropTypes.func.isRequired,
+  display: PropTypes.bool.isRequired,
+  search: PropTypes.bool.isRequired,
 }
 
 MusicListItem.defaultProps = {

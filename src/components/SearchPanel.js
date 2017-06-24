@@ -22,7 +22,6 @@ class SearchPanel extends Component {
       playlist,
       youtubeSearch,
       musicsToDisplay,
-      youtubeCompare,
       addMusic,
       likeMusic,
       unlikeMusic,
@@ -37,7 +36,6 @@ class SearchPanel extends Component {
         <MusicListItem
           playlist={playlist}
           musicsToDisplay={musicsToDisplay}
-          youtubeCompare={youtubeCompare}
           addMusic={addMusic}
           likeMusic={likeMusic}
           unlikeMusic={unlikeMusic}
@@ -52,7 +50,6 @@ SearchPanel.propTypes = {
   youtubeSearch: PropTypes.func.isRequired,
   musicsToDisplay: PropTypes.object.isRequired,
   playlist: PropTypes.object.isRequired,
-  youtubeCompare: PropTypes.object.isRequired,
   addMusic: PropTypes.func.isRequired,
   likeMusic: PropTypes.func.isRequired,
   unlikeMusic: PropTypes.func.isRequired,
@@ -62,7 +59,6 @@ SearchPanel.propTypes = {
 const mapStateToProps = (state, ownProps) => ({
   musicsToDisplay: state.youtubeSearch,
   playlist: state.playlists[ownProps.match.params.playlistId],
-  youtubeCompare: state.playlists[ownProps.match.params.playlistId] ? state.playlists[ownProps.match.params.playlistId].musics : {},
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
