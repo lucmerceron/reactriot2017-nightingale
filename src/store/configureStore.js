@@ -1,0 +1,1 @@
+// Configure the store for the whole application
