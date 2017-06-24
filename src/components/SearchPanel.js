@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 import FormInputText from './generalPurpose/form/FormInputText'
 import MusicListItem from './MusicListItem'
+import { getYoutubeResults } from '../actionCreators/youtubeSearch'
+import { updatePlaylist } from '../actionCreators/playlists'
 
 import './SearchPanel.css'
 
@@ -41,5 +44,26 @@ SearchPanel.propTypes = {
   likeMusic: PropTypes.func.isRequired,
 }
 
-export default SearchPanel
+const mapStateToProps = state => ({
+  youtubeResults: state.youtubeSearch,
+})
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  youtubeSearch: search => dispatch(getYoutubeResults(search)),
+  addMusic: (id, music) =>
+    dispatch(updatePlaylist(ownProps.match.params.playlistId, `/musics/${id}`, {
+      ...music,
+      likes: {
+        [localStorage.getItem('nightingaleUid')]: true,
+      },
+      creator: localStorage.getItem('nightingaleUid'),
+    })),
+  likeMusic: id =>
+    dispatch(
+      updatePlaylist(
+        ownProps.match.params.playlistId,
+        `/musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`,
+        true)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPanel)
 

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Provider, connect } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
+import faker from 'faker'
 
 import { updatePublicPlaylists } from './actionCreators/playlists'
 import Routes from './Routes'
@@ -17,6 +18,13 @@ class App extends React.Component {
         if (snap.val()) setPublicPlaylists(snap.val())
         else setPublicPlaylists({})
       })
+      // Store the name and uid in localStorage
+      if (!localStorage.getItem('nightingaleName') || !localStorage.getItem('nightingaleUid')) {
+        const fakeName = faker.name.findName()
+
+        localStorage.setItem('nightingaleName', fakeName)
+        localStorage.setItem('nightingaleUid', firebase.auth().currentUser.uid)
+      }
     })
   }
   render() {

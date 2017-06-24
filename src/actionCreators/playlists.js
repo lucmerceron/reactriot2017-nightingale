@@ -1,5 +1,3 @@
-import faker from 'faker'
-
 import makeActionCreator from './makeActionCreator'
 
 /* Action types */
@@ -9,6 +7,8 @@ export const GET_PRIVATE_PLAYLIST_FAILED = 'GET_PRIVATE_PLAYLIST_FAILED'
 export const UPDATE_PUBLIC_PLAYLISTS = 'UPDATE_PUBLIC_PLAYLISTS'
 export const CREATE_PRIVATE_PLAYLIST_REQUEST = 'CREATE_PRIVATE_PLAYLIST_REQUEST'
 export const CREATE_PRIVATE_PLAYLIST_SUCCESS = 'CREATE_PRIVATE_PLAYLIST_SUCCESS'
+export const UPDATE_ACTUAL_PLAYLIST_REQUEST = 'UPDATE_ACTUAL_PLAYLIST_REQUEST'
+export const UPDATE_ACTUAL_PLAYLIST_SUCCESS = 'UPDATE_ACTUAL_PLAYLIST_SUCCESS'
 export const CREATE_PUBLIC_PLAYLIST_REQUEST = 'CREATE_PUBLIC_PLAYLIST_REQUEST'
 
 /* Action creators */
@@ -40,7 +40,6 @@ export function getPrivatePlaylist(playlistId) {
 export function createPrivatePlaylist(playlist) {
   return (dispatch, getState) => {
     const firebase = getState().firebase
-    const fakeName = faker.name.findName()
     const userId = firebase.auth().currentUser.uid
 
     dispatch(createPrivatePlaylistRequest())
@@ -57,11 +56,12 @@ export function createPrivatePlaylist(playlist) {
     firebase.database().ref().update({ [`private_playlists/${newPlaylistKey}`]: {
       name: playlist.name,
       tag: playlist.tag,
+      private: true,
       admin: {
-        [userId]: fakeName,
+        [userId]: localStorage.getItem('nightingaleName'),
       },
       users: {
-        [userId]: fakeName,
+        [userId]: localStorage.getItem('nightingaleName'),
       },
       currentlyPlaying: {
       },
@@ -77,7 +77,6 @@ export function createPrivatePlaylist(playlist) {
 export function createPublicPlaylist(playlist) {
   return (dispatch, getState) => {
     const firebase = getState().firebase
-    const fakeName = faker.name.findName()
     const userId = firebase.auth().currentUser.uid
 
     dispatch(createPublicPlaylistRequest())
@@ -92,11 +91,12 @@ export function createPublicPlaylist(playlist) {
     firebase.database().ref().update({ [`public_playlists/${newPlaylistKey}`]: {
       name: playlist.name,
       tag: playlist.tag,
+      private: false,
       admin: {
-        [userId]: fakeName,
+        [userId]: localStorage.getItem('nightingaleName'),
       },
       users: {
-        [userId]: fakeName,
+        [userId]: localStorage.getItem('nightingaleName'),
       },
       currentlyPlaying: {
       },
@@ -106,5 +106,16 @@ export function createPublicPlaylist(playlist) {
 
     // Remove the user on onDisconnect
     firebase.database().ref(`public_playlists/${newPlaylistKey}/users/${userId}`).onDisconnect().remove()
+  }
+}
+
+export function updatePlaylist(playlistId, path, newValue) {
+  return (dispatch, getState) => {
+    const firebase = getState().firebase
+    const actualPlaylist = getState().playlists[playlistId]
+
+    firebase.database()
+    .ref(`${actualPlaylist.private ? 'private' : 'public'}_playlists/${playlistId}/${path}`)
+    .update(newValue)
   }
 }
