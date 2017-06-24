@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import YoutubePlayer from 'react-youtube'
 
 import AudioWavesTimeline from './AudioWavesTimeline'
+import AudioSoundButton from './AudioSoundButton'
 
 import './AudioPlayer.css'
 
@@ -134,14 +135,22 @@ class AudioPlayer extends Component {
         </div>
         <AudioWavesTimeline player={this.state.YTPlayer} />
         <div className="audio-player-controls">
-          <div className="audio-player-controls-btn-sm" onClick={() => this.onMute()} style={{ marginRight: '-0.4444rem' }} ><i className="ion-ios-volume-high" /></div>
-          <div className="audio-player-controls-btn-lg" onClick={() => this.handleTogglePlay()} ><i className="ion-ios-play-outline" style={{ marginLeft: '0.4444rem' }} /></div>
-          <div className="audio-player-controls-btn-sm" onClick={() => this.props.onVideoChanged(this.props.playlist[0])} style={{ marginLeft: '-0.4444rem' }} ><i className="ion-ios-skipforward-outline" /></div>
+          <AudioSoundButton value={volume} onChange={this.onSetVolume} />
+          <div
+            className="audio-player-controls-btn-lg"
+            onClick={() => this.handleTogglePlay()}
+          >
+            <i className="ion-ios-play-outline" style={{ marginLeft: '0.4444rem' }} />
+          </div>
+          <div
+            className="audio-player-controls-btn-sm"
+            onClick={() => this.props.onVideoChanged(this.props.playlist[0])}
+            style={{ marginLeft: '-0.4444rem' }}
+          >
+            <i className="ion-ios-skipforward-outline" />
+          </div>
           <div onClick={() => console.log} style={{ display: 'none' }}>full screen</div>
         </div>
-        Volume<br />
-        {(muted) ? 'Muted' : volume}<br />
-        <input type="range" min="0" max="100" value={this.state.volume} onChange={this.onSetVolume} />
       </div>
     )
   }

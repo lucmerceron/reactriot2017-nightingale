@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import onClickOutside from 'react-onclickoutside'
 
-class AusioSoundButton extends Component {
+class AudioSoundButton extends Component {
   constructor() {
     super()
     this.state = {
@@ -36,9 +36,9 @@ class AusioSoundButton extends Component {
   }
 }
 
-AusioSoundButton.propTypes = {
+AudioSoundButton.propTypes = {
   value: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
 }
 
-export default onClickOutside(AusioSoundButton)
+export default onClickOutside(AudioSoundButton)
