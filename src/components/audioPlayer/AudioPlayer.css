@@ -111,3 +111,16 @@
   font-size: 1rem;
   text-align: center;
 }
+
+.audio-player-icon-big {
+  color: #50626d;
+  font-size: 200px;
+}
+
+.audio-player-subtitle {
+  color: #50626d;
+  font-weight: 500;
+  font-size: 1.1rem;
+  text-align: center;
+  margin-bottom: 20px;
+}

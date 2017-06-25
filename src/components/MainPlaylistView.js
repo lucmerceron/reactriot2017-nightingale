@@ -107,7 +107,7 @@ class MainPlaylistView extends Component {
               isAdmin={playlist ? !!playlist.admin[localStorage.getItem('nightingaleUid')] : false}
               onVideoChanged={onVideoNext}
               onVideoTogglePlay={onVideoTogglePlay}
-            /> : <EmptyPlaylist />}
+            /> : <EmptyPlaylist playlistName={playlist ? playlist.name : ''} />}
             <ul>
               <MusicListItem
                 playlist={playlist}

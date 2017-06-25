@@ -202,17 +202,24 @@ class AudioPlayer extends Component {
     }
     return (
       <div className="audio-player">
-        <h1><i className="ion-happy-outline" /></h1>
-        <h3>We're ready!</h3>
-        <div className="audio-player-controls">
+        <div className="audio-player-playlist-title">
+          {this.props.playlistName}
+        </div>
+        <div className="audio-player-icon-big">
+          <i className="ion-ios-checkmark-outline" />
+        </div>
+        <div className="audio-player-subtitle">
+          We're ready now!<br /><br />
+        {this.props.isAdmin ? 'Click the play button to start the playlist for everyone.' : 'Waiting for the admin to start the playlist.'}<br />
+        </div>
+        {this.props.isAdmin ? <div className="audio-player-controls">
           <div
             className="audio-player-controls-btn-lg"
             onClick={() => this.handleTogglePlay()}
           >
-            <i className="ion-ios-play" style={{ marginLeft: '0.4444rem' }} />
+            <i className="ion-ios-play" />
           </div>
-        </div>
-        <p>Let's start this party ?</p>
+        </div> : ''}
       </div>
     )
   }
