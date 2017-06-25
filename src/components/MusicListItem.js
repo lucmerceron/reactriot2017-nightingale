@@ -14,12 +14,12 @@ const MusicListItem = ({ musicsToDisplay, addMusic, removeMusic, likeMusic, unli
   const getLikeAdd = youtubeId => {
     if (isInPlaylist(youtubeId)) {
       return isLiked(musicsToDisplay[youtubeId]) || (playlist && isLiked(playlist.musics[youtubeId]))
-        ? <div className="search-panel-result-like" onClick={() => unlikeMusic(youtubeId)}>Unlike</div>
-        : (<div className="search-panel-result-unlike" onClick={() => likeMusic(youtubeId)}>
+        ? <span className="search-panel-result-like" onClick={() => unlikeMusic(youtubeId)}><i className="ion-ios-heart" /></span>
+        : (<span className="search-panel-result-unlike" onClick={() => likeMusic(youtubeId)}>
           <i className="ion-ios-heart-outline" />
-        </div>)
+        </span>)
     }
-    return <div className="search-panel-result-add" onClick={() => addMusic(youtubeId, musicsToDisplay[youtubeId])}>Add</div>
+    return <div className="search-panel-result-add" onClick={() => addMusic(youtubeId, musicsToDisplay[youtubeId])}><i className="ion-ios-plus-outline"/></div>
   }
 
   return (
@@ -27,27 +27,32 @@ const MusicListItem = ({ musicsToDisplay, addMusic, removeMusic, likeMusic, unli
       <ul className="music-list">
         {orderBy(keys(musicsToDisplay), a => -keys(musicsToDisplay[a].likes || []).length)
           .map(youtubeId => (
-            <li key={youtubeId} className="music-list-item">
-              <img
-                className="music-list-item-thumbnail"
-                alt="youtube thumbnail preview image"
-                src={musicsToDisplay[youtubeId].thumbnailUrl}
-              />
-              <div className="music-list-item-content">
-                <div className="search-panel-result-title">{musicsToDisplay[youtubeId].title}</div>
-                <span className="search-panel-result-channel">{musicsToDisplay[youtubeId].channelTitle}</span>
+            <li key={youtubeId} className="music-list-item row">
+              <div className="music-list-item-thumbnail">
+                <img
+                  alt="youtube thumbnail preview image"
+                  src={musicsToDisplay[youtubeId].thumbnailUrl}
+                />
               </div>
-              <span className="search-panel-result-duration">{musicsToDisplay[youtubeId].duration}</span>
+              <div className="music-list-item-content">
+                <div className="search-panel-result-title">
+                  {musicsToDisplay[youtubeId].title} - 
+                  <span className="search-panel-result-channel">{musicsToDisplay[youtubeId].channelTitle}</span>
+                </div>
+              </div>
               <div className="music-list-item-action">
-                {getLikeAdd(youtubeId)}
-                {isCreatorOrAdmin(musicsToDisplay[youtubeId]) && isInPlaylist(youtubeId)
-                  ? (
-                    <div
-                      className="search-panel-result-remove"
-                      onClick={() => removeMusic(youtubeId)}
-                    >Remove</div>)
-                  : null
-                }
+                <div className="music-list-item-action-content">
+                  <span className="search-panel-result-duration">{musicsToDisplay[youtubeId].duration}</span>
+                  {getLikeAdd(youtubeId)}
+                  {isCreatorOrAdmin(musicsToDisplay[youtubeId]) && isInPlaylist(youtubeId)
+                    ? (
+                      <div
+                        className="search-panel-result-remove"
+                        onClick={() => removeMusic(youtubeId)}
+                      ><i className="ion-ios-trash-outline" /></div>)
+                    : null
+                  }
+                </div>
               </div>
             </li>
         ))}
