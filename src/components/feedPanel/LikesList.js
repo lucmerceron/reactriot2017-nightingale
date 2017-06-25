@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { keys } from 'lodash'
+import { keys, isEmpty } from 'lodash'
 
 import FeedListItem from './FeedListItem'
 import FeedListLikeMusicContent from './FeedListLikeMusicContent'
@@ -17,7 +17,9 @@ const LikesList = ({ likesFeed }) => (
           title={likesFeed[likeFeed].title}
           action={likesFeed[likeFeed].action}
         />
-      </FeedListItem>))}
+      </FeedListItem>
+    ))}
+    {isEmpty(likesFeed) ? <p style={{ marginTop: '16px' }}>Seems like you just arrived, do not hesite to like some musics ;)</p> : null}
   </ul>
 )
 
