@@ -22,8 +22,8 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2739a1', endColorstr='#6840e3', GradientType=0); /* ie6-9 */
   border-radius: 12px;
   width: 98%;
-  height: 90vh;
-  max-height: 90vh;
+  height: 96vh;
+  max-height: 96vh;
   padding: 0rem !important;
   overflow: hidden;
 }
