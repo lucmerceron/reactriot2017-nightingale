@@ -4,6 +4,9 @@ import {
   UPDATE_PUBLIC_PLAYLIST,
   UPDATE_PRIVATE_PLAYLIST,
 } from '../actionCreators/playlists'
+import {
+  EMPTY_FEED,
+} from '../actionCreators/feed'
 
 const getUserInfos = (userId, playlist) => {
   const actual = playlist[keys(playlist)[0]]
@@ -15,6 +18,7 @@ const detectMusicChanged = (actual, next) => {
   if (isEmpty(actual) || isEmpty(next)) return false
   const actu = actual[keys(actual)[0]]
   const nex = next[keys(next)[0]]
+
   // If actual > next => remove
   if ((keys(actu.musics || {}).length) > (keys(nex.musics || {}).length)) {
     // If no more then it is the first one
@@ -26,6 +30,7 @@ const detectMusicChanged = (actual, next) => {
 
       musicDiff = removed
     }
+    console.log('removed', musicDiff)
     return {
       action: 'removed',
       username: `${getUserInfos(musicDiff.creator, actual)}'s music`,
@@ -42,6 +47,7 @@ const detectMusicChanged = (actual, next) => {
 
       musicDiff = added
     }
+    console.log('added', musicDiff)
     return {
       action: 'added',
       username: `${getUserInfos(musicDiff.creator, next)}`,
@@ -59,7 +65,7 @@ const detectLikesChanged = (actual, next) => {
   let result = false
   keys(nex.musics).some(key => {
     const nexMusicLikes = nex.musics[key].likes
-    const actuMusicLikes = actu.musics[key].likes
+    const actuMusicLikes = actu && !isEmpty(actu.musics) && !isEmpty(actu.musics[key]) ? actu.musics[key].likes : {}
 
     // If actual > next => remove
     if ((keys(actuMusicLikes || {}).length) > (keys(nexMusicLikes || {}).length)) {
@@ -72,6 +78,7 @@ const detectLikesChanged = (actual, next) => {
 
         likeDiff = unliked
       }
+      console.log('unliked', likeDiff)
       result = {
         action: 'unliked',
         username: `${getUserInfos(likeDiff, actual)}`,
@@ -89,6 +96,7 @@ const detectLikesChanged = (actual, next) => {
 
         likeDiff = added
       }
+      console.log('liked', likeDiff)
       result = {
         action: 'liked',
         username: `${getUserInfos(likeDiff, next)}`,
@@ -111,16 +119,25 @@ export default function feed(state = {
     case UPDATE_PUBLIC_PLAYLIST:
     case UPDATE_PRIVATE_PLAYLIST: {
       if (detectMusicChanged(action.previousState, action.playlists)) {
+        const result = detectMusicChanged(action.previousState, action.playlists)
+        if (!result.username) return state
         return extend({}, state, {
-          musicsFeed: [detectMusicChanged(action.previousState, action.playlists), ...state.musicsFeed],
+          musicsFeed: [result, ...state.musicsFeed],
         })
       } else if (detectLikesChanged(action.previousState, action.playlists)) {
-        console.log(detectLikesChanged(action.previousState, action.playlists))
+        const result = detectLikesChanged(action.previousState, action.playlists)
+        if (!result.username) return state
         return extend({}, state, {
-          likesFeed: [detectLikesChanged(action.previousState, action.playlists), ...state.likesFeed],
+          likesFeed: [result, ...state.likesFeed],
         })
       }
       return state
+    }
+    case EMPTY_FEED: {
+      return {
+        musicsFeed: [],
+        likesFeed: [],
+      }
     }
     default:
       return state

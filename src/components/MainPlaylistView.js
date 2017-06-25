@@ -127,6 +127,7 @@ MainPlaylistView.propTypes = {
   likeMusic: PropTypes.func.isRequired,
   playlists: PropTypes.object.isRequired,
   playlistId: PropTypes.string.isRequired,
+  playlistTyp: PropTypes.string.isRequired,
   unlikeMusic: PropTypes.func.isRequired,
   removeCurrentlyPlaying: PropTypes.func.isRequired,
   pauseCurrentlyPlaying: PropTypes.func.isRequired,

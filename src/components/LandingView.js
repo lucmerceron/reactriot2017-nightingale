@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import faker from 'faker'
 
 import { updatePublicPlaylists } from '../actionCreators/playlists'
+import { emptyFeedPlease } from '../actionCreators/feed'
 
 import ButtonMorphing from './generalPurpose/ButtonMorphing'
 import CreatePlaylistContent from './CreatePlaylistContent'
@@ -22,7 +23,10 @@ class LandingView extends Component {
     }
   }
   componentWillMount() {
-    const { firebase, setPublicPlaylists } = this.props
+    const { firebase, setPublicPlaylists, emptyFeedPls } = this.props
+
+    // Empty the feed before moving on
+    emptyFeedPls()
 
     // Listen for playlists change when authChanged
     firebase.auth().onAuthStateChanged(() => {
@@ -45,7 +49,7 @@ class LandingView extends Component {
   render() {
     const { hasMorphed } = this.state
 
-    return(
+    return (
       <div className="landing-view">
         <video autoPlay loop poster="polina.jpg" className="landing-view-bg-video">
           <source src={bgVideoUrl} type="video/mp4" />
@@ -68,6 +72,7 @@ class LandingView extends Component {
 LandingView.propTypes = {
   firebase: PropTypes.object.isRequired,
   setPublicPlaylists: PropTypes.func.isRequired,
+  emptyFeedPls: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
@@ -76,6 +81,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => ({
   setPublicPlaylists: playlists => dispatch(updatePublicPlaylists(playlists)),
+  emptyFeedPls: () => dispatch(emptyFeedPlease()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LandingView)
