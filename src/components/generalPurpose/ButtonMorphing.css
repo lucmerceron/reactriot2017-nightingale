@@ -7,17 +7,14 @@
   color: #fff;
   border-radius: 1.5rem;
   padding: 0.5rem 2rem;
-  background: linear-gradient( 160deg, #2196f3, #00BAC0 );
-  transition: 
-    background 0.3s ease-in-out,
-    color 0.3s ease-in-out,
-    max-height 1.5s linear,
-    border-color 0.3s ease-in-out;
+  background: rgba(255, 255, 255, 0.1);
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out, max-height 1.5s linear, border-color 0.3s ease-in-out;
   overflow: hidden;
+  position: relative;
 }
 
 .ng-btn-morphing:hover {
-  background: linear-gradient( 160deg, #2196f3, #2196f3 );
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .ng-btn-morphing.has-morphed {
@@ -26,5 +23,5 @@
 
 .ng-btn-morphing:hover.has-morphed {
   cursor: default;
-  background: linear-gradient( 160deg, #2196f3, #00BAC0 );
+  background: rgba(255, 255, 255, 0.2);
 }
