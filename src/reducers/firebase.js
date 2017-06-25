@@ -2,12 +2,12 @@ import firebaseInit from 'firebase'
 
 // Connect to Firebase
 const firebaseApp = firebaseInit.initializeApp({
-  apiKey: 'AIzaSyAGBITBgNOGOo6Q9OQJQtR7V8AmRVxbwgE',
-  authDomain: 'nightingale-cb6f8.firebaseapp.com',
-  databaseURL: 'https://nightingale-cb6f8.firebaseio.com',
-  projectId: 'nightingale-cb6f8',
-  storageBucket: 'nightingale-cb6f8.appspot.com',
-  messagingSenderId: '889865173647',
+  apiKey: 'AIzaSyAqZfPpc_qTNCqQWknBrXJXHl1xGU_dXgs',
+  authDomain: 'nightingale-f1638.firebaseapp.com',
+  databaseURL: 'https://nightingale-f1638.firebaseio.com',
+  projectId: 'nightingale-f1638',
+  storageBucket: '',
+  messagingSenderId: '857811721641',
 })
 
 // Sign in anonymously
