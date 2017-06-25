@@ -10,7 +10,7 @@ const ShareContent = (playlistId, playlistTyp) => {
 
   return (
     <div className="share-content">
-      <QrGen value={`playlists/${playlistTyp}/${playlistId.playlistId}`} />
+      <QrGen size={256} bgColor="transparent" value={`playlists/${playlistTyp}/${playlistId.playlistId}`} />
     </div>
   )
 }
