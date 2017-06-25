@@ -2,10 +2,13 @@
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+  margin: 20px 0 20px 0;
 }
 
 .audio-timeline-current-play,
 .audio-timeline-duration {
+  color: #50626d;
+  opacity: 0.5;
   width: 3rem;
   text-align: center;
 }
@@ -25,7 +28,7 @@
 
 .audio-wave {
   display: inline-block;
-  background-color: #000;
+  background-color: #50626d;
   opacity: 1;
   transition:
     height 1s ease-in-out,

@@ -53,10 +53,13 @@ class MainPlaylistView extends Component {
       likeMusic,
       unlikeMusic,
       playlist,
+      playlistId,
       musicToPlay,
       changeCurrentlyPlaying,
       removeCurrentlyPlaying,
       pauseCurrentlyPlaying } = this.props
+
+      console.log(playlist)
 
     const musicOrdered = orderBy(keys(musicsToDisplay), a => -keys(musicsToDisplay[a].likes || []).length)
 
@@ -93,9 +96,13 @@ class MainPlaylistView extends Component {
           <div>
             {(musicToPlay || (musicsToDisplay && Object.keys(musicsToDisplay).length)) ? <AudioPlayer
               seekTo={getSeekTo()}
+              playing={musicToPlay}
               playingId={musicToPlay ? musicToPlay.url : ''}
               playlist={musicOrdered}
+              playlistName={playlist ? playlist.name : ''}
+              playlistId={playlistId}
               isPlaying={musicToPlay ? !musicToPlay.paused : false}
+              isAdmin={playlist ? !!playlist.admin[localStorage.getItem('nightingaleUid')] : false}
               onVideoChanged={onVideoNext}
               onVideoTogglePlay={onVideoTogglePlay}
             /> : <EmptyPlaylist />}

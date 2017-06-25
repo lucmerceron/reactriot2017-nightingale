@@ -16,9 +16,11 @@ class AudioPlayer extends Component {
     this.state = {
       volume: 100,
       muted: false,
+      fullscreen: false,
       YTPlayer: null,
       isMobile: window.orientation !== 'undefined',
       mobileFirstPlay: false,
+      videoHeight: 0,
     }
 
     this.onPlayerReady = this.onPlayerReady.bind(this)
@@ -33,12 +35,12 @@ class AudioPlayer extends Component {
     event.target.setVolume(100)
     if (this.props.isPlaying) {
       if (window.orientation === 'undefined') {
-        event.target.loadVideoById(this.props.playingId, this.props.seekTo)
+        event.target.loadVideoById(this.props.playing.url, this.props.seekTo)
       } else {
-        event.target.cueVideoById(this.props.playingId, this.props.seekTo)
+        event.target.cueVideoById(this.props.playing.url, this.props.seekTo)
       }
     } else {
-      event.target.cueVideoById(this.props.playingId, this.props.seekTo)
+      event.target.cueVideoById(this.props.playing.url, this.props.seekTo)
     }
     this.setState({ YTPlayer: event.target })
   }
@@ -108,10 +110,20 @@ class AudioPlayer extends Component {
     }
   }
 
+  toggleFullScreen() {
+    const newFullscreen = !this.state.fullscreen
+    if (newFullscreen) {
+      const [videoContainer] = document.getElementsByClassName('audio-player')
+      const { offsetWidth } = videoContainer
+      const newHeight = (offsetWidth / 16) * 9
+      this.setState({ fullscreen: newFullscreen, videoHeight: newHeight })
+    } else {
+      this.setState({ fullscreen: newFullscreen })
+    }
+  }
+
   render() {
     const opts = {
-      height: '200',
-      width: '200',
       playerVars: {
         autoplay: 1,
         controls: 0,
@@ -132,35 +144,58 @@ class AudioPlayer extends Component {
       this.pauseVideo()
     }
 
-    if (this.props.playingId && this.props.playingId !== '') {
+    if (this.props.playing && this.props.playing.url) {
       return (
         <div className="audio-player">
-          <div className="audio-player-container">
+          <div className="audio-player-playlist-title">
+            {this.props.playlistName}
+          </div>
+          <div
+            className="audio-player-container"
+            style={{
+              width: this.state.fullscreen ? '100%' : '200px',
+              borderRadius: this.state.fullscreen ? '0' : '50%',
+              height: this.state.fullscreen ? this.state.videoHeight : '200px',
+            }}
+          >
             <YoutubePlayer
-              videoId={this.props.playingId}
+              videoId={this.props.playing.url}
               className="audio-player-youtube-frame"
               opts={opts}
               onReady={this.onPlayerReady}
               onStateChange={this.onPlayerStateChange}
             />
           </div>
+          <div className="audio-player-titles-container">
+            <div className="audio-player-video-title">{this.props.playing.name}</div>
+            <div className="audio-player-channel-title">{this.props.playing.channelTitle}</div>
+          </div>
           <AudioWavesTimeline player={this.state.YTPlayer} />
           <div className="audio-player-controls">
             <AudioSoundButton value={volume} onChange={this.onSetVolume} />
-            <div
-              className="audio-player-controls-btn-lg"
-              onClick={() => this.handleTogglePlay()}
-            >
-              <i className="ion-ios-play-outline" style={{ marginLeft: '0.4444rem' }} />
-            </div>
+            {(this.props.isAdmin) ? (
+              <div
+                className="audio-player-controls-btn-sm"
+                onClick={() => this.handleTogglePlay()}
+              >
+                <i className={(this.props.isPlaying) ? 'ion-ios-pause' : 'ion-ios-play'} style={{ marginLeft: '0.4444rem' }} />
+              </div>
+            ) : ''}
+            {(this.props.isAdmin) ? (
+              <div
+                className="audio-player-controls-btn-sm"
+                onClick={() => this.props.onVideoChanged()}
+                style={{ marginLeft: '-0.4444rem' }}
+              >
+                <i className="ion-ios-skipforward" />
+              </div>
+            ) : ''}
             <div
               className="audio-player-controls-btn-sm"
-              onClick={() => this.props.onVideoChanged()}
-              style={{ marginLeft: '-0.4444rem' }}
+              onClick={() => this.toggleFullScreen()}
             >
-              <i className="ion-ios-skipforward-outline" />
+              <i className={(this.state.fullscreen) ? 'ion-arrow-shrink' : 'ion-arrow-expand'} />
             </div>
-            <div onClick={() => console.log} style={{ display: 'none' }}>full screen</div>
           </div>
         </div>
       )
@@ -174,7 +209,7 @@ class AudioPlayer extends Component {
             className="audio-player-controls-btn-lg"
             onClick={() => this.handleTogglePlay()}
           >
-            <i className="ion-ios-play-outline" style={{ marginLeft: '0.4444rem' }} />
+            <i className="ion-ios-play" style={{ marginLeft: '0.4444rem' }} />
           </div>
         </div>
         <p>Let's start this party ?</p>
@@ -184,15 +219,21 @@ class AudioPlayer extends Component {
 }
 
 AudioPlayer.propTypes = {
-  playingId: PropTypes.string.isRequired,
+  playing: PropTypes.object.isRequired,
+  channelTitle: PropTypes.string,
   playlist: PropTypes.arrayOf(PropTypes.string).isRequired,
+  playlistName: PropTypes.string.isRequired,
+  playlistId: PropTypes.string.isRequired,
   isPlaying: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
   seekTo: PropTypes.number.isRequired,
   onVideoChanged: PropTypes.func.isRequired,
   onVideoTogglePlay: PropTypes.func.isRequired,
 }
 
 AudioPlayer.defaultProps = {
+  playingTitle: 'Video title',
+  channelTitle: 'Channel title',
 }
 
 export default AudioPlayer
