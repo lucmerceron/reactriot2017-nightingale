@@ -55,6 +55,8 @@ class MainPlaylistView extends Component {
       removeCurrentlyPlaying,
       pauseCurrentlyPlaying } = this.props
 
+      console.log(playlist)
+
     const musicOrdered = orderBy(keys(musicsToDisplay), a => -keys(musicsToDisplay[a].likes || []).length)
 
     const onVideoTogglePlay = (currentTime) => {
@@ -92,6 +94,7 @@ class MainPlaylistView extends Component {
               playingId={musicToPlay ? musicToPlay.url : ''}
               playlist={musicOrdered}
               isPlaying={musicToPlay ? !musicToPlay.paused : false}
+              isAdmin={playlist ? !!playlist.admin[localStorage.getItem('nightingaleUid')] : false}
               onVideoChanged={onVideoNext}
               onVideoTogglePlay={onVideoTogglePlay}
             /> : <EmptyPlaylist />}

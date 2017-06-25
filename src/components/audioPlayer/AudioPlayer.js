@@ -35,12 +35,12 @@ class AudioPlayer extends Component {
     event.target.setVolume(100)
     if (this.props.isPlaying) {
       if (window.orientation === 'undefined') {
-        event.target.loadVideoById(this.props.playingId, this.props.seekTo)
+        event.target.loadVideoById(this.props.playing.url, this.props.seekTo)
       } else {
-        event.target.cueVideoById(this.props.playingId, this.props.seekTo)
+        event.target.cueVideoById(this.props.playing.url, this.props.seekTo)
       }
     } else {
-      event.target.cueVideoById(this.props.playingId, this.props.seekTo)
+      event.target.cueVideoById(this.props.playing.url, this.props.seekTo)
     }
     this.setState({ YTPlayer: event.target })
   }
@@ -170,19 +170,23 @@ class AudioPlayer extends Component {
           <AudioWavesTimeline player={this.state.YTPlayer} />
           <div className="audio-player-controls">
             <AudioSoundButton value={volume} onChange={this.onSetVolume} />
-            <div
-              className="audio-player-controls-btn-lg"
-              onClick={() => this.handleTogglePlay()}
-            >
-              <i className={(this.props.isPlaying) ? 'ion-ios-pause' : 'ion-ios-play'} style={{ marginLeft: '0.4444rem' }} />
-            </div>
-            <div
-              className="audio-player-controls-btn-sm"
-              onClick={() => this.props.onVideoChanged()}
-              style={{ marginLeft: '-0.4444rem' }}
-            >
-              <i className="ion-ios-skipforward" />
-            </div>
+            {(this.props.isAdmin) ? (
+              <div
+                className="audio-player-controls-btn-sm"
+                onClick={() => this.handleTogglePlay()}
+              >
+                <i className={(this.props.isPlaying) ? 'ion-ios-pause' : 'ion-ios-play'} style={{ marginLeft: '0.4444rem' }} />
+              </div>
+            ) : ''}
+            {(this.props.isAdmin) ? (
+              <div
+                className="audio-player-controls-btn-sm"
+                onClick={() => this.props.onVideoChanged()}
+                style={{ marginLeft: '-0.4444rem' }}
+              >
+                <i className="ion-ios-skipforward" />
+              </div>
+            ) : ''}
             <div
               className="audio-player-controls-btn-sm"
               onClick={() => this.toggleFullScreen()}
@@ -213,11 +217,10 @@ class AudioPlayer extends Component {
 
 AudioPlayer.propTypes = {
   playing: PropTypes.object.isRequired,
-  playingId: PropTypes.string.isRequired,
-  playingTitle: PropTypes.string,
   channelTitle: PropTypes.string,
   playlist: PropTypes.arrayOf(PropTypes.string).isRequired,
   isPlaying: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
   seekTo: PropTypes.number.isRequired,
   onVideoChanged: PropTypes.func.isRequired,
   onVideoTogglePlay: PropTypes.func.isRequired,
