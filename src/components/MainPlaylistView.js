@@ -10,7 +10,7 @@ import MusicListItem from './MusicListItem'
 import FeedPanel from './FeedPanel'
 import EmptyPlaylist from './EmptyPlaylist'
 
-import { updatePlaylist, removePlaylistOnDisconnect, getPrivatePlaylist } from '../actionCreators/playlists'
+import { updatePlaylist, removePlaylistOnDisconnect, getPrivatePlaylist, getPublicPlaylist } from '../actionCreators/playlists'
 
 import './MainPlaylistView.css'
 
@@ -25,21 +25,23 @@ class MainPlaylistView extends Component {
     this.playlistJoined = false
   }
   componentDidMount() {
-    const { playlist, joinCurrentPlaylist, playlists, playlistId, gtPrivatePlaylist } = this.props
+    const { playlist, joinCurrentPlaylist, playlists, playlistId, gtPrivatePlaylist, gtPublicPlaylist } = this.props
     if (playlist) {
       this.playlistJoined = true
       joinCurrentPlaylist()
     } else if (playlists && !playlist) {
       gtPrivatePlaylist(playlistId)
+      gtPublicPlaylist(playlistId)
     }
   }
   componentDidUpdate() {
-    const { playlist, joinCurrentPlaylist, playlists, playlistId, gtPrivatePlaylist } = this.props
+    const { playlist, joinCurrentPlaylist, playlists, playlistId, gtPrivatePlaylist, gtPublicPlaylist } = this.props
     if (playlist && !this.playlistJoined) {
       this.playlistJoined = true
       joinCurrentPlaylist()
     } else if (playlists && !playlist) {
       gtPrivatePlaylist(playlistId)
+      gtPublicPlaylist(playlistId)
     }
   }
 
@@ -125,6 +127,7 @@ MainPlaylistView.propTypes = {
   removeCurrentlyPlaying: PropTypes.func.isRequired,
   pauseCurrentlyPlaying: PropTypes.func.isRequired,
   gtPrivatePlaylist: PropTypes.func.isRequired,
+  gtPublicPlaylist: PropTypes.func.isRequired,
   changeCurrentlyPlaying: PropTypes.object.isRequired,
   playlist: PropTypes.object.isRequired,
   musicToPlay: PropTypes.object.isRequired,
@@ -141,6 +144,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   gtPrivatePlaylist: id => dispatch(getPrivatePlaylist(id)),
+  gtPublicPlaylist: id => dispatch(getPublicPlaylist(id)),
   removeMusic: id =>
     dispatch(updatePlaylist(ownProps.match.params.playlistId, `musics/${id}`, null)),
   likeMusic: id =>

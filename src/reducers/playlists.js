@@ -3,6 +3,7 @@ import { extend, pickBy } from 'lodash'
 import {
   UPDATE_PUBLIC_PLAYLISTS,
   UPDATE_PRIVATE_PLAYLIST,
+  UPDATE_PUBLIC_PLAYLIST,
 } from '../actionCreators/playlists'
 
 export default function publicPlaylists(state = {}, action) {
@@ -16,6 +17,11 @@ export default function publicPlaylists(state = {}, action) {
       const publicState = pickBy(state, value => !value.private)
 
       return extend({}, publicState, action.playlist)
+    }
+    case UPDATE_PUBLIC_PLAYLIST: {
+      const privateState = pickBy(state, value => value.private)
+
+      return extend({}, privateState, action.playlist)
     }
     default:
       return state

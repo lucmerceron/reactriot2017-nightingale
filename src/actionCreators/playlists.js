@@ -4,12 +4,14 @@ import makeActionCreator from './makeActionCreator'
 export const UPDATE_PRIVATE_PLAYLIST = 'UPDATE_PRIVATE_PLAYLIST'
 export const UPDATE_PUBLIC_PLAYLIST = 'UPDATE_PUBLIC_PLAYLIST'
 export const GET_PRIVATE_PLAYLIST_FAILED = 'GET_PRIVATE_PLAYLIST_FAILED'
+export const GET_PUBLIC_PLAYLIST_FAILED = 'GET_PUBLIC_PLAYLIST_FAILED'
 export const UPDATE_PUBLIC_PLAYLISTS = 'UPDATE_PUBLIC_PLAYLISTS'
 
 /* Action creators */
 export const updatePrivatePlaylist = makeActionCreator(UPDATE_PRIVATE_PLAYLIST, 'playlist')
 export const updatePublicPlaylist = makeActionCreator(UPDATE_PUBLIC_PLAYLIST, 'playlist')
 export const getPrivatePlaylistFailed = makeActionCreator(GET_PRIVATE_PLAYLIST_FAILED, 'error')
+export const getPublicPlaylistFailed = makeActionCreator(GET_PUBLIC_PLAYLIST_FAILED, 'error')
 export const updatePublicPlaylists = makeActionCreator(UPDATE_PUBLIC_PLAYLISTS, 'playlists')
 
 /* Thunk action creators */
@@ -17,11 +19,10 @@ export function getPrivatePlaylist(playlistId) {
   return (dispatch, getState) => {
     const firebase = getState().firebase
 
-    firebase.database().ref('public_playlists').off()
     firebase.database().ref(`private_playlists/${playlistId}`).on('value', snap => {
       if (snap.val()) dispatch(updatePrivatePlaylist({ [playlistId]: snap.val() }))
       else {
-        dispatch(getPrivatePlaylistFailed('Oups ! This playlist does not exist :('))
+        dispatch(getPrivatePlaylistFailed('Oups ! This private playlist does not exist :('))
       }
     })
   }
@@ -30,9 +31,11 @@ export function getPublicPlaylist(playlistId) {
   return (dispatch, getState) => {
     const firebase = getState().firebase
 
-    firebase.database().ref('public_playlists').off()
     firebase.database().ref(`public_playlists/${playlistId}`).on('value', snap => {
       if (snap.val()) dispatch(updatePublicPlaylist({ [playlistId]: snap.val() }))
+      else {
+        dispatch(getPublicPlaylistFailed('Oups ! This public playlist does not exist :('))
+      }
     })
   }
 }
