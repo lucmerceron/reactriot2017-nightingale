@@ -23,8 +23,10 @@ const detectMusicChanged = (actual, next) => {
   if ((keys(actu.musics || {}).length) > (keys(nex.musics || {}).length)) {
     // If no more then it is the first one
     let musicDiff = null
-    if (isEmpty(nex.musics)) musicDiff = actu.musics[keys(actu.musics)[0]]
-    else {
+    if (isEmpty(nex.musics)) {
+      if (actu.currentlyPlaying && actu.currentlyPlaying.url === keys(actu.musics)[0]) return false
+      musicDiff = actu.musics[keys(actu.musics)[0]]
+    } else {
       const diff = difference(keys(actu.musics), keys(nex.musics))[0]
       const removed = actu.musics[diff]
 
