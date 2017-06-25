@@ -45,7 +45,7 @@ class SearchPanel extends Component {
           likeMusic={likeMusic}
           unlikeMusic={unlikeMusic}
           removeMusic={removeMusic}
-        /> : <p style={{ padding: '0 10px 0 10px' }}>Just use the search box above to add some good vibes to this place! :D</p>}
+        /> : <p style={{ padding: '0 10px 0 10px', textAlign: 'center' }}>Just use the search box above to add some good vibes to this place! :D</p>}
 
       </div>
     )
