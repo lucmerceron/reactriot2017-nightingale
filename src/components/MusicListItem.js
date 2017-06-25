@@ -51,9 +51,9 @@ const MusicListItem = ({ musicsToDisplay, addMusic, removeMusic, likeMusic, disp
                   <span className="search-panel-result-channel">{musicsToDisplay[youtubeId].channelTitle}</span>
                 </div>
               </div>
+              <span className="search-panel-result-duration">{musicsToDisplay[youtubeId].duration}</span>
               <div className="music-list-item-action">
                 <div className="music-list-item-action-content">
-                  <span className="search-panel-result-duration">{musicsToDisplay[youtubeId].duration}</span>
                   {getLikeAdd(youtubeId)}
                   {isCreatorOrAdmin(musicsToDisplay[youtubeId]) && isInPlaylist(youtubeId)
                     ? (
