@@ -106,7 +106,7 @@ export function updatePlaylist(playlistId, path, newValue) {
     const firebase = getState().firebase
     const actualPlaylist = getState().playlists[playlistId]
 
-    console.log(actualPlaylist, playlistId, path)
+    if (!actualPlaylist) return
     firebase.database()
     .ref(`${actualPlaylist.private ? 'private' : 'public'}_playlists/${playlistId}/${path}`)
     .set(newValue)

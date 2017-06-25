@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { values } from 'lodash'
 
 import FeedListItem from './FeedListItem'
 import FeedListUserContent from './FeedListUserContent'
@@ -7,10 +8,10 @@ import FeedListUserContent from './FeedListUserContent'
 import './UsersList.css'
 
 const UsersList = ({ users }) =>
-  <ul>{users.map(user => <FeedListItem><FeedListUserContent userName={user.name} /></FeedListItem>)}</ul>
+  <ul>{values(users).map(userName => <FeedListItem><FeedListUserContent userName={userName} /></FeedListItem>)}</ul>
 
 UsersList.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.string).isRequired,
+  users: PropTypes.object.isRequired,
 }
 
 export default UsersList

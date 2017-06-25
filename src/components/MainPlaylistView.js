@@ -18,6 +18,22 @@ class MainPlaylistView extends Component {
     this.state = {
       state: false,
     }
+
+    this.playlistJoined = false
+  }
+  componentDidMount() {
+    const { playlist, joinCurrentPlaylist } = this.props
+    if (playlist) {
+      this.playlistJoined = true
+      joinCurrentPlaylist()
+    }
+  }
+  componentDidUpdate() {
+    const { playlist, joinCurrentPlaylist } = this.props
+    if (playlist && !this.playlistJoined) {
+      this.playlistJoined = true
+      joinCurrentPlaylist()
+    }
   }
 
   render() {
@@ -90,6 +106,7 @@ class MainPlaylistView extends Component {
 MainPlaylistView.propTypes = {
   musicsToDisplay: PropTypes.object.isRequired,
   removeMusic: PropTypes.func.isRequired,
+  joinCurrentPlaylist: PropTypes.func.isRequired,
   likeMusic: PropTypes.func.isRequired,
   unlikeMusic: PropTypes.func.isRequired,
   pauseCurrentlyPlaying: PropTypes.func.isRequired,
@@ -136,6 +153,12 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         ownProps.match.params.playlistId,
         `musics/${id}`, null))
   },
+  joinCurrentPlaylist: () =>
+    dispatch(
+      updatePlaylist(
+        ownProps.match.params.playlistId,
+        `users/${localStorage.getItem('nightingaleUid')}`,
+        localStorage.getItem('nightingaleName'))),
   pauseCurrentlyPlaying: (paused, timestamp) => {
     dispatch(
       updatePlaylist(

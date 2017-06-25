@@ -18,6 +18,20 @@ class TabMenu extends Component {
 
   render() {
     const { active } = this.state
+
+    const getCorrectCategory = () => {
+      switch (active) {
+        case 0:
+          return <FeedList musicsFeed={this.props.musicsFeed} />
+        case 1:
+          return <LikesList likesFeed={this.props.likesFeed} />
+        case 2:
+          return <UsersList users={this.props.users} />
+        default:
+          return <FeedList musicsFeed={this.props.musicsFeed} />
+      }
+    }
+
     return (
       <div className="tab-menu-wrapper">
         <div className="tab-menu-selectors">
@@ -41,20 +55,7 @@ class TabMenu extends Component {
           </div>
         </div>
         <div>
-          {
-            () => {
-              switch (active) {
-                case 0:
-                  return <FeedList musicsFeed={this.props.musicsFeed} />
-                case 1:
-                  return <LikesList likesFeed={this.props.likesFeed} />
-                case 2:
-                  return <UsersList users={this.props.users} />
-                default:
-                  return <FeedList musicsFeed={this.props.musicsFeed} />
-              }
-            }
-          }
+          { getCorrectCategory() }
         </div>
       </div>
     )
@@ -72,7 +73,7 @@ TabMenu.propTypes = {
     thumbnail: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
   })).isRequired,
-  users: PropTypes.arrayOf(PropTypes.string).isRequired,
+  users: PropTypes.object.isRequired,
 }
 
 export default TabMenu
