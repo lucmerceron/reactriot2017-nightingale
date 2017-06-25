@@ -27,13 +27,11 @@ class FeedPanel extends Component {
     })
 
     return (
-      <div>
-        <TabMenu
-          musicsFeed={musicsFeed}
-          likesFeed={likesFeed}
-          users={usersExtended}
-        />
-      </div>
+      <TabMenu
+        musicsFeed={musicsFeed}
+        likesFeed={likesFeed}
+        users={usersExtended}
+      />
     )
   }
 }
@@ -59,7 +57,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       {
         action: 'liked',
         username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnail,
+        thumbnail: music.thumbnailUrl,
         title: music.title,
       }))
   },
@@ -72,7 +70,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       {
         action: 'unliked',
         username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnail,
+        thumbnail: music.thumbnailUrl,
         title: music.title,
       }))
   },

@@ -8,7 +8,7 @@ import FeedListAddMusicContent from './FeedListAddMusicContent'
 import './FeedList.css'
 
 const FeedList = ({ musicsFeed }) => (
-  <ul>
+  <ul className="feed-list-items">
     {keys(musicsFeed).map(likeFeed => (
       <FeedListItem>
         <FeedListAddMusicContent

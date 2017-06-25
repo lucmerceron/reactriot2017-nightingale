@@ -4,9 +4,10 @@ import PropTypes from 'prop-types'
 import './FeedListItem.css'
 
 const FeedListItem = ({ children }) => (
-  <div>
+  <li className="feed-list-item" key={children}>
     {children}
-  </div>
+    <div className="ion-android-list" />
+  </li>
 )
 
 FeedListItem.propTypes = {

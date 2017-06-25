@@ -4,11 +4,14 @@ import PropTypes from 'prop-types'
 import './FeedListAddMusicContent.css'
 
 const FeedListAddMusicContent = ({ username, thumbnail, title, action }) => (
-  <div>
-    <div className="feed-list-like-action">{action}</div>
-    <div className="feed-list-add-username">{username}</div>
-    <div className="feed-list-add-thumbnail">{thumbnail}</div>
-    <div className="feed-list-add-title">{title}</div>
+  <div className="feed-list-content">
+    <div className="feed-list-add-action">{username} <span style={{ textTransform: 'capitalize' }}>{action}</span></div>
+    <div className="feed-list-add-info">
+      <span className="feed-list-add-info-thumbnail">
+        <img src={thumbnail} alt="thumbnail" />
+      </span>
+      <span className="feed-list-add-info-title">{title}</span>
+    </div>
   </div>
 )
 

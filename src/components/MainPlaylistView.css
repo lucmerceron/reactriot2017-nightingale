@@ -1,0 +1,16 @@
+.main-playlist .col-sm-12 > * {
+  background-image: linear-gradient(-225deg, #ff057c 0%, #7c64d5 48%, #4cc3ff 100%);
+  border-radius: 12px;
+  width: 95%;
+  height: 90vh;
+  max-height: 90vh;
+  padding: 0rem !important;
+  overflow: hidden;
+}
+
+.main-playlist .col-sm-12 {
+  display: flex;
+  flex-flow: nowrap;
+  align-items: center;
+  justify-content: center;
+}

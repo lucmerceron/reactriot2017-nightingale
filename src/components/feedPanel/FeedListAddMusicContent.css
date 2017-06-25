@@ -1,0 +1,25 @@
+.feed-list-content {
+  margin-left: 20px;
+  margin-top: 6px;
+}
+
+.feed-list-add-info {
+  margin-top: 10px;
+}
+
+.feed-list-add-info-thumbnail {
+  vertical-align: top;
+  display: inline-block;
+  width: 15%;
+}
+
+.feed-list-add-info-thumbnail img {
+  width: 40px;
+  height: 40px;
+}
+
+.feed-list-add-info-title {
+  vertical-align: top;
+  display: inline-block;
+  width: 85%;
+}

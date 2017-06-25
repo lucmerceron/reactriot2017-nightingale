@@ -12,6 +12,8 @@ import FeedPanel from './FeedPanel'
 import { updatePlaylist, removePlaylistOnDisconnect, getPrivatePlaylist } from '../actionCreators/playlists'
 import { addToFeed } from '../actionCreators/feed'
 
+import './MainPlaylistView.css'
+
 class MainPlaylistView extends Component {
   constructor() {
     super()
@@ -79,27 +81,29 @@ class MainPlaylistView extends Component {
 
     return (
       <div className="main-playlist row" >
-        <div className="col-sm-12 col-md-3 flex-center" >
+        <div className="col-sm-12 col-md-3" >
           <SearchPanel />
         </div>
-        <div className="col-sm-12 col-md-6 flex-center" >
-          {musicToPlay ? <AudioPlayer
-            seekTo={getSeekTo()}
-            playingId={musicToPlay ? musicToPlay.url : ''}
-            playlist={musicOrdered}
-            isPlaying={musicToPlay ? !musicToPlay.paused : false}
-            onVideoChanged={onVideoNext}
-            onVideoTogglePlay={onVideoTogglePlay}
-          /> : null}
-          <ul>
-            <MusicListItem
-              playlist={playlist}
-              musicsToDisplay={musicsToDisplay}
-              removeMusic={removeMusic}
-              likeMusic={likeMusic}
-              unlikeMusic={unlikeMusic}
-            />
-          </ul>
+        <div className="col-sm-12 col-md-6" >
+          <div>
+            {musicToPlay ? <AudioPlayer
+              seekTo={getSeekTo()}
+              playingId={musicToPlay ? musicToPlay.url : ''}
+              playlist={musicOrdered}
+              isPlaying={musicToPlay ? !musicToPlay.paused : false}
+              onVideoChanged={onVideoNext}
+              onVideoTogglePlay={onVideoTogglePlay}
+            /> : null}
+            <ul>
+              <MusicListItem
+                playlist={playlist}
+                musicsToDisplay={musicsToDisplay}
+                removeMusic={removeMusic}
+                likeMusic={likeMusic}
+                unlikeMusic={unlikeMusic}
+              />
+            </ul>
+          </div>
         </div>
         <div className="col-sm-12 col-md-3" >
           <FeedPanel />
@@ -142,7 +146,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       {
         action: 'removed',
         username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnail,
+        thumbnail: music.thumbnailUrl,
         title: music.title,
       }))
   },
@@ -156,7 +160,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       {
         action: 'liked',
         username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnail,
+        thumbnail: music.thumbnailUrl,
         title: music.title,
       }))
   },
@@ -169,7 +173,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       {
         action: 'unliked',
         username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnail,
+        thumbnail: music.thumbnailUrl,
         title: music.title,
       }))
   },

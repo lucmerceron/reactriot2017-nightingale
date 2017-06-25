@@ -39,22 +39,22 @@ class TabMenu extends Component {
             className={`tab-menu-category${(active === 0) ? ' active' : ''}`}
             onClick={() => this.setState({ active: 0 })}
           >
-            Feed
+            <div className="ion-android-list" />
           </div>
           <div
             className={`tab-menu-category${(active === 1) ? ' active' : ''}`}
             onClick={() => this.setState({ active: 1 })}
           >
-            Likes
+            <div className="ion-android-favorite" />
           </div>
           <div
             className={`tab-menu-category${(active === 2) ? ' active' : ''}`}
             onClick={() => this.setState({ active: 2 })}
           >
-            Users
+            <div className="ion-ios-people" />
           </div>
         </div>
-        <div>
+        <div style={{ overflowY: 'auto' }}>
           { getCorrectCategory() }
         </div>
       </div>

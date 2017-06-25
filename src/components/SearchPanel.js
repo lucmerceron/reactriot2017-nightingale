@@ -76,7 +76,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       {
         action: 'added',
         username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnail,
+        thumbnail: music.thumbnailUrl,
         title: music.title,
       }))
   },
@@ -86,7 +86,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       {
         action: 'removed',
         username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnail,
+        thumbnail: music.thumbnailUrl,
         title: music.title,
       }))
   },
@@ -100,7 +100,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       {
         action: 'liked',
         username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnail,
+        thumbnail: music.thumbnailUrl,
         title: music.title,
       }))
   },
@@ -113,7 +113,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       {
         action: 'unliked',
         username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnail,
+        thumbnail: music.thumbnailUrl,
         title: music.title,
       }))
   },
