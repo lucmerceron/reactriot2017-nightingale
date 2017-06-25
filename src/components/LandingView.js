@@ -14,7 +14,7 @@ class LandingView extends Component {
     super()
 
     this.state = {
-      hasMorphed: false,
+      hasMorphed: 0,
     }
   }
 
@@ -27,11 +27,11 @@ class LandingView extends Component {
           <source src={bgVideoUrl} type="video/mp4" />
         </video>
         <div className="landing-view-actions-wrapper">
-          <div className="landing-view-actions-background" />
-          <div className={`landing-view-actions-background-position ${hasMorphed ? 'button-morphed' : ''}`}>
+          <div className={`landing-view-actions-background ${hasMorphed !== 0 ? 'morphed' : ''}`} />
+          <div className={`landing-view-actions-background-position ${hasMorphed !== 0 ? 'button-morphed' : ''}`}>
             <img />
-            <ButtonMorphing label="join a playlist" onClick={() => this.setState({ hasMorphed: true })} content={<JoinPlaylistContent />} />
-            <ButtonMorphing label="create a playlist" onClick={() => {}} content={<CreatePlaylistContent />} />
+            {hasMorphed !== 2 && <ButtonMorphing label="join a playlist" onClick={() => this.setState({ hasMorphed: 1 })} content={<JoinPlaylistContent />} />}
+            {hasMorphed !== 1 && <ButtonMorphing label="create a playlist" onClick={() => this.setState({ hasMorphed: 2 })} content={<CreatePlaylistContent />} />}
           </div>
         </div>
         <span>developed by the Wing dev team with love</span>

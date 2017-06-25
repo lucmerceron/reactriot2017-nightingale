@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import './FormInputSelect.css'
 
 const FormInputSelect = ({ onChange, label, options }) => (
-  <div>
+  <div className="form-input-select">
     {label && <p>{label}</p>}
     <select onChange={(e) => onChange(e.target.value)}>
       {options.map(option => (

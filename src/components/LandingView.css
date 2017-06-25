@@ -17,31 +17,38 @@
 }
 
 .landing-view-actions-wrapper {
-  height: 100%;
+  height: 40rem;
   width: 26rem;
-  overflow: hidden;
-  border-radius: 1rem;
+  position: relative;
 }
 
 .landing-view-actions-background {
+  padding: 1rem;
+  border-radius: 1rem;
   width: 100%;
-  height: 100%;
+  height: 40rem;
   background-color: #FFF;
   opacity: 0.2;
   position: relative;
   z-index: 0;
+  transition: opacity 0.3s linear;
+}
+
+.landing-view-actions-background.morphed {
+  opacity: 0;
 }
 
 .landing-view-actions-background-position {
   position: absolute;
+  width: 100%;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%);
+  left: 1rem;
+  transform: translateY(-50%);
+  transition: 
+    top 1s ease-out,
 }
 
 .landing-view-actions-background-position.button-morphed {
-  position: absolute;
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  transform: translate(0);
 }
