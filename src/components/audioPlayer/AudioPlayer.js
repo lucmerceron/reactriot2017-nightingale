@@ -4,6 +4,7 @@ import YoutubePlayer from 'react-youtube'
 
 import AudioWavesTimeline from './AudioWavesTimeline'
 import AudioSoundButton from './AudioSoundButton'
+import ShareContent from './ShareContent'
 
 import './AudioPlayer.css'
 
@@ -21,6 +22,7 @@ class AudioPlayer extends Component {
       isMobile: window.orientation !== 'undefined',
       mobileFirstPlay: false,
       videoHeight: 0,
+      displayingShare: false,
     }
 
     this.onPlayerReady = this.onPlayerReady.bind(this)
@@ -136,7 +138,7 @@ class AudioPlayer extends Component {
         enablejsapi: 1,
       },
     }
-    const { volume } = this.state
+    const { volume, displayingShare } = this.state
 
     if (this.props.isPlaying) {
       this.playVideo()
@@ -148,7 +150,13 @@ class AudioPlayer extends Component {
       return (
         <div className="audio-player">
           <div className="audio-player-playlist-title">
-            {this.props.playlistName}
+            <span className="audio-player-playlist-title-name">{this.props.playlistName}</span>
+            <span className="audio-player-playlist-title-id">- {this.props.playlistId}</span>
+            <span className="audio-player-playlist-title-share">
+              <i className={`ion-android-share-alt ${displayingShare ? 'sharable' : ''}`} onClick={() => this.setState({ displayingShare: !displayingShare })}>
+                {displayingShare && <ShareContent playlistId={this.props.playlistId} playlistTyp={this.props.playlistTyp}/>}
+              </i>
+            </span>
           </div>
           <div
             className="audio-player-container"
@@ -175,7 +183,7 @@ class AudioPlayer extends Component {
             <AudioSoundButton value={volume} onChange={this.onSetVolume} />
             {(this.props.isAdmin || (this.state.isMobile && !this.state.mobileFirstPlay)) ? (
               <div
-                className="audio-player-controls-btn-sm"
+                className="audio-player-controls-btn-lg"
                 onClick={() => this.handleTogglePlay()}
               >
                 <i className={(!this.props.isPlaying || (this.state.isMobile && !this.state.mobileFirstPlay)) ? 'ion-ios-play' : 'ion-ios-pause'} style={{ marginLeft: '0.4444rem' }} />
@@ -233,6 +241,7 @@ AudioPlayer.propTypes = {
   playlistId: PropTypes.string.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   isAdmin: PropTypes.bool.isRequired,
+  playlistTyp: PropTypes.string.isRequired,
   seekTo: PropTypes.number.isRequired,
   onVideoChanged: PropTypes.func.isRequired,
   onVideoTogglePlay: PropTypes.func.isRequired,
