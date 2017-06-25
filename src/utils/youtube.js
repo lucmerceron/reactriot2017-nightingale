@@ -39,6 +39,8 @@ const cleanResults = (results) =>
     resolve(cleaned)
   })
 
+const timeToString = (time) => (time < 10 ? `0${time}` : `${time}`)
+
 /**
  * Parse an ISO8601 datetime string and return an "HH:mm:ss" formatted one
  * @param  {string} rawDuration An ISO8601 datetime string
@@ -47,7 +49,9 @@ const cleanResults = (results) =>
 const parseDuration = (rawDuration) => {
   const parsed = parse(rawDuration)
   const { hours, minutes, seconds } = parsed
-  return (hours > 0) ? `${hours}:${minutes}:${seconds}` : `${minutes}:${seconds}`
+  return (hours > 0) ?
+    `${timeToString(hours)}:${timeToString(minutes)}:${timeToString(seconds)}` :
+    `${timeToString(minutes)}:${timeToString(seconds)}`
 }
 
 /**
