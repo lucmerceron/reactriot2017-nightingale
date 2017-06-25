@@ -1,3 +1,4 @@
+import shortId from 'short-id'
 import makeActionCreator from './makeActionCreator'
 
 /* Action types */
@@ -15,7 +16,7 @@ export const getPublicPlaylistFailed = makeActionCreator(GET_PUBLIC_PLAYLIST_FAI
 export const updatePublicPlaylists = makeActionCreator(UPDATE_PUBLIC_PLAYLISTS, 'playlists')
 
 /* Thunk action creators */
-export function getPrivatePlaylist(playlistId) {
+export function getPrivatePlaylist(playlistId, swichToHome) {
   return (dispatch, getState) => {
     const firebase = getState().firebase
 
@@ -24,11 +25,12 @@ export function getPrivatePlaylist(playlistId) {
       if (snap.val()) dispatch(updatePrivatePlaylist({ [playlistId]: snap.val() }, previousplaylists))
       else {
         console.warn('Oups ! This private playlist does not exist :(')
+        swichToHome()
       }
     })
   }
 }
-export function getPublicPlaylist(playlistId) {
+export function getPublicPlaylist(playlistId, swichToHome) {
   return (dispatch, getState) => {
     const firebase = getState().firebase
 
@@ -37,6 +39,7 @@ export function getPublicPlaylist(playlistId) {
       if (snap.val()) dispatch(updatePublicPlaylist({ [playlistId]: snap.val() }, previousplaylists))
       else {
         console.warn('Oups ! This public playlist does not exist :(')
+        swichToHome()
       }
     })
   }
@@ -48,7 +51,7 @@ export function createPrivatePlaylist(playlist, switchToNewPlaylist) {
     const userId = firebase.auth().currentUser.uid
 
     // Retrieve the key for onDisconnect use
-    const newPlaylistKey = firebase.database().ref('private_playlists').push().key
+    const newPlaylistKey = shortId.generate()
 
     firebase.database().ref(`private_playlists/${newPlaylistKey}`).once('value', snap => {
       if (snap.val()) switchToNewPlaylist('private', newPlaylistKey)
@@ -78,7 +81,7 @@ export function createPublicPlaylist(playlist, switchToNewPlaylist) {
     const userId = firebase.auth().currentUser.uid
 
     // Retrieve the key for onDisconnect use
-    const newPlaylistKey = firebase.database().ref('public_playlists').push().key
+    const newPlaylistKey = shortId.generate()
 
     firebase.database().ref(`public_playlists/${newPlaylistKey}`).once('value', snap => {
       if (snap.val()) switchToNewPlaylist('public', newPlaylistKey)

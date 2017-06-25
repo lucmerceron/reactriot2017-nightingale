@@ -7,7 +7,7 @@ import './MusicListItem.css'
 const MusicListItem = ({ musicsToDisplay, addMusic, removeMusic, likeMusic, unlikeMusic, playlist }) => {
   const myUid = localStorage.getItem('nightingaleUid')
 
-  const isCreatorOrAdmin = music => music.creator === myUid || (playlist.admin && playlist.admin[myUid])
+  const isCreatorOrAdmin = music => music.creator === myUid || (playlist && playlist.admin && playlist.admin[myUid])
   const isLiked = music => music && music.likes && music.likes[myUid]
   const isInPlaylist = youtubeId => playlist && playlist.musics && playlist.musics[youtubeId]
 

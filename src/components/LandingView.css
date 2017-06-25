@@ -18,7 +18,7 @@
   border-radius: 1rem;
   width: 100%;
   height: 30rem;
-  background-color: #FFF;
+  background-color: #fff;
   opacity: 0.2;
   position: relative;
   z-index: 0;
@@ -34,14 +34,11 @@
   width: 100%;
   top: 50%;
   left: 1rem;
-  transform: translateY(-50%);
-  transition: 
-    top 1s ease-out,
+  transition: top 1s ease-out;
 }
 
 .landing-view-actions-background-position.button-morphed {
   top: 0;
-  transform: translate(0);
 }
 
 .landing-view-actions-wrapper .ng-btn-morphing {

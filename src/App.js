@@ -4,31 +4,19 @@ import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 
 import Routes from './Routes'
+import TopBar from './TopBar'
 
 import './App.css'
 
 class App extends React.Component {
-  constructor() {
-    super()
-
-    this.votingElement = null
-  }
-
-  componentDidMount() {
-    window.HACKBIT_VOTING_WIDGET.render(this.votingElement)
-  }
-
   render() {
     const { store } = this.props
-
 
     return (
       <BrowserRouter>
         <Provider store={store}>
           <div className="App">
-            <div className="voting-element" ref={votingElement => (this.votingElement = votingElement)}>
-
-            </div>
+            <TopBar />
             <Routes />
           </div>
         </Provider>

@@ -7,28 +7,22 @@ class ButtonMorphing extends Component {
   constructor() {
     super()
 
-    this.state = {
-      isContentVisible: false,
-      morphTriggered: false,
-    }
     this.handleOnClick = this.handleOnClick.bind(this)
   }
 
   handleOnClick() {
     const { onClick } = this.props
 
-    this.setState({ isContentVisible: true, morphTriggered: true })
     onClick()
   }
 
   render() {
-    const { label, content } = this.props
-    const { isContentVisible, morphTriggered } = this.state
+    const { label, content, isMorphed } = this.props
 
     return (
-      <div onClick={this.handleOnClick} className={`ng-btn-morphing ${morphTriggered ? 'has-morphed' : ''}`} style={{ width: morphTriggered ? '22rem' : '' }} >
-        {!isContentVisible && label}
-        {isContentVisible && content}
+      <div onClick={this.handleOnClick} className={`ng-btn-morphing ${isMorphed ? 'has-morphed' : ''}`} >
+        {!isMorphed && label}
+        {isMorphed && content}
       </div>
     )
   }
@@ -38,10 +32,11 @@ ButtonMorphing.propTypes = {
   label: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   content: PropTypes.node.isRequired,
+  isMorphed: PropTypes.bool,
 }
 
 ButtonMorphing.defaultProps = {
-
+  isMorphed: false,
 }
 
 export default ButtonMorphing

@@ -37,15 +37,15 @@ class MainPlaylistView extends Component {
   }
 
   joinOrRetrieve() {
-    const { playlist, joinCurrentPlaylist, playlistId, gtPrivatePlaylist, gtPublicPlaylist, playlistTyp } = this.props
+    const { playlist, switchToHome, joinCurrentPlaylist, playlistId, gtPrivatePlaylist, gtPublicPlaylist, playlistTyp } = this.props
 
     if (playlist && this.playListRequested) {
       joinCurrentPlaylist()
     } else {
       if (playlistTyp === 'private') {
-        gtPrivatePlaylist(playlistId)
+        gtPrivatePlaylist(playlistId, switchToHome)
       } else {
-        gtPublicPlaylist(playlistId)
+        gtPublicPlaylist(playlistId, switchToHome)
       }
       this.playListRequested = true
     }
@@ -142,6 +142,7 @@ MainPlaylistView.propTypes = {
   pauseCurrentlyPlaying: PropTypes.func.isRequired,
   gtPrivatePlaylist: PropTypes.func.isRequired,
   gtPublicPlaylist: PropTypes.func.isRequired,
+  switchToHome: PropTypes.func.isRequired,
   changeCurrentlyPlaying: PropTypes.object.isRequired,
   playlist: PropTypes.object.isRequired,
   musicToPlay: PropTypes.string.isRequired,
@@ -155,11 +156,12 @@ const mapStateToProps = (state, ownProps) => ({
   playlists: state.playlists,
   playlistId: ownProps.match.params.playlistId,
   playlistTyp: ownProps.match.params.type,
+  switchToHome: () => ownProps.history.push('/'),
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  gtPrivatePlaylist: id => dispatch(getPrivatePlaylist(id)),
-  gtPublicPlaylist: id => dispatch(getPublicPlaylist(id)),
+  gtPrivatePlaylist: (id, switchToHome) => dispatch(getPrivatePlaylist(id, switchToHome)),
+  gtPublicPlaylist: (id, switchToHome) => dispatch(getPublicPlaylist(id, switchToHome)),
   removeMusic: id =>
     dispatch(updatePlaylist(ownProps.match.params.playlistId, `musics/${id}`, null)),
   likeMusic: id =>
