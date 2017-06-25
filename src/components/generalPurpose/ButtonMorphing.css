@@ -14,6 +14,7 @@
     max-height 1.5s linear,
     border-color 0.3s ease-in-out;
   overflow: hidden;
+  position: relative;
 }
 
 .ng-btn-morphing:hover {

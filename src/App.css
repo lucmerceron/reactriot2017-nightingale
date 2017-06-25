@@ -39,3 +39,9 @@ h2 {
   margin-top: 0;
   font-weight: 700;
 }
+
+.ng-logo {
+  font-family: 'Lobster', cursive;
+  font-size: 4rem;
+  color: #fff;
+}
