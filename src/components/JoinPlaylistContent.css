@@ -38,6 +38,17 @@
 .join-playlist-url-input,
 .join-playlist-url-input .form-input-text {
   display: inline-block;
+  margin: 0.5rem 0;
+}
+
+.join-playlist-url-input .ng-switch {
+  flex-flow: nowrap;
+  justify-content: center;
+  margin: 0.5rem 0;
+}
+
+.join-playlist-url-input .ng-switch > * {
+  padding: 0 6px;
 }
 
 .join-playlist-url-input {

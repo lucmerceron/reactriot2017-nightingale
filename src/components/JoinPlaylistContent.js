@@ -7,6 +7,7 @@ import { keys } from 'lodash'
 import QrScanner from 'react-qr-reader'
 import FormInputText from './generalPurpose/form/FormInputText'
 import Button from './generalPurpose/Button'
+import Switch from './generalPurpose/Switch'
 
 import './JoinPlaylistContent.css'
 import qrCodeIns from '../assets/qr-code-instructions.svg'
@@ -18,12 +19,13 @@ class JoinPlaylistContent extends React.Component {
     this.state = {
       privatePlaylistId: '',
       qrScanMode: false,
+      isPrivate: false,
     }
   }
 
   render() {
     const { playlists, switchToPlaylist, switchToUrl } = this.props
-    const { privatePlaylistId, qrScanMode } = this.state
+    const { privatePlaylistId, qrScanMode, isPrivate } = this.state
 
     return (
       <div className="join-playlist-content">
@@ -47,8 +49,9 @@ class JoinPlaylistContent extends React.Component {
           <div className="join-playlist-url-input">
             <span>playlists/</span>
             <FormInputText placeholder="ex: abe1sq5" onChange={(value) => this.setState({ privatePlaylistId: value })} />
+            <Switch label="Private" onChange={() => this.setState({ isPrivate: !isPrivate })} />
           </div>
-          <Button label="Alright" onClick={() => switchToPlaylist('private', privatePlaylistId)} />
+          <Button label="Alright" onClick={() => switchToPlaylist(isPrivate ? 'private' : 'public', privatePlaylistId)} />
         </div>
         <div className="join-playlist-public">
           <p>People may have good tastes too</p>
