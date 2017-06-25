@@ -200,6 +200,7 @@ class AudioPlayer extends Component {
               </div>
             ) : ''}
             <div
+              style={{ position: 'absolute', right: '1rem' }}
               className="audio-player-controls-btn-sm"
               onClick={() => this.toggleFullScreen()}
             >

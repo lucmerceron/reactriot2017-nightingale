@@ -34,12 +34,16 @@ class JoinPlaylistContent extends React.Component {
         <div className="join-playlist-qr">
           <p>- Hop in via QRCode -</p>
           {!qrScanMode &&
-            (<img
-              className="join-playlist-content-scann"
-              src={qrCodeIns}
-              alt="qr code instructions"
-              onClick={() => this.setState({ qrScanMode: true })}
-            />)
+            (<div style={{ display: 'inline-block', position: 'relative' }} onClick={() => this.setState({ qrScanMode: true })}>
+                <img
+                  className="join-playlist-content-scann"
+                  src={qrCodeIns}
+                  alt="qr code instructions"
+                />
+              <span style={{ display: 'inline-block', fontWeight: '700', fontSize: '1.3rem', textAlign: 'center', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
+                Tap to scan !
+              </span>
+            </div>)
           }
           {qrScanMode &&
             <QrScanner delay={500} onScan={res => (res && switchToUrl(res))} onError={console.warn} />}
@@ -51,7 +55,7 @@ class JoinPlaylistContent extends React.Component {
             <FormInputText placeholder="ex: abe1sq5" onChange={(value) => this.setState({ privatePlaylistId: value })} />
             <Switch label="Private" onChange={() => this.setState({ isPrivate: !isPrivate })} />
           </div>
-          <Button label="Alright" onClick={() => switchToPlaylist(isPrivate ? 'private' : 'public', privatePlaylistId)} />
+          <Button label="Join now" onClick={() => switchToPlaylist(isPrivate ? 'private' : 'public', privatePlaylistId)} />
         </div>
         <div className="join-playlist-public">
           <p>People may have good tastes too</p>
