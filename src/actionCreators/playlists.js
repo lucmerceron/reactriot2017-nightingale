@@ -30,7 +30,6 @@ export function getPrivatePlaylist(playlistId) {
     firebase.database().ref(`private_playlists/${playlistId}`).on('value', snap => {
       if (snap.val()) dispatch(getPrivatePlaylistSuccess({ [playlistId]: snap.val() }))
       else {
-        firebase.database.ref(`private_playlists/${playlistId}`).off()
         dispatch(getPrivatePlaylistFailed('Oups ! This playlist does not exist :('))
       }
     })

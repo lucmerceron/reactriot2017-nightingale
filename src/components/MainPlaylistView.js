@@ -9,7 +9,7 @@ import SearchPanel from './SearchPanel'
 import MusicListItem from './MusicListItem'
 import FeedPanel from './FeedPanel'
 
-import { updatePlaylist, removePlaylistOnDisconnect } from '../actionCreators/playlists'
+import { updatePlaylist, removePlaylistOnDisconnect, getPrivatePlaylist } from '../actionCreators/playlists'
 import { addToFeed } from '../actionCreators/feed'
 
 class MainPlaylistView extends Component {
@@ -23,17 +23,21 @@ class MainPlaylistView extends Component {
     this.playlistJoined = false
   }
   componentDidMount() {
-    const { playlist, joinCurrentPlaylist } = this.props
+    const { playlist, joinCurrentPlaylist, playlists, playlistId, gtPrivatePlaylist } = this.props
     if (playlist) {
       this.playlistJoined = true
       joinCurrentPlaylist()
+    } else if (playlists && !playlist) {
+      gtPrivatePlaylist(playlistId)
     }
   }
   componentDidUpdate() {
-    const { playlist, joinCurrentPlaylist } = this.props
+    const { playlist, joinCurrentPlaylist, playlists, playlistId, gtPrivatePlaylist } = this.props
     if (playlist && !this.playlistJoined) {
       this.playlistJoined = true
       joinCurrentPlaylist()
+    } else if (playlists && !playlist) {
+      gtPrivatePlaylist(playlistId)
     }
   }
 
@@ -110,9 +114,12 @@ MainPlaylistView.propTypes = {
   removeMusic: PropTypes.func.isRequired,
   joinCurrentPlaylist: PropTypes.func.isRequired,
   likeMusic: PropTypes.func.isRequired,
+  playlists: PropTypes.object.isRequired,
+  playlistId: PropTypes.string.isRequired,
   unlikeMusic: PropTypes.func.isRequired,
   removeCurrentlyPlaying: PropTypes.func.isRequired,
   pauseCurrentlyPlaying: PropTypes.func.isRequired,
+  gtPrivatePlaylist: PropTypes.func.isRequired,
   changeCurrentlyPlaying: PropTypes.object.isRequired,
   playlist: PropTypes.object.isRequired,
   musicToPlay: PropTypes.object.isRequired,
@@ -123,9 +130,12 @@ const mapStateToProps = (state, ownProps) => ({
   musicToPlay:
     state.playlists[ownProps.match.params.playlistId] ? state.playlists[ownProps.match.params.playlistId].currentlyPlaying || null : {},
   playlist: state.playlists[ownProps.match.params.playlistId],
+  playlists: state.playlists,
+  playlistId: ownProps.match.params.playlistId,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
+  gtPrivatePlaylist: id => dispatch(getPrivatePlaylist(id)),
   removeMusic: (id, music) => {
     dispatch(updatePlaylist(ownProps.match.params.playlistId, `musics/${id}`, null))
     dispatch(addToFeed('music', 'remove',
