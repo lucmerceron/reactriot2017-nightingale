@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { mapValues } from 'lodash'
 
 import TabMenu from './feedPanel/TabMenu'
 
@@ -17,12 +18,19 @@ class FeedPanel extends Component {
   render() {
     const { users, musicsFeed, likesFeed, playlist, likeMusic, unlikeMusic } = this.props
 
+    const usersExtended = mapValues(users, (user, key) => {
+      if (playlist.admin && playlist.admin[key]) {
+        return { name: user, isAdmin: true }
+      }
+      return { name: user, isAdmin: false }
+    })
+
     return (
       <div>
         <TabMenu
           musicsFeed={musicsFeed}
           likesFeed={likesFeed}
-          users={users}
+          users={usersExtended}
         />
       </div>
     )
