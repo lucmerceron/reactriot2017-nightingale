@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import YoutubePlayer from 'react-youtube'
+import isMobile from 'ismobilejs'
 
 import AudioWavesTimeline from './AudioWavesTimeline'
 import AudioSoundButton from './AudioSoundButton'
@@ -19,7 +20,7 @@ class AudioPlayer extends Component {
       muted: false,
       fullscreen: false,
       YTPlayer: null,
-      isMobile: window.orientation !== 'undefined',
+      isMobile: isMobile.other.chrome,
       mobileFirstPlay: false,
       videoHeight: 0,
       displayingShare: false,
@@ -36,7 +37,7 @@ class AudioPlayer extends Component {
   onPlayerReady(event) {
     event.target.setVolume(100)
     if (this.props.isPlaying) {
-      if (window.orientation === 'undefined') {
+      if (this.state.isMobile) {
         event.target.loadVideoById(this.props.playing.url, this.props.seekTo)
       } else {
         event.target.cueVideoById(this.props.playing.url, this.props.seekTo)
