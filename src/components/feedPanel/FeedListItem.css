@@ -21,3 +21,12 @@
   top: 10px;
   transform: translate(-50%, 50%);
 }
+
+.feed-list-item .ion-android-favorite {
+  position: absolute;
+  z-index: 1;
+  font-size: 1.8rem;
+  left: 0;
+  top: 10px;
+  transform: translate(-50%, 50%);
+}

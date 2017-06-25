@@ -17,6 +17,7 @@
     "hhmmss": "1.0.0",
     "iso8601-duration": "^1.0.6",
     "lodash": "4.17.4",
+    "md5": "2.2.1",
     "prop-types": "15.5.10",
     "qrcode.react": "0.7.1",
     "react": "15.6.1",

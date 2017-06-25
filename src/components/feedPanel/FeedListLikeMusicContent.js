@@ -1,14 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import './FeedListLikeMusicContent.css'
+import './FeedListAddMusicContent.css'
 
 const FeedListLikeMusicContent = ({ username, thumbnail, title, action }) => (
-  <div>
-    <div className="feed-list-like-action">{action}</div>
-    <div className="feed-list-like-username">{username}</div>
-    <div className="feed-list-like-thumbnail">{thumbnail}</div>
-    <div className="feed-list-like-title">{title}</div>
+  <div className="feed-list-content">
+    <div className="feed-list-add-action">{username} <b>{action}</b></div>
+    <div className="feed-list-add-info">
+      <span className="feed-list-add-info-thumbnail">
+        <img src={thumbnail} alt="thumbnail" />
+      </span>
+      <span className="feed-list-add-info-title">{title}</span>
+    </div>
   </div>
 )
 

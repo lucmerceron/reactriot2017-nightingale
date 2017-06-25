@@ -6,6 +6,7 @@ import faker from 'faker'
 
 import { updatePublicPlaylists } from './actionCreators/playlists'
 import Routes from './Routes'
+
 import './App.css'
 
 class App extends React.Component {
@@ -50,7 +51,11 @@ App.propTypes = {
   setPublicPlaylists: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
+App.defaultProps = {
+  ownProps: null,
+}
+
+const mapStateToProps = (state) => ({
   firebase: state.firebase,
 })
 

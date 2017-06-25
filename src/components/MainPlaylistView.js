@@ -11,7 +11,6 @@ import FeedPanel from './FeedPanel'
 import EmptyPlaylist from './EmptyPlaylist'
 
 import { updatePlaylist, removePlaylistOnDisconnect, getPrivatePlaylist } from '../actionCreators/playlists'
-import { addToFeed } from '../actionCreators/feed'
 
 import './MainPlaylistView.css'
 
@@ -67,7 +66,9 @@ class MainPlaylistView extends Component {
       return musicOrdered[0] ? changeCurrentlyPlaying(musicOrdered[0], musicsToDisplay[musicOrdered[0]]) : {}
     }
 
-    const onVideoNext = () => (musicOrdered[0] ? changeCurrentlyPlaying(musicOrdered[0], musicsToDisplay[musicOrdered[0]]) : removeCurrentlyPlaying())
+    const onVideoNext = () => (musicOrdered[0]
+      ? changeCurrentlyPlaying(musicOrdered[0], musicsToDisplay[musicOrdered[0]])
+      : removeCurrentlyPlaying())
 
     const getSeekTo = () => {
       if (!musicToPlay) return 0
@@ -132,7 +133,7 @@ MainPlaylistView.propTypes = {
 const mapStateToProps = (state, ownProps) => ({
   musicsToDisplay: state.playlists[ownProps.match.params.playlistId] ? state.playlists[ownProps.match.params.playlistId].musics || {} : {},
   musicToPlay:
-    state.playlists[ownProps.match.params.playlistId] ? state.playlists[ownProps.match.params.playlistId].currentlyPlaying || null : {},
+    state.playlists[ownProps.match.params.playlistId] ? state.playlists[ownProps.match.params.playlistId].currentlyPlaying || '' : {},
   playlist: state.playlists[ownProps.match.params.playlistId],
   playlists: state.playlists,
   playlistId: ownProps.match.params.playlistId,
@@ -140,43 +141,19 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   gtPrivatePlaylist: id => dispatch(getPrivatePlaylist(id)),
-  removeMusic: (id, music) => {
-    dispatch(updatePlaylist(ownProps.match.params.playlistId, `musics/${id}`, null))
-    dispatch(addToFeed('music', 'remove',
-      {
-        action: 'removed',
-        username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnailUrl,
-        title: music.title,
-      }))
-  },
-  likeMusic: (id, music) => {
+  removeMusic: id =>
+    dispatch(updatePlaylist(ownProps.match.params.playlistId, `musics/${id}`, null)),
+  likeMusic: id =>
     dispatch(
       updatePlaylist(
         ownProps.match.params.playlistId,
         `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`,
-        true))
-    dispatch(addToFeed('like', 'add',
-      {
-        action: 'liked',
-        username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnailUrl,
-        title: music.title,
-      }))
-  },
-  unlikeMusic: (id, music) => {
+        true)),
+  unlikeMusic: id =>
     dispatch(
       updatePlaylist(
         ownProps.match.params.playlistId,
-        `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`, null))
-    dispatch(addToFeed('like', 'remove',
-      {
-        action: 'unliked',
-        username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnailUrl,
-        title: music.title,
-      }))
-  },
+        `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`, null)),
   changeCurrentlyPlaying: (id, music) => {
     dispatch(
       updatePlaylist(
@@ -186,6 +163,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
           name: music.title,
           duration: music.duration,
           imageUrl: music.thumbnailUrl,
+          channelTitle: music.channelTitle,
           paused: false,
           startedTime: (new Date()).getTime(),
         }))

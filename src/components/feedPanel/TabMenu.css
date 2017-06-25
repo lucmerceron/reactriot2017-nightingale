@@ -19,6 +19,11 @@
 
 .tab-menu-category > div {
   font-size: 2rem;
+  color: #d8d8d8;
+  transition: color 0.3s ease-in;
+}
+
+.tab-menu-category.active > div {
   color: white;
 }
 

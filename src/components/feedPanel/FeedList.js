@@ -10,7 +10,7 @@ import './FeedList.css'
 const FeedList = ({ musicsFeed }) => (
   <ul className="feed-list-items">
     {keys(musicsFeed).map(likeFeed => (
-      <FeedListItem>
+      <FeedListItem isMusic>
         <FeedListAddMusicContent
           username={musicsFeed[likeFeed].username}
           thumbnail={musicsFeed[likeFeed].thumbnail}
