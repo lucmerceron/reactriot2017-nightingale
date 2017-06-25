@@ -60,4 +60,5 @@
 .music-list-item-action i {
   font-size: 2rem;
   cursor: pointer;
+  margin: 0 0.3rem;
 }

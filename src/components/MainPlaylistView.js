@@ -108,7 +108,7 @@ class MainPlaylistView extends Component {
               onVideoChanged={onVideoNext}
               onVideoTogglePlay={onVideoTogglePlay}
             /> : <EmptyPlaylist playlistName={playlist ? playlist.name : ''} />}
-            <ul>
+            <ul className="main-playlist-list" >
               <MusicListItem
                 playlist={playlist}
                 musicsToDisplay={musicsToDisplay}
