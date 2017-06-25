@@ -21,9 +21,8 @@ class JoinPlaylistContent extends React.Component {
     }
   }
 
-
   render() {
-    const { playlists, switchToPlaylist } = this.props
+    const { playlists, switchToPlaylist, switchToUrl } = this.props
     const { privatePlaylistId, qrScanMode } = this.state
 
     return (
@@ -31,6 +30,7 @@ class JoinPlaylistContent extends React.Component {
         <div className="create-playliste-content-title-bar" />
         <h2>Join a Playlist</h2>
         <div className="join-playlist-qr">
+          <p>- Hop in via QRCode -</p>
           {!qrScanMode &&
             (<img
               className="join-playlist-content-scann"
@@ -39,15 +39,16 @@ class JoinPlaylistContent extends React.Component {
               onClick={() => this.setState({ qrScanMode: true })}
             />)
           }
-          {qrScanMode && <QrScanner onScan={() => console.log('scan')} onError={() => console.log('error')} />}
+          {qrScanMode &&
+            <QrScanner delay={500} onScan={res => (res && switchToUrl(res))} onError={console.warn} />}
         </div>
         <div className="join-playlist-url">
-          <p>- Or hop in via URL -</p>
+          <p>- Or via direct playlist ID -</p>
           <div className="join-playlist-url-input">
             <span>playlists/</span>
-            <FormInputText placeholder="ex: -KnPqx6fv618vSwcMfHV" onChange={(value) => this.setState({ privatePlaylistId: value })} />
+            <FormInputText placeholder="ex: abe1sq5" onChange={(value) => this.setState({ privatePlaylistId: value })} />
           </div>
-          <Button label="Here we go" onClick={() => switchToPlaylist('private', privatePlaylistId)} />
+          <Button label="Alright" onClick={() => switchToPlaylist('private', privatePlaylistId)} />
         </div>
         <div className="join-playlist-public">
           <p>People may have good tastes too</p>
@@ -55,14 +56,12 @@ class JoinPlaylistContent extends React.Component {
             {keys(playlists).map(key => (
               !playlists[key].private
               ? (
-                <li className="join-playlist-public-list-item" key={key}>
+                <li className="join-playlist-public-list-item" key={key} onClick={() => switchToPlaylist('public', key)}>
                   <div className="join-playlist-public-list-item-info">
                     <span className="join-playlist-name">{playlists[key].name}</span>
                     <span className="join-playlist-tag">{playlists[key].tag}</span>
                   </div>
-                  <div className="join-playlist-public-list-item-action" onClick={() => switchToPlaylist('public', key)}>
-                    <i className="ion-ios-arrow-right" />
-                  </div>
+                  <i className="ion-ios-arrow-right" />
                 </li>
               ) : null))}
           </ul>
@@ -72,14 +71,17 @@ class JoinPlaylistContent extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  playlists: state.playlists,
-  switchToPlaylist: (type, id) => ownProps.history.push(`/playlists/${type}/${id}`),
-})
 
 JoinPlaylistContent.propTypes = {
   playlists: PropTypes.object.isRequired,
   switchToPlaylist: PropTypes.func.isRequired,
+  switchToUrl: PropTypes.func.isRequired,
 }
+
+const mapStateToProps = (state, ownProps) => ({
+  playlists: state.playlists,
+  switchToPlaylist: (type, id) => ownProps.history.push(`/playlists/${type}/${id}`),
+  switchToUrl: url => ownProps.history.push(`/${url}`),
+})
 
 export default withRouter(connect(mapStateToProps)(JoinPlaylistContent))
