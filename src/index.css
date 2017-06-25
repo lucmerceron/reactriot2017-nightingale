@@ -4,6 +4,7 @@ body {
   font-family: 'Work Sans', sans-serif;
   font-weight: 300;
   font-size: 18px;
+  background-image: linear-gradient(40deg, #1e1a4d 0%, #332c84 45%, #a361cb 100%) !important;
 }
 
 /*Utils css*/
