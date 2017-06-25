@@ -61,7 +61,7 @@ class LandingView extends Component {
             </div>
           </div>
         </div>
-        {hasMorphed === 0 && <span>developed by the Wing dev team with love</span>}
+        {hasMorphed === 0 && <span className="wing-words">&#60;developed&#62; by the Wing dev team with &#10084;</span>}
       </div>
     )
   }

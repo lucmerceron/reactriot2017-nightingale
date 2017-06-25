@@ -10,20 +10,39 @@
 
 .audio-player-playlist-title {
   width: 100%;
-  height: 40px;
-  line-height: 40px;
-  vertical-align: middle;
-  text-align: center;
-  padding: 10px;
-  font-size: 1.3rem;
-  font-weight: 500;
+  padding: 1rem;
   color: #50626d;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
 }
 
-.audio-player-playlist-title span {
-  font-size: 0.7rem;
-  color: #929caf;
-  font-style: italic;
+.audio-player-playlist-title-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-left: 1rem;
+  overflow: hidden;
+}
+
+.audio-player-playlist-title-id {
+  margin-left: 1rem;
+}
+
+.audio-player-playlist-title-share {
+  flex-grow: 1;
+  text-align: right;
+  font-size: 2rem;
+  margin-right: 1rem;
+  position: relative;
+  transition: color 0.3s ease-in-out;
+}
+
+.audio-player-playlist-title-share i.sharable {
+  color: #fff
+}
+
+.audio-player-playlist-title-share i{
+  cursor: pointer;
 }
 
 /*Player embed*/
@@ -57,9 +76,6 @@
 
 .audio-player-controls-btn-sm,
 .audio-player-controls-btn-lg {
-  position: relative;
-  z-index: 9999;
-  border-radius: 50%;
   overflow: hidden;
   display: flex;
   flex-flow: column nowrap;
@@ -73,17 +89,13 @@
   width: 3rem;
   height: 3rem;
   font-size: 2rem;
-  transition:
-    width 0.3s ease-in-out,
-    border-radius 0.3s ease-in-out;
+  transition: width 0.3s ease-in-out,
 }
 
 .audio-player-controls-btn-lg {
   width: 4rem;
   height: 4rem;
   font-size: 3rem;
-  position: relative;
-  z-index: 9;
 }
 
 .control-sound {
