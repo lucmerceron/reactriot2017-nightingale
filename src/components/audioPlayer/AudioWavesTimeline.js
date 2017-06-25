@@ -14,8 +14,8 @@ class AudioWavesTimeline extends Component {
   render() {
     const { player } = this.props
     const isPlaying = player && player.getPlayerState() === 1
-    const duration = (player && isPlaying && player !== undefined) ? Math.ceil(player.getDuration()) : 0
-    const currentPlayTime = (player && isPlaying && player !== undefined) ? Math.ceil(player.getCurrentTime()) : 0
+    const duration = (player && player !== undefined) ? Math.ceil(player.getDuration()) : 0
+    const currentPlayTime = (player && player !== undefined) ? Math.ceil(player.getCurrentTime()) : 0
     const progression = currentPlayTime ? Math.floor((currentPlayTime / duration) * 100) : 0
 
     return (
