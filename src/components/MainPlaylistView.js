@@ -8,6 +8,7 @@ import AudioPlayer from './audioPlayer/AudioPlayer'
 import SearchPanel from './SearchPanel'
 import MusicListItem from './MusicListItem'
 import FeedPanel from './FeedPanel'
+import EmptyPlaylist from './EmptyPlaylist'
 
 import { updatePlaylist, removePlaylistOnDisconnect, getPrivatePlaylist } from '../actionCreators/playlists'
 import { addToFeed } from '../actionCreators/feed'
@@ -67,7 +68,6 @@ class MainPlaylistView extends Component {
     const onVideoNext = () => (musicOrdered[0] ? changeCurrentlyPlaying(musicOrdered[0], musicsToDisplay[musicOrdered[0]]) : removeCurrentlyPlaying())
 
     const getSeekTo = () => {
-      console.log('GetSeekTo', musicToPlay)
       if (!musicToPlay) return 0
       const startedDate = new Date(musicToPlay.startedTime)
       const currentDate = new Date()
@@ -83,14 +83,14 @@ class MainPlaylistView extends Component {
           <SearchPanel />
         </div>
         <div className="col-sm-12 col-md-6 flex-center" >
-          {musicToPlay ? <AudioPlayer
+          {(musicToPlay || (musicsToDisplay && Object.keys(musicsToDisplay).length)) ? <AudioPlayer
             seekTo={getSeekTo()}
             playingId={musicToPlay ? musicToPlay.url : ''}
             playlist={musicOrdered}
             isPlaying={musicToPlay ? !musicToPlay.paused : false}
             onVideoChanged={onVideoNext}
             onVideoTogglePlay={onVideoTogglePlay}
-          /> : null}
+          /> : <EmptyPlaylist />}
           <ul>
             <MusicListItem
               playlist={playlist}

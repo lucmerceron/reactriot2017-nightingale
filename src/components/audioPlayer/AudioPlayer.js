@@ -17,34 +17,37 @@ class AudioPlayer extends Component {
       volume: 100,
       muted: false,
       YTPlayer: null,
+      isMobile: window.orientation !== 'undefined',
+      mobileFirstPlay: false,
     }
 
     this.onPlayerReady = this.onPlayerReady.bind(this)
     this.onPlayerStateChange = this.onPlayerStateChange.bind(this)
     this.onSetVolume = this.onSetVolume.bind(this)
+    this.playVideo = this.playVideo.bind(this)
 
     this.seekToDone = false
   }
 
   onPlayerReady(event) {
     event.target.setVolume(100)
+    if (this.props.isPlaying) {
+      if (window.orientation === 'undefined') {
+        event.target.loadVideoById(this.props.playingId, this.props.seekTo)
+      } else {
+        event.target.cueVideoById(this.props.playingId, this.props.seekTo)
+      }
+    } else {
+      event.target.cueVideoById(this.props.playingId, this.props.seekTo)
+    }
     this.setState({ YTPlayer: event.target })
   }
 
   onPlayerStateChange(event) {
     const { YTPlayer } = this.state
-    if (event.data === 1 && !this.seekToDone) {
-      if (this.props.seekTo) {
-        YTPlayer.seekTo(this.props.seekTo)
-        if (!this.props.isPlaying) this.pauseVideo()
-      }
-      this.seekToDone = true
-    }
     if (event.data === YT_PLAYER_EVENT_ENDED) {
       YTPlayer.loadVideoById(this.props.playlist[0] || '')
-      if (this.props.playlist[0]) {
-        this.props.onVideoChanged(this.props.playlist[0])
-      }
+      this.props.onVideoChanged()
     }
   }
 
@@ -80,7 +83,7 @@ class AudioPlayer extends Component {
   playVideo() {
     const { YTPlayer } = this.state
     if (YTPlayer) {
-      this.state.YTPlayer.playVideo()
+      YTPlayer.playVideo()
     }
   }
 
@@ -92,9 +95,16 @@ class AudioPlayer extends Component {
   }
 
   handleTogglePlay() {
-    const { YTPlayer } = this.state
+    const { YTPlayer, isMobile, mobileFirstPlay } = this.state
     if (YTPlayer) {
-      this.props.onVideoTogglePlay(Math.floor(YTPlayer.getCurrentTime()))
+      if (isMobile && !mobileFirstPlay && this.props.isPlaying) {
+        YTPlayer.playVideo()
+        this.setState({ mobileFirstPlay: true })
+      } else {
+        this.props.onVideoTogglePlay(Math.floor(YTPlayer.getCurrentTime()))
+      }
+    } else {
+      this.props.onVideoTogglePlay(0)
     }
   }
 
@@ -114,7 +124,7 @@ class AudioPlayer extends Component {
         enablejsapi: 1,
       },
     }
-    const { muted, volume } = this.state
+    const { volume } = this.state
 
     if (this.props.isPlaying) {
       this.playVideo()
@@ -122,35 +132,52 @@ class AudioPlayer extends Component {
       this.pauseVideo()
     }
 
+    if (this.props.playingId && this.props.playingId !== '') {
+      return (
+        <div className="audio-player">
+          <div className="audio-player-container">
+            <YoutubePlayer
+              videoId={this.props.playingId}
+              className="audio-player-youtube-frame"
+              opts={opts}
+              onReady={this.onPlayerReady}
+              onStateChange={this.onPlayerStateChange}
+            />
+          </div>
+          <AudioWavesTimeline player={this.state.YTPlayer} />
+          <div className="audio-player-controls">
+            <AudioSoundButton value={volume} onChange={this.onSetVolume} />
+            <div
+              className="audio-player-controls-btn-lg"
+              onClick={() => this.handleTogglePlay()}
+            >
+              <i className="ion-ios-play-outline" style={{ marginLeft: '0.4444rem' }} />
+            </div>
+            <div
+              className="audio-player-controls-btn-sm"
+              onClick={() => this.props.onVideoChanged()}
+              style={{ marginLeft: '-0.4444rem' }}
+            >
+              <i className="ion-ios-skipforward-outline" />
+            </div>
+            <div onClick={() => console.log} style={{ display: 'none' }}>full screen</div>
+          </div>
+        </div>
+      )
+    }
     return (
       <div className="audio-player">
-        <div className="audio-player-container">
-          <YoutubePlayer
-            videoId={this.props.playingId}
-            className="audio-player-youtube-frame"
-            opts={opts}
-            onReady={this.onPlayerReady}
-            onStateChange={this.onPlayerStateChange}
-          />
-        </div>
-        <AudioWavesTimeline player={this.state.YTPlayer} />
+        <h1><i className="ion-happy-outline" /></h1>
+        <h3>We're ready!</h3>
         <div className="audio-player-controls">
-          <AudioSoundButton value={volume} onChange={this.onSetVolume} />
           <div
             className="audio-player-controls-btn-lg"
             onClick={() => this.handleTogglePlay()}
           >
             <i className="ion-ios-play-outline" style={{ marginLeft: '0.4444rem' }} />
           </div>
-          <div
-            className="audio-player-controls-btn-sm"
-            onClick={() => this.props.onVideoChanged(this.props.playlist[0])}
-            style={{ marginLeft: '-0.4444rem' }}
-          >
-            <i className="ion-ios-skipforward-outline" />
-          </div>
-          <div onClick={() => console.log} style={{ display: 'none' }}>full screen</div>
         </div>
+        <p>Let's start this party ?</p>
       </div>
     )
   }
