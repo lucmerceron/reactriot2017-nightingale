@@ -15,7 +15,7 @@ export const getPublicPlaylistFailed = makeActionCreator(GET_PUBLIC_PLAYLIST_FAI
 export const updatePublicPlaylists = makeActionCreator(UPDATE_PUBLIC_PLAYLISTS, 'playlists')
 
 /* Thunk action creators */
-export function getPrivatePlaylist(playlistId) {
+export function getPrivatePlaylist(playlistId, swichToHome) {
   return (dispatch, getState) => {
     const firebase = getState().firebase
 
@@ -24,11 +24,12 @@ export function getPrivatePlaylist(playlistId) {
       if (snap.val()) dispatch(updatePrivatePlaylist({ [playlistId]: snap.val() }, previousplaylists))
       else {
         console.warn('Oups ! This private playlist does not exist :(')
+        swichToHome()
       }
     })
   }
 }
-export function getPublicPlaylist(playlistId) {
+export function getPublicPlaylist(playlistId, swichToHome) {
   return (dispatch, getState) => {
     const firebase = getState().firebase
 
@@ -37,6 +38,7 @@ export function getPublicPlaylist(playlistId) {
       if (snap.val()) dispatch(updatePublicPlaylist({ [playlistId]: snap.val() }, previousplaylists))
       else {
         console.warn('Oups ! This public playlist does not exist :(')
+        swichToHome()
       }
     })
   }
