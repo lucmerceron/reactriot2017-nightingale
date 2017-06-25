@@ -50,6 +50,7 @@ class MainPlaylistView extends Component {
       likeMusic,
       unlikeMusic,
       playlist,
+      playlistId,
       musicToPlay,
       changeCurrentlyPlaying,
       removeCurrentlyPlaying,
@@ -94,6 +95,7 @@ class MainPlaylistView extends Component {
               playingId={musicToPlay ? musicToPlay.url : ''}
               playlist={musicOrdered}
               playlistName={playlist ? playlist.name : ''}
+              playlistId={playlistId}
               isPlaying={musicToPlay ? !musicToPlay.paused : false}
               isAdmin={playlist ? !!playlist.admin[localStorage.getItem('nightingaleUid')] : false}
               onVideoChanged={onVideoNext}

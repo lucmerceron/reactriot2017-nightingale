@@ -147,7 +147,9 @@ class AudioPlayer extends Component {
     if (this.props.playing && this.props.playing.url) {
       return (
         <div className="audio-player">
-          <div className="audio-player-playlist-title">{this.props.playlistName}</div>
+          <div className="audio-player-playlist-title">
+            {this.props.playlistName}
+          </div>
           <div
             className="audio-player-container"
             style={{
@@ -221,6 +223,7 @@ AudioPlayer.propTypes = {
   channelTitle: PropTypes.string,
   playlist: PropTypes.arrayOf(PropTypes.string).isRequired,
   playlistName: PropTypes.string.isRequired,
+  playlistId: PropTypes.string.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   isAdmin: PropTypes.bool.isRequired,
   seekTo: PropTypes.number.isRequired,

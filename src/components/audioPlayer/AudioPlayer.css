@@ -20,6 +20,12 @@
   color: #50626d;
 }
 
+.audio-player-playlist-title span {
+  font-size: 0.7rem;
+  color: #929caf;
+  font-style: italic;
+}
+
 /*Player embed*/
 
 .audio-player-container {
