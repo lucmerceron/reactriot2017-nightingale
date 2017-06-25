@@ -40,10 +40,8 @@ class MainPlaylistView extends Component {
       joinCurrentPlaylist()
     } else if (!playlist) {
       if (playlistTyp === 'private') {
-        console.log('TRY', playlistTyp)
         gtPrivatePlaylist(playlistId)
       } else {
-        console.log('TRY', playlistTyp)
         gtPublicPlaylist(playlistId)
       }
     }

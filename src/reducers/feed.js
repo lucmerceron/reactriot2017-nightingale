@@ -30,7 +30,6 @@ const detectMusicChanged = (actual, next) => {
 
       musicDiff = removed
     }
-    console.log('removed', musicDiff)
     return {
       action: 'removed',
       username: `${getUserInfos(musicDiff.creator, actual)}'s music`,
@@ -47,7 +46,6 @@ const detectMusicChanged = (actual, next) => {
 
       musicDiff = added
     }
-    console.log('added', musicDiff)
     return {
       action: 'added',
       username: `${getUserInfos(musicDiff.creator, next)}`,
@@ -78,7 +76,6 @@ const detectLikesChanged = (actual, next) => {
 
         likeDiff = unliked
       }
-      console.log('unliked', likeDiff)
       result = {
         action: 'unliked',
         username: `${getUserInfos(likeDiff, actual)}`,
@@ -96,7 +93,6 @@ const detectLikesChanged = (actual, next) => {
 
         likeDiff = added
       }
-      console.log('liked', likeDiff)
       result = {
         action: 'liked',
         username: `${getUserInfos(likeDiff, next)}`,
