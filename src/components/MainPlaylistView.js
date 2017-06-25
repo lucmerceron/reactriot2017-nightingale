@@ -22,9 +22,12 @@ class MainPlaylistView extends Component {
       state: false,
     }
 
-    this.playlistJoined = false
+    this.playListRequested = false
 
     this.joinOrRetrieve = this.joinOrRetrieve.bind(this)
+  }
+  componentWillMount() {
+    this.playListRequested = false
   }
   componentDidMount() {
     this.joinOrRetrieve()
@@ -35,15 +38,16 @@ class MainPlaylistView extends Component {
 
   joinOrRetrieve() {
     const { playlist, joinCurrentPlaylist, playlistId, gtPrivatePlaylist, gtPublicPlaylist, playlistTyp } = this.props
-    if (playlist) {
-      this.playlistJoined = true
+
+    if (playlist && this.playListRequested) {
       joinCurrentPlaylist()
-    } else if (!playlist) {
+    } else {
       if (playlistTyp === 'private') {
         gtPrivatePlaylist(playlistId)
       } else {
         gtPublicPlaylist(playlistId)
       }
+      this.playListRequested = true
     }
   }
 
