@@ -117,6 +117,7 @@ class MainPlaylistView extends Component {
                 removeMusic={removeMusic}
                 likeMusic={likeMusic}
                 unlikeMusic={unlikeMusic}
+                display
               />
             </ul>
           </div>

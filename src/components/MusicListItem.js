@@ -4,7 +4,7 @@ import { keys, orderBy } from 'lodash'
 
 import './MusicListItem.css'
 
-const MusicListItem = ({ musicsToDisplay, addMusic, removeMusic, likeMusic, unlikeMusic, playlist }) => {
+const MusicListItem = ({ musicsToDisplay, addMusic, removeMusic, likeMusic, display, unlikeMusic, playlist }) => {
   const myUid = localStorage.getItem('nightingaleUid')
 
   const isCreatorOrAdmin = music => music.creator === myUid || (playlist && playlist.admin && playlist.admin[myUid])
@@ -30,6 +30,15 @@ const MusicListItem = ({ musicsToDisplay, addMusic, removeMusic, likeMusic, unli
         {orderBy(keys(musicsToDisplay), a => -keys(musicsToDisplay[a].likes || []).length)
           .map(youtubeId => (
             <li key={youtubeId} className="music-list-item">
+              {display
+                ? (<div
+                  className="music-list-item-likes"
+                  style={keys(musicsToDisplay[youtubeId].likes || {}).length === 0 ? {
+                    backgroundColor: 'white', color: 'black',
+                  } : {}}
+                >
+                  {keys(musicsToDisplay[youtubeId].likes || {}).length}
+                </div>) : null}
               <div className="music-list-item-thumbnail">
                 <img
                   alt="youtube thumbnail preview image"
@@ -71,7 +80,6 @@ MusicListItem.propTypes = {
   unlikeMusic: PropTypes.func.isRequired,
   removeMusic: PropTypes.func.isRequired,
   display: PropTypes.bool.isRequired,
-  search: PropTypes.bool.isRequired,
 }
 
 MusicListItem.defaultProps = {
