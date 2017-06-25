@@ -23,25 +23,29 @@ class MainPlaylistView extends Component {
     }
 
     this.playlistJoined = false
+
+    this.joinOrRetrieve = this.joinOrRetrieve.bind(this)
   }
   componentDidMount() {
-    const { playlist, joinCurrentPlaylist, playlists, playlistId, gtPrivatePlaylist, gtPublicPlaylist } = this.props
+    this.joinOrRetrieve()
+  }
+  componentDidUpdate() {
+    this.joinOrRetrieve()
+  }
+
+  joinOrRetrieve() {
+    const { playlist, joinCurrentPlaylist, playlistId, gtPrivatePlaylist, gtPublicPlaylist, playlistTyp } = this.props
     if (playlist) {
       this.playlistJoined = true
       joinCurrentPlaylist()
-    } else if (playlists && !playlist) {
-      gtPrivatePlaylist(playlistId)
-      gtPublicPlaylist(playlistId)
-    }
-  }
-  componentDidUpdate() {
-    const { playlist, joinCurrentPlaylist, playlists, playlistId, gtPrivatePlaylist, gtPublicPlaylist } = this.props
-    if (playlist && !this.playlistJoined) {
-      this.playlistJoined = true
-      joinCurrentPlaylist()
-    } else if (playlists && !playlist) {
-      gtPrivatePlaylist(playlistId)
-      gtPublicPlaylist(playlistId)
+    } else if (!playlist) {
+      if (playlistTyp === 'private') {
+        console.log('TRY', playlistTyp)
+        gtPrivatePlaylist(playlistId)
+      } else {
+        console.log('TRY', playlistTyp)
+        gtPublicPlaylist(playlistId)
+      }
     }
   }
 
@@ -140,6 +144,7 @@ const mapStateToProps = (state, ownProps) => ({
   playlist: state.playlists[ownProps.match.params.playlistId],
   playlists: state.playlists,
   playlistId: ownProps.match.params.playlistId,
+  playlistTyp: ownProps.match.params.type,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

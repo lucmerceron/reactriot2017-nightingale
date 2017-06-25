@@ -1,4 +1,4 @@
-import { extend, pickBy } from 'lodash'
+import { extend } from 'lodash'
 
 import {
   UPDATE_PUBLIC_PLAYLISTS,
@@ -6,22 +6,12 @@ import {
   UPDATE_PUBLIC_PLAYLIST,
 } from '../actionCreators/playlists'
 
-export default function publicPlaylists(state = {}, action) {
+export default function playlists(state = {}, action) {
   switch (action.type) {
-    case UPDATE_PUBLIC_PLAYLISTS: {
-      const privateState = pickBy(state, value => value.private)
-
-      return extend({}, privateState, action.playlists)
-    }
-    case UPDATE_PRIVATE_PLAYLIST: {
-      const publicState = pickBy(state, value => !value.private)
-
-      return extend({}, publicState, action.playlist)
-    }
+    case UPDATE_PUBLIC_PLAYLISTS:
+    case UPDATE_PRIVATE_PLAYLIST:
     case UPDATE_PUBLIC_PLAYLIST: {
-      const privateState = pickBy(state, value => value.private)
-
-      return extend({}, privateState, action.playlist)
+      return extend({}, action.playlists)
     }
     default:
       return state

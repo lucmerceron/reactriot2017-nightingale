@@ -17,7 +17,7 @@ class Routes extends React.Component {
       exact: true,
     }, {
       key: 'playlist',
-      path: '/playlists/:playlistId',
+      path: '/playlists/:type/:playlistId',
       component: MainPlaylistView,
     }]
   }

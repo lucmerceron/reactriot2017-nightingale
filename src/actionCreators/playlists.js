@@ -8,8 +8,8 @@ export const GET_PUBLIC_PLAYLIST_FAILED = 'GET_PUBLIC_PLAYLIST_FAILED'
 export const UPDATE_PUBLIC_PLAYLISTS = 'UPDATE_PUBLIC_PLAYLISTS'
 
 /* Action creators */
-export const updatePrivatePlaylist = makeActionCreator(UPDATE_PRIVATE_PLAYLIST, 'playlist')
-export const updatePublicPlaylist = makeActionCreator(UPDATE_PUBLIC_PLAYLIST, 'playlist')
+export const updatePrivatePlaylist = makeActionCreator(UPDATE_PRIVATE_PLAYLIST, 'playlists', 'previousState')
+export const updatePublicPlaylist = makeActionCreator(UPDATE_PUBLIC_PLAYLIST, 'playlists', 'previousState')
 export const getPrivatePlaylistFailed = makeActionCreator(GET_PRIVATE_PLAYLIST_FAILED, 'error')
 export const getPublicPlaylistFailed = makeActionCreator(GET_PUBLIC_PLAYLIST_FAILED, 'error')
 export const updatePublicPlaylists = makeActionCreator(UPDATE_PUBLIC_PLAYLISTS, 'playlists')
@@ -20,9 +20,10 @@ export function getPrivatePlaylist(playlistId) {
     const firebase = getState().firebase
 
     firebase.database().ref(`private_playlists/${playlistId}`).on('value', snap => {
-      if (snap.val()) dispatch(updatePrivatePlaylist({ [playlistId]: snap.val() }))
+      const previousplaylists = getState().playlists
+      if (snap.val()) dispatch(updatePrivatePlaylist({ [playlistId]: snap.val() }, previousplaylists))
       else {
-        dispatch(getPrivatePlaylistFailed('Oups ! This private playlist does not exist :('))
+        console.warn('Oups ! This private playlist does not exist :(')
       }
     })
   }
@@ -32,15 +33,16 @@ export function getPublicPlaylist(playlistId) {
     const firebase = getState().firebase
 
     firebase.database().ref(`public_playlists/${playlistId}`).on('value', snap => {
-      if (snap.val()) dispatch(updatePublicPlaylist({ [playlistId]: snap.val() }))
+      const previousplaylists = getState().playlists
+      if (snap.val()) dispatch(updatePublicPlaylist({ [playlistId]: snap.val() }, previousplaylists))
       else {
-        dispatch(getPublicPlaylistFailed('Oups ! This public playlist does not exist :('))
+        console.warn('Oups ! This public playlist does not exist :(')
       }
     })
   }
 }
 
-export function createPrivatePlaylist(playlist) {
+export function createPrivatePlaylist(playlist, switchToNewPlaylist) {
   return (dispatch, getState) => {
     const firebase = getState().firebase
     const userId = firebase.auth().currentUser.uid
@@ -48,8 +50,9 @@ export function createPrivatePlaylist(playlist) {
     // Retrieve the key for onDisconnect use
     const newPlaylistKey = firebase.database().ref('private_playlists').push().key
 
-    // We don't need to listen for modification as we already have
-    // registered a listener at the user connexion
+    firebase.database().ref(`private_playlists/${newPlaylistKey}`).once('value', snap => {
+      if (snap.val()) switchToNewPlaylist('private', newPlaylistKey)
+    })
 
     // Create the playlist
     firebase.database().ref().update({ [`private_playlists/${newPlaylistKey}`]: {
@@ -69,7 +72,7 @@ export function createPrivatePlaylist(playlist) {
   }
 }
 
-export function createPublicPlaylist(playlist) {
+export function createPublicPlaylist(playlist, switchToNewPlaylist) {
   return (dispatch, getState) => {
     const firebase = getState().firebase
     const userId = firebase.auth().currentUser.uid
@@ -77,8 +80,9 @@ export function createPublicPlaylist(playlist) {
     // Retrieve the key for onDisconnect use
     const newPlaylistKey = firebase.database().ref('public_playlists').push().key
 
-    // We don't need to listen for modification as we already have
-    // registered a listener at the user connexion
+    firebase.database().ref(`public_playlists/${newPlaylistKey}`).once('value', snap => {
+      if (snap.val()) switchToNewPlaylist('public', newPlaylistKey)
+    })
 
     // Create the playlist
     firebase.database().ref().update({ [`public_playlists/${newPlaylistKey}`]: {

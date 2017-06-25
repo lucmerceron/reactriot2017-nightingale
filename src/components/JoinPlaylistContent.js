@@ -2,12 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { keys, difference } from 'lodash'
+import { keys } from 'lodash'
 
 import QrScanner from 'react-qr-reader'
 import FormInputText from './generalPurpose/form/FormInputText'
-
-import { getPrivatePlaylist } from '../actionCreators/playlists'
 
 import './JoinPlaylistContent.css'
 import qrCodeIns from '../assets/qr-code-instructions.svg'
@@ -22,22 +20,9 @@ class JoinPlaylistContent extends React.Component {
     }
   }
 
-  componentWillUpdate({ playlists: nextPlaylists }) {
-    const { playlists, switchToPlaylist } = this.props
-    const { privatePlaylistId } = this.state
-
-    const diffIds = difference(keys(nextPlaylists), keys(playlists))
-    if (diffIds.length === 0 || this.firstUpdate) return
-
-    const diffId = diffIds[0]
-    // If the video created belonged to me, switch to it
-    if (diffId === privatePlaylistId) {
-      switchToPlaylist(diffId)
-    }
-  }
 
   render() {
-    const { playlists, switchToPlaylist, gtPrivatePlaylist } = this.props
+    const { playlists, switchToPlaylist } = this.props
     const { privatePlaylistId, qrScanMode } = this.state
 
     return (
@@ -50,7 +35,7 @@ class JoinPlaylistContent extends React.Component {
         </div>
         <p>or search for a playlist</p>
         <FormInputText placeholder="search for a playlist" onChange={(value) => this.setState({ privatePlaylistId: value })} />
-        <div onClick={() => gtPrivatePlaylist(privatePlaylistId)}>Join Private</div>
+        <div onClick={() => switchToPlaylist('private', privatePlaylistId)}>Join Private</div>
         <ul>
           {keys(playlists).map(key => (
             !playlists[key].private
@@ -58,7 +43,7 @@ class JoinPlaylistContent extends React.Component {
               <li key={key}>
                 <div className="join-playlist-name">{playlists[key].name}</div>
                 <div className="join-playlist-tag">{playlists[key].tag}</div>
-                <div className="join-playlist-button" onClick={() => switchToPlaylist(key)}>Join</div>
+                <div className="join-playlist-button" onClick={() => switchToPlaylist('public', key)}>Join</div>
               </li>
             ) : null))}
         </ul>
@@ -69,17 +54,12 @@ class JoinPlaylistContent extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   playlists: state.playlists,
-  switchToPlaylist: id => ownProps.history.push(`/playlists/${id}`),
-})
-
-const mapDispatchToProps = dispatch => ({
-  gtPrivatePlaylist: id => dispatch(getPrivatePlaylist(id)),
+  switchToPlaylist: (type, id) => ownProps.history.push(`/playlists/${type}/${id}`),
 })
 
 JoinPlaylistContent.propTypes = {
   playlists: PropTypes.object.isRequired,
   switchToPlaylist: PropTypes.func.isRequired,
-  gtPrivatePlaylist: PropTypes.func.isRequired,
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(JoinPlaylistContent))
+export default withRouter(connect(mapStateToProps)(JoinPlaylistContent))
