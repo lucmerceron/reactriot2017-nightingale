@@ -28,6 +28,9 @@ const detectMusicChanged = (actual, next) => {
       const diff = difference(keys(actu.musics), keys(nex.musics))[0]
       const removed = actu.musics[diff]
 
+      // It is not removed if it is in the currentlyPlaying
+      if (actu.currentlyPlaying.url === diff) return false
+
       musicDiff = removed
     }
     return {
@@ -114,6 +117,7 @@ export default function feed(state = {
   switch (action.type) {
     case UPDATE_PUBLIC_PLAYLIST:
     case UPDATE_PRIVATE_PLAYLIST: {
+      if (action.previousState && keys(action.previousState).length > 1) return state
       if (detectMusicChanged(action.previousState, action.playlists)) {
         const result = detectMusicChanged(action.previousState, action.playlists)
         if (!result.username) return state

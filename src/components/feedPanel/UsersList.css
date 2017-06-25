@@ -1,3 +1,16 @@
 .feed-list-users {
   margin-left: 10px;
+  animation-name: appear;
+  animation-timing-function: ease-in-out;
+  animation-duration: 0.3s;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
