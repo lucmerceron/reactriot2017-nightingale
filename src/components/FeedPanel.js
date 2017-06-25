@@ -7,6 +7,7 @@ import { mapValues } from 'lodash'
 import TabMenu from './feedPanel/TabMenu'
 
 import { updatePlaylist } from '../actionCreators/playlists'
+import { addToFeed } from '../actionCreators/feed'
 
 class FeedPanel extends Component {
   constructor() {
@@ -48,17 +49,33 @@ FeedPanel.propTypes = {
 
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  likeMusic: id =>
+  likeMusic: (id, music) => {
     dispatch(
       updatePlaylist(
         ownProps.match.params.playlistId,
         `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`,
-        true)),
-  unlikeMusic: id =>
+        true))
+    dispatch(addToFeed('like', 'add',
+      {
+        action: 'liked',
+        username: localStorage.getItem('nightingaleName'),
+        thumbnail: music.thumbnail,
+        title: music.title,
+      }))
+  },
+  unlikeMusic: (id, music) => {
     dispatch(
       updatePlaylist(
         ownProps.match.params.playlistId,
-        `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`, null)),
+        `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`, null))
+    dispatch(addToFeed('like', 'remove',
+      {
+        action: 'unliked',
+        username: localStorage.getItem('nightingaleName'),
+        thumbnail: music.thumbnail,
+        title: music.title,
+      }))
+  },
 })
 
 const mapStateToProps = (state, ownProps) => ({
@@ -66,8 +83,8 @@ const mapStateToProps = (state, ownProps) => ({
     ? state.playlists[ownProps.match.params.playlistId].users || {}
     : {},
   playlist: state.playlists[ownProps.match.params.playlistId],
-  musicsFeed: [],
-  likesFeed: [],
+  musicsFeed: state.feed.musicsFeed,
+  likesFeed: state.feed.likesFeed,
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FeedPanel))

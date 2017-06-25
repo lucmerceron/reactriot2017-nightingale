@@ -1,16 +1,29 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { keys } from 'lodash'
 
 import FeedListItem from './FeedListItem'
 import FeedListAddMusicContent from './FeedListAddMusicContent'
 
 import './FeedList.css'
 
-const FeedList = ({ musicsFeed }) =>
-  <ul>{musicsFeed.map(musicFeed => <FeedListItem><FeedListAddMusicContent musicFeed={musicFeed} /></FeedListItem>)}</ul>
+const FeedList = ({ musicsFeed }) => (
+  <ul>
+    {keys(musicsFeed).map(likeFeed => (
+      <FeedListItem>
+        <FeedListAddMusicContent
+          username={musicsFeed[likeFeed].username}
+          thumbnail={musicsFeed[likeFeed].thumbnail}
+          title={musicsFeed[likeFeed].title}
+          action={musicsFeed[likeFeed].action}
+        />
+      </FeedListItem>))}
+  </ul>
+)
 
 FeedList.propTypes = {
   musicsFeed: PropTypes.arrayOf(PropTypes.shape({
+    action: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
     thumbnail: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,

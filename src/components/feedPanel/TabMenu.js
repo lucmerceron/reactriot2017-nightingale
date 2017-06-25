@@ -64,11 +64,13 @@ class TabMenu extends Component {
 
 TabMenu.propTypes = {
   musicsFeed: PropTypes.arrayOf(PropTypes.shape({
+    action: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
     thumbnail: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
   })).isRequired,
   likesFeed: PropTypes.arrayOf(PropTypes.shape({
+    action: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
     thumbnail: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,

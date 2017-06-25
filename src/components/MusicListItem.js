@@ -14,8 +14,10 @@ const MusicListItem = ({ musicsToDisplay, addMusic, removeMusic, likeMusic, unli
   const getLikeAdd = youtubeId => {
     if (isInPlaylist(youtubeId)) {
       return isLiked(musicsToDisplay[youtubeId]) || (playlist && isLiked(playlist.musics[youtubeId]))
-        ? <div className="search-panel-result-like" onClick={() => unlikeMusic(youtubeId)}>Unlike</div>
-        : <div className="search-panel-result-unlike" onClick={() => likeMusic(youtubeId)}><i className="ion-ios-heart-outline" /></div>
+        ? <div className="search-panel-result-like" onClick={() => unlikeMusic(youtubeId, musicsToDisplay[youtubeId])}>Unlike</div>
+        : (<div className="search-panel-result-unlike" onClick={() => likeMusic(youtubeId, musicsToDisplay[youtubeId])}>
+          <i className="ion-ios-heart-outline" />
+        </div>)
     }
     return <div className="search-panel-result-add" onClick={() => addMusic(youtubeId, musicsToDisplay[youtubeId])}>Add</div>
   }
@@ -26,7 +28,11 @@ const MusicListItem = ({ musicsToDisplay, addMusic, removeMusic, likeMusic, unli
         {orderBy(keys(musicsToDisplay), a => -keys(musicsToDisplay[a].likes || []).length)
           .map(youtubeId => (
             <li key={youtubeId} className="music-list-item">
-              <img className="music-list-item-thumbnail" alt="youtube thumbnail preview image" src={musicsToDisplay[youtubeId].thumbnailUrl} />
+              <img
+                className="music-list-item-thumbnail"
+                alt="youtube thumbnail preview image"
+                src={musicsToDisplay[youtubeId].thumbnailUrl}
+              />
               <div className="music-list-item-content">
                 <div className="search-panel-result-title">{musicsToDisplay[youtubeId].title}</div>
                 <span className="search-panel-result-channel">{musicsToDisplay[youtubeId].channelTitle}</span>
@@ -35,7 +41,11 @@ const MusicListItem = ({ musicsToDisplay, addMusic, removeMusic, likeMusic, unli
               <div className="music-list-item-action">
                 {getLikeAdd(youtubeId)}
                 {isCreatorOrAdmin(musicsToDisplay[youtubeId]) && isInPlaylist(youtubeId)
-                  ? <div className="search-panel-result-remove" onClick={() => removeMusic(youtubeId)}>Remove</div>
+                  ? (
+                    <div
+                      className="search-panel-result-remove"
+                      onClick={() => removeMusic(youtubeId, musicsToDisplay[youtubeId])}
+                    >Remove</div>)
                   : null
                 }
               </div>

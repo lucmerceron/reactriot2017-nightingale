@@ -10,6 +10,7 @@ import MusicListItem from './MusicListItem'
 import FeedPanel from './FeedPanel'
 
 import { updatePlaylist, removePlaylistOnDisconnect } from '../actionCreators/playlists'
+import { addToFeed } from '../actionCreators/feed'
 
 class MainPlaylistView extends Component {
   constructor() {
@@ -125,19 +126,43 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  removeMusic: (id) =>
-    dispatch(updatePlaylist(ownProps.match.params.playlistId, `musics/${id}`, null)),
-  likeMusic: id =>
+  removeMusic: (id, music) => {
+    dispatch(updatePlaylist(ownProps.match.params.playlistId, `musics/${id}`, null))
+    dispatch(addToFeed('music', 'remove',
+      {
+        action: 'removed',
+        username: localStorage.getItem('nightingaleName'),
+        thumbnail: music.thumbnail,
+        title: music.title,
+      }))
+  },
+  likeMusic: (id, music) => {
     dispatch(
       updatePlaylist(
         ownProps.match.params.playlistId,
         `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`,
-        true)),
-  unlikeMusic: id =>
+        true))
+    dispatch(addToFeed('like', 'add',
+      {
+        action: 'liked',
+        username: localStorage.getItem('nightingaleName'),
+        thumbnail: music.thumbnail,
+        title: music.title,
+      }))
+  },
+  unlikeMusic: (id, music) => {
     dispatch(
       updatePlaylist(
         ownProps.match.params.playlistId,
-        `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`, null)),
+        `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`, null))
+    dispatch(addToFeed('like', 'remove',
+      {
+        action: 'unliked',
+        username: localStorage.getItem('nightingaleName'),
+        thumbnail: music.thumbnail,
+        title: music.title,
+      }))
+  },
   changeCurrentlyPlaying: (id, music) => {
     dispatch(
       updatePlaylist(
