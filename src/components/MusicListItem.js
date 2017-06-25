@@ -36,8 +36,8 @@ const MusicListItem = ({ musicsToDisplay, addMusic, removeMusic, likeMusic, unli
               <div className="music-list-item-content">
                 <div className="search-panel-result-title">{musicsToDisplay[youtubeId].title}</div>
                 <span className="search-panel-result-channel">{musicsToDisplay[youtubeId].channelTitle}</span>
-                <span className="search-panel-result-duration">{musicsToDisplay[youtubeId].duration}</span>
               </div>
+              <span className="search-panel-result-duration">{musicsToDisplay[youtubeId].duration}</span>
               <div className="music-list-item-action">
                 {getLikeAdd(youtubeId)}
                 {isCreatorOrAdmin(musicsToDisplay[youtubeId]) && isInPlaylist(youtubeId)
