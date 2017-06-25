@@ -14,6 +14,7 @@
 .main-playlist-list li {
   margin: 0.5rem 1rem;
   border: none;
+  animation: shareContent 0.3s ease-in-out;
 }
 
 .main-playlist-list li:first-child {
@@ -56,4 +57,9 @@
 }
 
 .main-playlist .col-sm-12:last-child {
+}
+
+@keyframes appearList {
+    from {opacity: 0;}
+    to {opacity: 1;}
 }
