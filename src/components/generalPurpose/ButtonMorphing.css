@@ -1,0 +1,24 @@
+.ng-btn-morphing {
+  cursor: pointer;
+  max-height: 10rem;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  color: #fff;
+  border-radius: 1.5rem;
+  padding: 0.5rem 2rem;
+  background: linear-gradient( 160deg, #2196f3, #00BAC0 );
+  transition: 
+    background 0.3s ease-in-out,
+    color 0.3s ease-in-out,
+    max-height 1s ease-in-out,
+    border-color 0.3s ease-in-out;
+}
+
+.ng-btn-morphing:hover {
+  background: linear-gradient( 160deg, #2196f3, #2196f3 );
+}
+
+.ng-btn-morphing.has-morphed {
+  max-height: 200rem;
+}

@@ -1,0 +1,47 @@
+.landing-view {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing-view-bg-video {
+  position: fixed;
+  background-position: center;
+  min-width: 100%; min-height: 100%;
+  width: auto; height: auto; z-index: -100;
+  /*background: url(polina.jpg) no-repeat;*/
+  background-size: cover;
+}
+
+.landing-view-actions-wrapper {
+  height: 100%;
+  width: 26rem;
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+.landing-view-actions-background {
+  width: 100%;
+  height: 100%;
+  background-color: #FFF;
+  opacity: 0.2;
+  position: relative;
+  z-index: 0;
+}
+
+.landing-view-actions-background-position {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.landing-view-actions-background-position.button-morphed {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
