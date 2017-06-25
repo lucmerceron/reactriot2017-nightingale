@@ -2,13 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { keys, difference } from 'lodash'
+import { keys } from 'lodash'
 
 import QrScanner from 'react-qr-reader'
 import FormInputText from './generalPurpose/form/FormInputText'
 import Button from './generalPurpose/Button'
-
-import { getPrivatePlaylist } from '../actionCreators/playlists'
 
 import './JoinPlaylistContent.css'
 import qrCodeIns from '../assets/qr-code-instructions.svg'
@@ -23,22 +21,9 @@ class JoinPlaylistContent extends React.Component {
     }
   }
 
-  componentWillUpdate({ playlists: nextPlaylists }) {
-    const { playlists, switchToPlaylist } = this.props
-    const { privatePlaylistId } = this.state
-
-    const diffIds = difference(keys(nextPlaylists), keys(playlists))
-    if (diffIds.length === 0 || this.firstUpdate) return
-
-    const diffId = diffIds[0]
-    // If the video created belonged to me, switch to it
-    if (diffId === privatePlaylistId) {
-      switchToPlaylist(diffId)
-    }
-  }
 
   render() {
-    const { playlists, switchToPlaylist, gtPrivatePlaylist } = this.props
+    const { playlists, switchToPlaylist } = this.props
     const { privatePlaylistId, qrScanMode } = this.state
 
     return (
@@ -46,7 +31,14 @@ class JoinPlaylistContent extends React.Component {
         <div className="create-playliste-content-title-bar" />
         <h2>Join a Playlist</h2>
         <div className="join-playlist-qr">
-          {!qrScanMode && <img className="join-playlist-content-scann" src={qrCodeIns} alt="qr code instructions" onClick={() => this.setState({ qrScanMode: true })} />}
+          {!qrScanMode &&
+            (<img
+              className="join-playlist-content-scann"
+              src={qrCodeIns}
+              alt="qr code instructions"
+              onClick={() => this.setState({ qrScanMode: true })}
+            />)
+          }
           {qrScanMode && <QrScanner onScan={() => console.log('scan')} onError={() => console.log('error')} />}
         </div>
         <div className="join-playlist-url">
@@ -55,7 +47,7 @@ class JoinPlaylistContent extends React.Component {
             <span>playlists/</span>
             <FormInputText placeholder="ex: -KnPqx6fv618vSwcMfHV" onChange={(value) => this.setState({ privatePlaylistId: value })} />
           </div>
-          <Button label="Here we go" onClick={() => gtPrivatePlaylist(privatePlaylistId)} />
+          <Button label="Here we go" onClick={() => switchToPlaylist('private', privatePlaylistId)} />
         </div>
         <div className="join-playlist-public">
           <p>People may have good tastes too</p>
@@ -68,7 +60,9 @@ class JoinPlaylistContent extends React.Component {
                     <span className="join-playlist-name">{playlists[key].name}</span>
                     <span className="join-playlist-tag">{playlists[key].tag}</span>
                   </div>
-                  <div className="join-playlist-public-list-item-action" onClick={() => switchToPlaylist(key)}><i className="ion-ios-arrow-right" /></div>
+                  <div className="join-playlist-public-list-item-action" onClick={() => switchToPlaylist('public', key)}>
+                    <i className="ion-ios-arrow-right" />
+                  </div>
                 </li>
               ) : null))}
           </ul>
@@ -80,17 +74,12 @@ class JoinPlaylistContent extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   playlists: state.playlists,
-  switchToPlaylist: id => ownProps.history.push(`/playlists/${id}`),
-})
-
-const mapDispatchToProps = dispatch => ({
-  gtPrivatePlaylist: id => dispatch(getPrivatePlaylist(id)),
+  switchToPlaylist: (type, id) => ownProps.history.push(`/playlists/${type}/${id}`),
 })
 
 JoinPlaylistContent.propTypes = {
   playlists: PropTypes.object.isRequired,
   switchToPlaylist: PropTypes.func.isRequired,
-  gtPrivatePlaylist: PropTypes.func.isRequired,
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(JoinPlaylistContent))
+export default withRouter(connect(mapStateToProps)(JoinPlaylistContent))

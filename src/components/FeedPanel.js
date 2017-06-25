@@ -7,7 +7,6 @@ import { mapValues } from 'lodash'
 import TabMenu from './feedPanel/TabMenu'
 
 import { updatePlaylist } from '../actionCreators/playlists'
-import { addToFeed } from '../actionCreators/feed'
 
 class FeedPanel extends Component {
   constructor() {
@@ -17,13 +16,13 @@ class FeedPanel extends Component {
   }
 
   render() {
-    const { users, musicsFeed, likesFeed, playlist, likeMusic, unlikeMusic } = this.props
+    const { users, musicsFeed, likesFeed, playlist } = this.props
 
     const usersExtended = mapValues(users, (user, key) => {
       if (playlist.admin && playlist.admin[key]) {
-        return { name: user, isAdmin: true }
+        return { id: key, name: user, isAdmin: true }
       }
-      return { name: user, isAdmin: false }
+      return { id: key, name: user, isAdmin: false }
     })
 
     return (
@@ -38,42 +37,30 @@ class FeedPanel extends Component {
 
 FeedPanel.propTypes = {
   users: PropTypes.object.isRequired,
-  musicsFeed: PropTypes.object.isRequired,
-  likesFeed: PropTypes.object.isRequired,
+  musicsFeed: PropTypes.array.isRequired,
+  likesFeed: PropTypes.array.isRequired,
   likeMusic: PropTypes.func.isRequired,
   unlikeMusic: PropTypes.func.isRequired,
-  playlist: PropTypes.object.isRequired,
+  playlist: PropTypes.object,
+}
+
+FeedPanel.defaultProps = {
+  playlist: {},
 }
 
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  likeMusic: (id, music) => {
+  likeMusic: id =>
     dispatch(
       updatePlaylist(
         ownProps.match.params.playlistId,
         `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`,
-        true))
-    dispatch(addToFeed('like', 'add',
-      {
-        action: 'liked',
-        username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnailUrl,
-        title: music.title,
-      }))
-  },
-  unlikeMusic: (id, music) => {
+        true)),
+  unlikeMusic: id =>
     dispatch(
       updatePlaylist(
         ownProps.match.params.playlistId,
-        `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`, null))
-    dispatch(addToFeed('like', 'remove',
-      {
-        action: 'unliked',
-        username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnailUrl,
-        title: music.title,
-      }))
-  },
+        `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`, null)),
 })
 
 const mapStateToProps = (state, ownProps) => ({

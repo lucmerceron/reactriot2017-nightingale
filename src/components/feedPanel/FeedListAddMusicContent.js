@@ -5,7 +5,7 @@ import './FeedListAddMusicContent.css'
 
 const FeedListAddMusicContent = ({ username, thumbnail, title, action }) => (
   <div className="feed-list-content">
-    <div className="feed-list-add-action">{username} <span style={{ textTransform: 'capitalize' }}>{action}</span></div>
+    <div className="feed-list-add-action">{username} <b>{action}</b></div>
     <div className="feed-list-add-info">
       <span className="feed-list-add-info-thumbnail">
         <img src={thumbnail} alt="thumbnail" />

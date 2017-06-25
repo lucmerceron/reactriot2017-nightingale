@@ -1,0 +1,28 @@
+.identicon-big-wrapper {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  padding: 10px 6px;
+}
+
+.identicon-big-wrapper img {
+  width: 20px;
+  height: 20px;
+  transform: rotate(-29deg);
+  position: absolute;
+  top: -5px;
+  left: 0px;
+}
+
+.identicon-wrapper {
+  border-radius: 14px;
+  overflow: hidden;
+  width: 30px;
+  height: 30px;
+}
+
+.feed-user-name {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+}

@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { keys, difference } from 'lodash'
 
 import FormInputText from './generalPurpose/form/FormInputText'
 import FormInputSelect from './generalPurpose/form/FormInputSelect'
@@ -34,34 +33,18 @@ class CreatePlaylistContent extends React.Component {
     this.handleCreatePlaylist = this.handleCreatePlaylist.bind(this)
   }
 
-  componentWillUpdate({ playlists: nextPlaylists }) {
-    const { playlists, switchToNewPlaylist } = this.props
-
-    const diffIds = difference(keys(nextPlaylists), keys(playlists))
-    if (diffIds.length === 0 || this.firstUpdate) {
-      this.firstUpdate = false
-      return
-    }
-
-    const diffId = diffIds[0]
-    // If the video created belonged to me, switch to it
-    if (nextPlaylists[diffId] && nextPlaylists[diffId].admin[localStorage.getItem('nightingaleUid')]) {
-      switchToNewPlaylist(diffId)
-    }
-  }
-
   handleCreatePlaylist() {
     const { title, userName, isPrivate, tag } = this.state
-    const { crtPrivatePlaylist, crtPublicPlaylist } = this.props
+    const { crtPrivatePlaylist, crtPublicPlaylist, switchToNewPlaylist } = this.props
 
     const playlist = { name: title, tag, private: isPrivate }
     // Change locally the name of the user
     if (userName) localStorage.setItem('nightingaleName', userName)
 
     if (isPrivate) {
-      crtPrivatePlaylist(playlist)
+      crtPrivatePlaylist(playlist, switchToNewPlaylist)
     } else {
-      crtPublicPlaylist(playlist)
+      crtPublicPlaylist(playlist, switchToNewPlaylist)
     }
   }
 
@@ -97,12 +80,12 @@ class CreatePlaylistContent extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   playlists: state.playlists,
-  switchToNewPlaylist: id => ownProps.history.push(`/playlists/${id}`),
+  switchToNewPlaylist: (type, id) => ownProps.history.push(`/playlists/${type}/${id}`),
 })
 
 const mapDispatchToProps = dispatch => ({
-  crtPrivatePlaylist: playlist => dispatch(createPrivatePlaylist(playlist)),
-  crtPublicPlaylist: playlist => dispatch(createPublicPlaylist(playlist)),
+  crtPrivatePlaylist: (playlist, cb) => dispatch(createPrivatePlaylist(playlist, cb)),
+  crtPublicPlaylist: (playlist, cb) => dispatch(createPublicPlaylist(playlist, cb)),
 })
 
 CreatePlaylistContent.propTypes = {

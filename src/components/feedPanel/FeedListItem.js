@@ -3,15 +3,16 @@ import PropTypes from 'prop-types'
 
 import './FeedListItem.css'
 
-const FeedListItem = ({ children }) => (
+const FeedListItem = ({ children, isMusic }) => (
   <li className="feed-list-item" key={children}>
     {children}
-    <div className="ion-android-list" />
+    {isMusic ? <div className="ion-android-list" /> : <div className="ion-android-favorite" />}
   </li>
 )
 
 FeedListItem.propTypes = {
   children: PropTypes.node.isRequired,
+  isMusic: PropTypes.bool.isRequired,
 }
 
 export default FeedListItem

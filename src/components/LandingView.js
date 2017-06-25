@@ -1,5 +1,10 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import faker from 'faker'
+
+import { updatePublicPlaylists } from '../actionCreators/playlists'
+import { emptyFeedPlease } from '../actionCreators/feed'
 
 import ButtonMorphing from './generalPurpose/ButtonMorphing'
 import CreatePlaylistContent from './CreatePlaylistContent'
@@ -17,11 +22,34 @@ class LandingView extends Component {
       hasMorphed: 0,
     }
   }
+  componentWillMount() {
+    const { firebase, setPublicPlaylists, emptyFeedPls } = this.props
+
+    // Empty the feed before moving on
+    emptyFeedPls()
+
+    // Listen for playlists change when authChanged
+    firebase.auth().onAuthStateChanged(() => {
+      firebase.database().ref('public_playlists').once('value', snap => {
+        if (snap.val()) setPublicPlaylists(snap.val())
+        else setPublicPlaylists({})
+      })
+      // If user not auth
+      if (!firebase.auth().currentUser) return
+      // Store the name and uid in localStorage
+      if (!localStorage.getItem('nightingaleName') || !localStorage.getItem('nightingaleUid')) {
+        const fakeName = faker.name.findName()
+
+        localStorage.setItem('nightingaleName', fakeName)
+        localStorage.setItem('nightingaleUid', firebase.auth().currentUser.uid)
+      }
+    })
+  }
 
   render() {
     const { hasMorphed } = this.state
 
-    return(
+    return (
       <div className="landing-view">
         <video autoPlay loop poster="polina.jpg" className="landing-view-bg-video">
           <source src={bgVideoUrl} type="video/mp4" />
@@ -40,4 +68,20 @@ class LandingView extends Component {
   }
 }
 
-export default LandingView
+
+LandingView.propTypes = {
+  firebase: PropTypes.object.isRequired,
+  setPublicPlaylists: PropTypes.func.isRequired,
+  emptyFeedPls: PropTypes.func.isRequired,
+}
+
+const mapStateToProps = (state) => ({
+  firebase: state.firebase,
+})
+
+const mapDispatchToProps = dispatch => ({
+  setPublicPlaylists: playlists => dispatch(updatePublicPlaylists(playlists)),
+  emptyFeedPls: () => dispatch(emptyFeedPlease()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(LandingView)

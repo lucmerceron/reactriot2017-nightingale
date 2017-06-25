@@ -7,7 +7,6 @@ import FormInputText from './generalPurpose/form/FormInputText'
 import MusicListItem from './MusicListItem'
 import { getYoutubeResults } from '../actionCreators/youtubeSearch'
 import { updatePlaylist } from '../actionCreators/playlists'
-import { addToFeed } from '../actionCreators/feed'
 
 // import './SearchPanel.css'
 
@@ -64,59 +63,27 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   youtubeSearch: search => dispatch(getYoutubeResults(search)),
-  addMusic: (id, music) => {
+  addMusic: (id, music) =>
     dispatch(updatePlaylist(ownProps.match.params.playlistId, `musics/${id}`, {
       ...music,
       likes: {
         [localStorage.getItem('nightingaleUid')]: true,
       },
       creator: localStorage.getItem('nightingaleUid'),
-    }))
-    dispatch(addToFeed('music', 'add',
-      {
-        action: 'added',
-        username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnailUrl,
-        title: music.title,
-      }))
-  },
-  removeMusic: (id, music) => {
-    dispatch(updatePlaylist(ownProps.match.params.playlistId, `musics/${id}`, null))
-    dispatch(addToFeed('music', 'remove',
-      {
-        action: 'removed',
-        username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnailUrl,
-        title: music.title,
-      }))
-  },
-  likeMusic: (id, music) => {
+    })),
+  removeMusic: id =>
+    dispatch(updatePlaylist(ownProps.match.params.playlistId, `musics/${id}`, null)),
+  likeMusic: id =>
     dispatch(
       updatePlaylist(
         ownProps.match.params.playlistId,
         `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`,
-        true))
-    dispatch(addToFeed('like', 'add',
-      {
-        action: 'liked',
-        username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnailUrl,
-        title: music.title,
-      }))
-  },
-  unlikeMusic: (id, music) => {
+        true)),
+  unlikeMusic: id =>
     dispatch(
       updatePlaylist(
         ownProps.match.params.playlistId,
-        `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`, null))
-    dispatch(addToFeed('like', 'remove',
-      {
-        action: 'unliked',
-        username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnailUrl,
-        title: music.title,
-      }))
-  },
+        `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`, null)),
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchPanel))

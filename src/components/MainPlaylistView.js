@@ -10,8 +10,7 @@ import MusicListItem from './MusicListItem'
 import FeedPanel from './FeedPanel'
 import EmptyPlaylist from './EmptyPlaylist'
 
-import { updatePlaylist, removePlaylistOnDisconnect, getPrivatePlaylist } from '../actionCreators/playlists'
-import { addToFeed } from '../actionCreators/feed'
+import { updatePlaylist, removePlaylistOnDisconnect, getPrivatePlaylist, getPublicPlaylist } from '../actionCreators/playlists'
 
 import './MainPlaylistView.css'
 
@@ -24,23 +23,27 @@ class MainPlaylistView extends Component {
     }
 
     this.playlistJoined = false
+
+    this.joinOrRetrieve = this.joinOrRetrieve.bind(this)
   }
   componentDidMount() {
-    const { playlist, joinCurrentPlaylist, playlists, playlistId, gtPrivatePlaylist } = this.props
+    this.joinOrRetrieve()
+  }
+  componentDidUpdate() {
+    this.joinOrRetrieve()
+  }
+
+  joinOrRetrieve() {
+    const { playlist, joinCurrentPlaylist, playlistId, gtPrivatePlaylist, gtPublicPlaylist, playlistTyp } = this.props
     if (playlist) {
       this.playlistJoined = true
       joinCurrentPlaylist()
-    } else if (playlists && !playlist) {
-      gtPrivatePlaylist(playlistId)
-    }
-  }
-  componentDidUpdate() {
-    const { playlist, joinCurrentPlaylist, playlists, playlistId, gtPrivatePlaylist } = this.props
-    if (playlist && !this.playlistJoined) {
-      this.playlistJoined = true
-      joinCurrentPlaylist()
-    } else if (playlists && !playlist) {
-      gtPrivatePlaylist(playlistId)
+    } else if (!playlist) {
+      if (playlistTyp === 'private') {
+        gtPrivatePlaylist(playlistId)
+      } else {
+        gtPublicPlaylist(playlistId)
+      }
     }
   }
 
@@ -56,8 +59,6 @@ class MainPlaylistView extends Component {
       removeCurrentlyPlaying,
       pauseCurrentlyPlaying } = this.props
 
-      console.log(playlist)
-
     const musicOrdered = orderBy(keys(musicsToDisplay), a => -keys(musicsToDisplay[a].likes || []).length)
 
     const onVideoTogglePlay = (currentTime) => {
@@ -70,7 +71,9 @@ class MainPlaylistView extends Component {
       return musicOrdered[0] ? changeCurrentlyPlaying(musicOrdered[0], musicsToDisplay[musicOrdered[0]]) : {}
     }
 
-    const onVideoNext = () => (musicOrdered[0] ? changeCurrentlyPlaying(musicOrdered[0], musicsToDisplay[musicOrdered[0]]) : removeCurrentlyPlaying())
+    const onVideoNext = () => (musicOrdered[0]
+      ? changeCurrentlyPlaying(musicOrdered[0], musicsToDisplay[musicOrdered[0]])
+      : removeCurrentlyPlaying())
 
     const getSeekTo = () => {
       if (!musicToPlay) return 0
@@ -127,63 +130,43 @@ MainPlaylistView.propTypes = {
   likeMusic: PropTypes.func.isRequired,
   playlists: PropTypes.object.isRequired,
   playlistId: PropTypes.string.isRequired,
+  playlistTyp: PropTypes.string.isRequired,
   unlikeMusic: PropTypes.func.isRequired,
   removeCurrentlyPlaying: PropTypes.func.isRequired,
   pauseCurrentlyPlaying: PropTypes.func.isRequired,
   gtPrivatePlaylist: PropTypes.func.isRequired,
+  gtPublicPlaylist: PropTypes.func.isRequired,
   changeCurrentlyPlaying: PropTypes.object.isRequired,
   playlist: PropTypes.object.isRequired,
-  musicToPlay: PropTypes.object.isRequired,
+  musicToPlay: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => ({
   musicsToDisplay: state.playlists[ownProps.match.params.playlistId] ? state.playlists[ownProps.match.params.playlistId].musics || {} : {},
   musicToPlay:
-    state.playlists[ownProps.match.params.playlistId] ? state.playlists[ownProps.match.params.playlistId].currentlyPlaying || null : {},
+    state.playlists[ownProps.match.params.playlistId] ? state.playlists[ownProps.match.params.playlistId].currentlyPlaying || '' : {},
   playlist: state.playlists[ownProps.match.params.playlistId],
   playlists: state.playlists,
   playlistId: ownProps.match.params.playlistId,
+  playlistTyp: ownProps.match.params.type,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   gtPrivatePlaylist: id => dispatch(getPrivatePlaylist(id)),
-  removeMusic: (id, music) => {
-    dispatch(updatePlaylist(ownProps.match.params.playlistId, `musics/${id}`, null))
-    dispatch(addToFeed('music', 'remove',
-      {
-        action: 'removed',
-        username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnailUrl,
-        title: music.title,
-      }))
-  },
-  likeMusic: (id, music) => {
+  gtPublicPlaylist: id => dispatch(getPublicPlaylist(id)),
+  removeMusic: id =>
+    dispatch(updatePlaylist(ownProps.match.params.playlistId, `musics/${id}`, null)),
+  likeMusic: id =>
     dispatch(
       updatePlaylist(
         ownProps.match.params.playlistId,
         `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`,
-        true))
-    dispatch(addToFeed('like', 'add',
-      {
-        action: 'liked',
-        username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnailUrl,
-        title: music.title,
-      }))
-  },
-  unlikeMusic: (id, music) => {
+        true)),
+  unlikeMusic: id =>
     dispatch(
       updatePlaylist(
         ownProps.match.params.playlistId,
-        `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`, null))
-    dispatch(addToFeed('like', 'remove',
-      {
-        action: 'unliked',
-        username: localStorage.getItem('nightingaleName'),
-        thumbnail: music.thumbnailUrl,
-        title: music.title,
-      }))
-  },
+        `musics/${id}/likes/${localStorage.getItem('nightingaleUid')}`, null)),
   changeCurrentlyPlaying: (id, music) => {
     dispatch(
       updatePlaylist(
@@ -193,6 +176,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
           name: music.title,
           duration: music.duration,
           imageUrl: music.thumbnailUrl,
+          channelTitle: music.channelTitle,
           paused: false,
           startedTime: (new Date()).getTime(),
         }))
