@@ -70,6 +70,7 @@ class CreatePlaylistContent extends React.Component {
 
     return (
       <div className="create-playliste-content">
+        <div className="create-playliste-content-title-bar" />
         <h2>Create a Playlist</h2>
         <FormInputText
           label="Playlist title"
