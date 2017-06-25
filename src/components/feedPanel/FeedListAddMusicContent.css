@@ -11,6 +11,7 @@
   vertical-align: top;
   display: inline-block;
   width: 10%;
+  overflow: hidden;
 }
 
 .feed-list-add-info-thumbnail img {
