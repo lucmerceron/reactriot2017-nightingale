@@ -10,6 +10,7 @@ import FormInputText from './generalPurpose/form/FormInputText'
 import { getPrivatePlaylist } from '../actionCreators/playlists'
 
 import './JoinPlaylistContent.css'
+import qrCodeIns from '../assets/qr-code-instructions.svg'
 
 class JoinPlaylistContent extends React.Component {
   constructor() {
@@ -17,6 +18,7 @@ class JoinPlaylistContent extends React.Component {
 
     this.state = {
       privatePlaylistId: '',
+      qrScanMode: false,
     }
   }
 
@@ -36,14 +38,15 @@ class JoinPlaylistContent extends React.Component {
 
   render() {
     const { playlists, switchToPlaylist, gtPrivatePlaylist } = this.props
-    const { privatePlaylistId } = this.state
+    const { privatePlaylistId, qrScanMode } = this.state
 
     return (
-      <div>
+      <div className="join-playlist-content">
+        <div className="create-playliste-content-title-bar" />
         <h2>Join a Playlist</h2>
-        <p>scan a QR code to join</p>
         <div className="join-playlist-qr">
-          <QrScanner onScan={() => console.log('scan')} onError={() => console.log('error')} />
+          {!qrScanMode && <img className="join-playlist-content-scann" src={qrCodeIns} alt="qr code instructions" onClick={() => this.setState({ qrScanMode: true })} />}
+          {qrScanMode && <QrScanner onScan={() => console.log('scan')} onError={() => console.log('error')} />}
         </div>
         <p>or search for a playlist</p>
         <FormInputText placeholder="search for a playlist" onChange={(value) => this.setState({ privatePlaylistId: value })} />

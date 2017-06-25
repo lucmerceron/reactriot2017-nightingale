@@ -34,7 +34,7 @@ class LandingView extends Component {
             {hasMorphed !== 1 && <ButtonMorphing label="create a playlist" onClick={() => this.setState({ hasMorphed: 2 })} content={<CreatePlaylistContent />} />}
           </div>
         </div>
-        <span>developed by the Wing dev team with love</span>
+        {hasMorphed === 0 && <span>developed by the Wing dev team with love</span>}
       </div>
     )
   }

@@ -15,3 +15,11 @@
     width: 16.67rem;
     height: 16.67rem;
 }
+
+.join-playlist-content h2 {
+  margin-top: 0.3rem;
+}
+
+.join-playlist-content-scann {
+  cursor: pointer;
+}
