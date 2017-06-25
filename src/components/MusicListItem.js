@@ -19,7 +19,9 @@ const MusicListItem = ({ musicsToDisplay, addMusic, removeMusic, likeMusic, unli
           <i className="ion-ios-heart-outline" />
         </span>)
     }
-    return <div className="search-panel-result-add" onClick={() => addMusic(youtubeId, musicsToDisplay[youtubeId])}><i className="ion-ios-plus-outline"/></div>
+    return (<div className="search-panel-result-add" onClick={() => addMusic(youtubeId, musicsToDisplay[youtubeId])}>
+      <i className="ion-ios-plus-outline" />
+    </div>)
   }
 
   return (
@@ -27,7 +29,7 @@ const MusicListItem = ({ musicsToDisplay, addMusic, removeMusic, likeMusic, unli
       <ul className="music-list">
         {orderBy(keys(musicsToDisplay), a => -keys(musicsToDisplay[a].likes || []).length)
           .map(youtubeId => (
-            <li key={youtubeId} className="music-list-item row">
+            <li key={youtubeId} className="music-list-item">
               <div className="music-list-item-thumbnail">
                 <img
                   alt="youtube thumbnail preview image"
@@ -36,7 +38,7 @@ const MusicListItem = ({ musicsToDisplay, addMusic, removeMusic, likeMusic, unli
               </div>
               <div className="music-list-item-content">
                 <div className="search-panel-result-title">
-                  {musicsToDisplay[youtubeId].title} - 
+                  {musicsToDisplay[youtubeId].title} -
                   <span className="search-panel-result-channel">{musicsToDisplay[youtubeId].channelTitle}</span>
                 </div>
               </div>
