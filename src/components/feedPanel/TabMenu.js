@@ -36,19 +36,19 @@ class TabMenu extends Component {
       <div className="tab-menu-wrapper">
         <div className="tab-menu-selectors">
           <div
-            className={`tab-menu-category${(active === 0) ? ' active' : ''}`}
+            className={`tab-menu-category feed${(active === 0) ? ' active' : ''}`}
             onClick={() => this.setState({ active: 0 })}
           >
             <div className="ion-android-list" />
           </div>
           <div
-            className={`tab-menu-category${(active === 1) ? ' active' : ''}`}
+            className={`tab-menu-category likes${(active === 1) ? ' active' : ''}`}
             onClick={() => this.setState({ active: 1 })}
           >
             <div className="ion-android-favorite" />
           </div>
           <div
-            className={`tab-menu-category${(active === 2) ? ' active' : ''}`}
+            className={`tab-menu-category users${(active === 2) ? ' active' : ''}`}
             onClick={() => this.setState({ active: 2 })}
           >
             <div className="ion-ios-people" />

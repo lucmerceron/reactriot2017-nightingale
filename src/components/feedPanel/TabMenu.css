@@ -8,9 +8,10 @@
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
+  background-color: rgba(255, 255, 255, 0.6);
   height: 60px;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.6);
+  min-height: 60px;
 }
 
 .tab-menu-category {
@@ -18,18 +19,34 @@
   cursor: pointer;
 }
 
-.tab-menu-category:hover > div {
-  color: #e9e9e9;
-}
-
 .tab-menu-category > div {
   font-size: 2rem;
-  color: #d8d8d8;
+  color: white;
   transition: color 0.3s ease-in;
 }
 
-.tab-menu-category.active > div {
-  color: white;
+.tab-menu-category.users:hover > div {
+  color: #e9e9e9;
+}
+
+.tab-menu-category.feed.active > div {
+  color: #9C27B0;
+}
+
+.tab-menu-category.likes:hover > div {
+  color: #e9e9e9;
+}
+
+.tab-menu-category.likes.active > div {
+  color: #E91E63;
+}
+
+.tab-menu-category.users:hover > div {
+  color: #e9e9e9;
+}
+
+.tab-menu-category.users.active > div {
+  color: #2196F3;
 }
 
 .tab-menu-category.active {
