@@ -13,7 +13,9 @@ const FeedListUserContent = ({ id, userName, isAdmin }) => (
         <Identicon id={id} />
       </div>
     </div>
-    <div className="feed-user-name">{userName}</div>
+    <div className="feed-user-name" style={id === localStorage.getItem('nightingaleUid') ? { fontWeight: 400 } : {}}>
+      {userName} {id === localStorage.getItem('nightingaleUid') ? <span>(me)</span> : null}
+    </div>
   </div>
 )
 
