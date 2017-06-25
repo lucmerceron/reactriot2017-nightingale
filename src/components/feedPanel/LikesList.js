@@ -19,7 +19,10 @@ const LikesList = ({ likesFeed }) => (
         />
       </FeedListItem>
     ))}
-    {isEmpty(likesFeed) ? <p style={{ marginTop: '16px' }}>Seems like you just arrived, do not hesite to like some musics ;)</p> : null}
+    {isEmpty(likesFeed) ?
+      (<p style={{ margin: '24px 16px', textAlign: 'center' }}>
+        Seems like you just arrived, do not hesite to like some musics ;)
+      </p>) : null}
   </ul>
 )
 

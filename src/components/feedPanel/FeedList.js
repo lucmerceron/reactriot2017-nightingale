@@ -18,7 +18,10 @@ const FeedList = ({ musicsFeed }) => (
           action={musicsFeed[likeFeed].action}
         />
       </FeedListItem>))}
-    {isEmpty(musicsFeed) ? <p style={{ marginTop: '16px' }}>Seems like you just arrived, add some musics ;)</p> : null}
+    {isEmpty(musicsFeed) ?
+      <p style={{ margin: '24px 16px', textAlign: 'center' }}>
+        Seems like you just arrived, add some musics ;)
+      </p> : null}
   </ul>
 )
 

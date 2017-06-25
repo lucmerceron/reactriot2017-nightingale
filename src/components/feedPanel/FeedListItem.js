@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import './FeedListItem.css'
 
 const FeedListItem = ({ children, isMusic }) => (
-  <li className="feed-list-item" key={children}>
+  <li className="feed-list-item">
     {children}
     {isMusic ? <div className="ion-android-list" /> : <div className="ion-android-favorite" />}
   </li>

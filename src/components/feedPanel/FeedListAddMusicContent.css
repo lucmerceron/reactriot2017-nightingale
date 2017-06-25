@@ -10,7 +10,7 @@
 .feed-list-add-info-thumbnail {
   vertical-align: top;
   display: inline-block;
-  width: 15%;
+  width: 10%;
 }
 
 .feed-list-add-info-thumbnail img {
@@ -22,4 +22,5 @@
   vertical-align: top;
   display: inline-block;
   width: 85%;
+  padding-left: 5%;
 }
