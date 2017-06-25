@@ -88,6 +88,7 @@ class MainPlaylistView extends Component {
           <div>
             {(musicToPlay || (musicsToDisplay && Object.keys(musicsToDisplay).length)) ? <AudioPlayer
               seekTo={getSeekTo()}
+              playing={musicToPlay}
               playingId={musicToPlay ? musicToPlay.url : ''}
               playlist={musicOrdered}
               isPlaying={musicToPlay ? !musicToPlay.paused : false}

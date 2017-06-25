@@ -16,9 +16,11 @@ class AudioPlayer extends Component {
     this.state = {
       volume: 100,
       muted: false,
+      fullscreen: false,
       YTPlayer: null,
       isMobile: window.orientation !== 'undefined',
       mobileFirstPlay: false,
+      videoHeight: 0,
     }
 
     this.onPlayerReady = this.onPlayerReady.bind(this)
@@ -108,10 +110,20 @@ class AudioPlayer extends Component {
     }
   }
 
+  toggleFullScreen() {
+    const newFullscreen = !this.state.fullscreen
+    if (newFullscreen) {
+      const [videoContainer] = document.getElementsByClassName('audio-player')
+      const { offsetWidth } = videoContainer
+      const newHeight = (offsetWidth / 16) * 9
+      this.setState({ fullscreen: newFullscreen, videoHeight: newHeight })
+    } else {
+      this.setState({ fullscreen: newFullscreen })
+    }
+  }
+
   render() {
     const opts = {
-      height: '200',
-      width: '200',
       playerVars: {
         autoplay: 1,
         controls: 0,
@@ -132,17 +144,28 @@ class AudioPlayer extends Component {
       this.pauseVideo()
     }
 
-    if (this.props.playingId && this.props.playingId !== '') {
+    if (this.props.playing && this.props.playing.url) {
       return (
         <div className="audio-player">
-          <div className="audio-player-container">
+          <div
+            className="audio-player-container"
+            style={{
+              width: this.state.fullscreen ? '100%' : '200px',
+              borderRadius: this.state.fullscreen ? '0' : '50%',
+              height: this.state.fullscreen ? this.state.videoHeight : '200px',
+            }}
+          >
             <YoutubePlayer
-              videoId={this.props.playingId}
+              videoId={this.props.playing.url}
               className="audio-player-youtube-frame"
               opts={opts}
               onReady={this.onPlayerReady}
               onStateChange={this.onPlayerStateChange}
             />
+          </div>
+          <div className="audio-player-titles-container">
+            <div className="audio-player-video-title">{this.props.playing.name}</div>
+            <div className="audio-player-channel-title">{this.props.playing.channelTitle}</div>
           </div>
           <AudioWavesTimeline player={this.state.YTPlayer} />
           <div className="audio-player-controls">
@@ -151,16 +174,21 @@ class AudioPlayer extends Component {
               className="audio-player-controls-btn-lg"
               onClick={() => this.handleTogglePlay()}
             >
-              <i className="ion-ios-play-outline" style={{ marginLeft: '0.4444rem' }} />
+              <i className={(this.props.isPlaying) ? 'ion-ios-pause' : 'ion-ios-play'} style={{ marginLeft: '0.4444rem' }} />
             </div>
             <div
               className="audio-player-controls-btn-sm"
               onClick={() => this.props.onVideoChanged()}
               style={{ marginLeft: '-0.4444rem' }}
             >
-              <i className="ion-ios-skipforward-outline" />
+              <i className="ion-ios-skipforward" />
             </div>
-            <div onClick={() => console.log} style={{ display: 'none' }}>full screen</div>
+            <div
+              className="audio-player-controls-btn-sm"
+              onClick={() => this.toggleFullScreen()}
+            >
+              <i className={(this.state.fullscreen) ? 'ion-arrow-shrink' : 'ion-arrow-expand'} />
+            </div>
           </div>
         </div>
       )
@@ -174,7 +202,7 @@ class AudioPlayer extends Component {
             className="audio-player-controls-btn-lg"
             onClick={() => this.handleTogglePlay()}
           >
-            <i className="ion-ios-play-outline" style={{ marginLeft: '0.4444rem' }} />
+            <i className="ion-ios-play" style={{ marginLeft: '0.4444rem' }} />
           </div>
         </div>
         <p>Let's start this party ?</p>
@@ -184,7 +212,10 @@ class AudioPlayer extends Component {
 }
 
 AudioPlayer.propTypes = {
+  playing: PropTypes.object.isRequired,
   playingId: PropTypes.string.isRequired,
+  playingTitle: PropTypes.string,
+  channelTitle: PropTypes.string,
   playlist: PropTypes.arrayOf(PropTypes.string).isRequired,
   isPlaying: PropTypes.bool.isRequired,
   seekTo: PropTypes.number.isRequired,
@@ -193,6 +224,8 @@ AudioPlayer.propTypes = {
 }
 
 AudioPlayer.defaultProps = {
+  playingTitle: 'Video title',
+  channelTitle: 'Channel title',
 }
 
 export default AudioPlayer
