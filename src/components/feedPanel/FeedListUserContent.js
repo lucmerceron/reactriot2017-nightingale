@@ -7,7 +7,6 @@ const FeedListUserContent = ({ userName, isAdmin }) => (
   <div>
     { userName }
     { isAdmin ? 'King' : 'Normal' }
-    { console.log('YOYO', userName, isAdmin)}
   </div>
 )
 

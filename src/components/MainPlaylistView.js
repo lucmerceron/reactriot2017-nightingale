@@ -44,6 +44,7 @@ class MainPlaylistView extends Component {
       playlist,
       musicToPlay,
       changeCurrentlyPlaying,
+      removeCurrentlyPlaying,
       pauseCurrentlyPlaying } = this.props
 
     const musicOrdered = orderBy(keys(musicsToDisplay), a => -keys(musicsToDisplay[a].likes || []).length)
@@ -58,7 +59,7 @@ class MainPlaylistView extends Component {
       return musicOrdered[0] ? changeCurrentlyPlaying(musicOrdered[0], musicsToDisplay[musicOrdered[0]]) : {}
     }
 
-    const onVideoNext = () => (musicOrdered[0] ? changeCurrentlyPlaying(musicOrdered[0], musicsToDisplay[musicOrdered[0]]) : {})
+    const onVideoNext = () => (musicOrdered[0] ? changeCurrentlyPlaying(musicOrdered[0], musicsToDisplay[musicOrdered[0]]) : removeCurrentlyPlaying())
 
     const getSeekTo = () => {
       console.log('GetSeekTo', musicToPlay)
@@ -109,6 +110,7 @@ MainPlaylistView.propTypes = {
   joinCurrentPlaylist: PropTypes.func.isRequired,
   likeMusic: PropTypes.func.isRequired,
   unlikeMusic: PropTypes.func.isRequired,
+  removeCurrentlyPlaying: PropTypes.func.isRequired,
   pauseCurrentlyPlaying: PropTypes.func.isRequired,
   changeCurrentlyPlaying: PropTypes.object.isRequired,
   playlist: PropTypes.object.isRequired,
@@ -152,6 +154,12 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       updatePlaylist(
         ownProps.match.params.playlistId,
         `musics/${id}`, null))
+  },
+  removeCurrentlyPlaying: () => {
+    dispatch(
+      updatePlaylist(
+        ownProps.match.params.playlistId,
+        'currentlyPlaying', null))
   },
   joinCurrentPlaylist: () => {
     dispatch(
