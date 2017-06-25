@@ -7,7 +7,7 @@ import FeedListUserContent from './FeedListUserContent'
 import './UsersList.css'
 
 const UsersList = ({ users }) =>
-  <ul>{users.map(user => <FeedListItem><FeedListUserContent user={user} /></FeedListItem>)}</ul>
+  <ul>{users.map(user => <FeedListItem><FeedListUserContent userName={user.name} /></FeedListItem>)}</ul>
 
 UsersList.propTypes = {
   users: PropTypes.arrayOf(PropTypes.string).isRequired,
