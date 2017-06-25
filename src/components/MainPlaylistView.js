@@ -59,8 +59,6 @@ class MainPlaylistView extends Component {
       removeCurrentlyPlaying,
       pauseCurrentlyPlaying } = this.props
 
-      console.log(playlist)
-
     const musicOrdered = orderBy(keys(musicsToDisplay), a => -keys(musicsToDisplay[a].likes || []).length)
 
     const onVideoTogglePlay = (currentTime) => {
@@ -140,7 +138,7 @@ MainPlaylistView.propTypes = {
   gtPublicPlaylist: PropTypes.func.isRequired,
   changeCurrentlyPlaying: PropTypes.object.isRequired,
   playlist: PropTypes.object.isRequired,
-  musicToPlay: PropTypes.object.isRequired,
+  musicToPlay: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => ({
