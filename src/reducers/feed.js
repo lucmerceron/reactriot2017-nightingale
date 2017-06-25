@@ -29,7 +29,7 @@ const detectMusicChanged = (actual, next) => {
       const removed = actu.musics[diff]
 
       // It is not removed if it is in the currentlyPlaying
-      if (actu.currentlyPlaying.url === diff) return false
+      if (actu.currentlyPlaying && actu.currentlyPlaying.url === diff) return false
 
       musicDiff = removed
     }
