@@ -1,0 +1,23 @@
+.form-input-select select {
+  border-radius: 1.5rem;
+  border: 2px solid #dedede;
+  height: 1.778rem;
+  padding: 0 0.5rem;
+  font-weight: 300;
+  background-color: #fff;
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
+  color: #50626d;
+}
+
+.form-input-select select:focus {
+  border-color: #2196f3;
+}
+
+.form-input-select {
+  margin: 1rem 0;
+}
+
+.form-input-select p {
+  margin: 0.4444rem 0;
+}

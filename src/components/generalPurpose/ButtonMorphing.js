@@ -9,6 +9,7 @@ class ButtonMorphing extends Component {
 
     this.state = {
       isContentVisible: false,
+      morphTriggered: false,
     }
     this.handleOnClick = this.handleOnClick.bind(this)
   }
@@ -16,16 +17,16 @@ class ButtonMorphing extends Component {
   handleOnClick() {
     const { onClick } = this.props
 
-    this.setState({ isContentVisible: true })
+    this.setState({ isContentVisible: true, morphTriggered: true })
     onClick()
   }
 
   render() {
     const { label, content } = this.props
-    const { isContentVisible } = this.state
+    const { isContentVisible, morphTriggered } = this.state
 
     return (
-      <div onClick={this.handleOnClick} className={`ng-btn-morphing ${isContentVisible ? 'has-morphed' : ''}`}>
+      <div onClick={this.handleOnClick} className={`ng-btn-morphing ${morphTriggered ? 'has-morphed' : ''}`} style={{ width: morphTriggered ? '22rem' : '' }} >
         {!isContentVisible && label}
         {isContentVisible && content}
       </div>

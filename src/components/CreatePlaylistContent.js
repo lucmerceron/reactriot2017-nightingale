@@ -69,7 +69,7 @@ class CreatePlaylistContent extends React.Component {
     const { isPrivate } = this.state
 
     return (
-      <div>
+      <div className="create-playliste-content">
         <h2>Create a Playlist</h2>
         <FormInputText
           label="Playlist title"

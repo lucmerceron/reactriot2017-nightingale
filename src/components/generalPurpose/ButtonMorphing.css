@@ -11,8 +11,9 @@
   transition: 
     background 0.3s ease-in-out,
     color 0.3s ease-in-out,
-    max-height 1s ease-in-out,
+    max-height 1.5s linear,
     border-color 0.3s ease-in-out;
+  overflow: hidden;
 }
 
 .ng-btn-morphing:hover {
@@ -20,5 +21,10 @@
 }
 
 .ng-btn-morphing.has-morphed {
-  max-height: 200rem;
+  max-height: 150rem;
+}
+
+.ng-btn-morphing:hover.has-morphed {
+  cursor: default;
+  background: linear-gradient( 160deg, #2196f3, #00BAC0 );
 }
