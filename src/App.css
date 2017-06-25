@@ -39,3 +39,8 @@ h2 {
   margin-top: 0;
   font-weight: 700;
 }
+
+.hb-vote-widget {
+  border-radius: 0px !important;
+  background-color: #3f1445;
+}
