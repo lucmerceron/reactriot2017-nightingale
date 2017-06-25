@@ -99,7 +99,7 @@ MainPlaylistView.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  musicsToDisplay: state.playlists[ownProps.match.params.playlistId] ? state.playlists[ownProps.match.params.playlistId].musics : {},
+  musicsToDisplay: state.playlists[ownProps.match.params.playlistId] ? state.playlists[ownProps.match.params.playlistId].musics || {} : {},
   musicToPlay:
     state.playlists[ownProps.match.params.playlistId] ? state.playlists[ownProps.match.params.playlistId].currentlyPlaying || null : {},
   playlist: state.playlists[ownProps.match.params.playlistId],
