@@ -3,16 +3,14 @@ import PropTypes from 'prop-types'
 
 import './FeedListItem.css'
 
-const FeedListItem = props => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+const FeedListItem = ({ children }) => (
+  <div>
+    {children}
+  </div>
+)
 
 FeedListItem.propTypes = {
-  
+  children: PropTypes.node.isRequired,
 }
 
 export default FeedListItem

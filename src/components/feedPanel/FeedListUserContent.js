@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 
 import './FeedListUserContent.css'
 
-const FeedListUserContent = props => (
+const FeedListUserContent = ({ userName }) => (
   <div>
-    { props.user }
+    { userName }
   </div>
 )
 
 FeedListUserContent.propTypes = {
-  user: PropTypes.string.isRequired,
+  userName: PropTypes.string.isRequired,
 }
 
 export default FeedListUserContent

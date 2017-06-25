@@ -18,6 +18,8 @@ class App extends React.Component {
         if (snap.val()) setPublicPlaylists(snap.val())
         else setPublicPlaylists({})
       })
+      // If user not auth
+      if (!firebase.auth().currentUser) return
       // Store the name and uid in localStorage
       if (!localStorage.getItem('nightingaleName') || !localStorage.getItem('nightingaleUid')) {
         const fakeName = faker.name.findName()
