@@ -173,12 +173,12 @@ class AudioPlayer extends Component {
           <AudioWavesTimeline player={this.state.YTPlayer} />
           <div className="audio-player-controls">
             <AudioSoundButton value={volume} onChange={this.onSetVolume} />
-            {(this.props.isAdmin) ? (
+            {(this.props.isAdmin || (this.state.isMobile && !this.state.mobileFirstPlay)) ? (
               <div
                 className="audio-player-controls-btn-sm"
                 onClick={() => this.handleTogglePlay()}
               >
-                <i className={(this.props.isPlaying) ? 'ion-ios-pause' : 'ion-ios-play'} style={{ marginLeft: '0.4444rem' }} />
+                <i className={(!this.props.isPlaying || (this.state.isMobile && !this.state.mobileFirstPlay)) ? 'ion-ios-play' : 'ion-ios-pause'} style={{ marginLeft: '0.4444rem' }} />
               </div>
             ) : ''}
             {(this.props.isAdmin) ? (
