@@ -1,0 +1,26 @@
+.search-panel {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  width: 100%;
+}
+
+.search-panel-search-icon {
+  font-weight: 700;
+  font-size: 2rem;
+  margin: 0 12px 0 12px;
+}
+
+.search-panel-search-box {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.6);
+  max-height: 60px;
+}
+
+.search-panel-search-box .form-input-text,
+.search-panel-search-box .form-input-text input[type='text']{
+  width: calc(100% - 36px);
+}

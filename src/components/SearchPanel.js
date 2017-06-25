@@ -8,7 +8,7 @@ import MusicListItem from './MusicListItem'
 import { getYoutubeResults } from '../actionCreators/youtubeSearch'
 import { updatePlaylist } from '../actionCreators/playlists'
 
-// import './SearchPanel.css'
+import './SearchPanel.css'
 
 class SearchPanel extends Component {
   constructor() {
@@ -28,19 +28,25 @@ class SearchPanel extends Component {
       removeMusic } = this.props
 
     return (
-      <div>
-        <FormInputText
-          placeholder="Search a music you like"
-          onChange={youtubeSearch}
-        />
-        <MusicListItem
+      <div className="search-panel">
+        <div className="search-panel-search-box">
+          <div className="search-panel-search-icon">
+            <i className="ion-ios-musical-notes" />
+          </div>
+          <FormInputText
+            placeholder="Eminem, Kanye West, etc..."
+            onChange={youtubeSearch}
+          />
+        </div>
+        {Object.keys(musicsToDisplay).length ? <MusicListItem
           playlist={playlist}
           musicsToDisplay={musicsToDisplay}
           addMusic={addMusic}
           likeMusic={likeMusic}
           unlikeMusic={unlikeMusic}
           removeMusic={removeMusic}
-        />
+        /> : <p style={{ padding: '0 10px 0 10px' }}>Just use the search box above to add some good vibes to this place! :D</p>}
+
       </div>
     )
   }
@@ -87,4 +93,3 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchPanel))
-
