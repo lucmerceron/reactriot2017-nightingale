@@ -17,7 +17,7 @@
   background-image: linear-gradient(360deg, #1e1a4d 0%, #332c84 45%, #a361cb 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2739a1', endColorstr='#6840e3', GradientType=0); /* ie6-9 */
   border-radius: 12px;
-  width: 95%;
+  width: 98%;
   height: 90vh;
   max-height: 90vh;
   padding: 0rem !important;
@@ -26,10 +26,12 @@
 
 .main-playlist .col-sm-12:first-child > * {
   background-image: linear-gradient(40deg, #1e1a4d 0%, #332c84 45%, #a361cb 100%) !important;
+  width: 96% !important;
 }
 
 .main-playlist .col-sm-12:last-child > * {
   background-image: linear-gradient(320deg, #1e1a4d 0%, #332c84 45%, #a361cb 100%) !important;
+  width: 96% !important;
 }
 
 .main-playlist .col-sm-12 {
@@ -37,4 +39,12 @@
   flex-flow: nowrap;
   align-items: center;
   justify-content: center;
+}
+
+.main-playlist .col-sm-12:first-child {
+  justify-content: right;
+}
+
+.main-playlist .col-sm-12:last-child {
+  justify-content: left;
 }
