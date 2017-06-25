@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import TimeFormat from 'hh-mm-ss'
+import TimeFormat from 'hhmmss'
 
 import './AudioWavesTimeline.css'
 
@@ -20,7 +20,7 @@ class AudioWavesTimeline extends Component {
 
     return (
       <div className="audio-timeline-container row">
-        <span className="audio-timeline-current-play">{TimeFormat.fromS(currentPlayTime)}</span>
+        <span className="audio-timeline-current-play">{TimeFormat(currentPlayTime)}</span>
         <div className="audio-waves-container">
           { Array(...{ length: 60 }).map((item, index) => (
             <span
@@ -33,7 +33,7 @@ class AudioWavesTimeline extends Component {
             />))
           }
         </div>
-        <span className="audio-timeline-duration">{TimeFormat.fromS(duration)}</span>
+        <span className="audio-timeline-duration">{TimeFormat(duration)}</span>
       </div>
     )
   }
