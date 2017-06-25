@@ -3,7 +3,7 @@
   color: white;
 }
 
-.main-playlist ul {
+.main-playlist .main-playlist-list {
   margin: 0;
   padding: 0;
 }
@@ -11,6 +11,10 @@
 .main-playlist-list li {
   margin: 0.5rem 1rem;
   border: none;
+}
+
+.main-playlist-list li:first-child {
+  margin-top: 1rem;
 }
 
 .main-playlist .col-sm-12 > * {
