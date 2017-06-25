@@ -1,10 +1,17 @@
 import React from 'react'
 
+import './EmptyPlaylist.css'
+
 const EmptyPlaylist = () => (
-  <div style={{ textAlign: 'center' }}>
-    <h1><i className="ion-sad-outline" /></h1>
-    <h3>This playlist is empty.</h3>
-    Add some sounds here to start the party!
+  <div className="empty-playlist">
+    <div className="empty-playlist-title">This playlist is empty.</div>
+    <div className="empty-playlist-icon-big">
+      <i className="ion-sad-outline" />
+    </div>
+    <div className="empty-playlist-subtitle">
+      Bring a little of life here.<br /><br />
+    Add some songs to the playlist with the help of the search box!<br />
+    </div>
   </div>
 )
 
