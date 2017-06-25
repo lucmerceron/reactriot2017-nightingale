@@ -112,3 +112,15 @@ export function updatePlaylist(playlistId, path, newValue) {
     .set(newValue)
   }
 }
+export function removePlaylistOnDisconnect(playlistId, path) {
+  return (dispatch, getState) => {
+    const firebase = getState().firebase
+    const actualPlaylist = getState().playlists[playlistId]
+
+    if (!actualPlaylist) return
+    firebase.database()
+    .ref(`${actualPlaylist.private ? 'private' : 'public'}_playlists/${playlistId}/${path}`)
+    .onDisconnect()
+    .remove()
+  }
+}

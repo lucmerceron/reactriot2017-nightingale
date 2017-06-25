@@ -9,7 +9,7 @@ import SearchPanel from './SearchPanel'
 import MusicListItem from './MusicListItem'
 import FeedPanel from './FeedPanel'
 
-import { updatePlaylist } from '../actionCreators/playlists'
+import { updatePlaylist, removePlaylistOnDisconnect } from '../actionCreators/playlists'
 
 class MainPlaylistView extends Component {
   constructor() {
@@ -153,12 +153,17 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         ownProps.match.params.playlistId,
         `musics/${id}`, null))
   },
-  joinCurrentPlaylist: () =>
+  joinCurrentPlaylist: () => {
     dispatch(
       updatePlaylist(
         ownProps.match.params.playlistId,
         `users/${localStorage.getItem('nightingaleUid')}`,
-        localStorage.getItem('nightingaleName'))),
+        localStorage.getItem('nightingaleName')))
+    dispatch(
+      removePlaylistOnDisconnect(
+        ownProps.match.params.playlistId,
+        `users/${localStorage.getItem('nightingaleUid')}`))
+  },
   pauseCurrentlyPlaying: (paused, timestamp) => {
     dispatch(
       updatePlaylist(
