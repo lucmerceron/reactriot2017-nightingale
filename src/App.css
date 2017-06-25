@@ -50,3 +50,25 @@ h2 {
   font-size: 4rem;
   color: #fff;
 }
+
+.top-bar {
+  position: relative;
+}
+
+.top-bar-logo {
+  font-size: 1.8rem;
+  position: absolute;
+  top: 0.5rem;
+  left: 1rem;
+  cursor: pointer;
+}
+
+.top-bar.main-menu .hb-vote-widget {
+  background-image: linear-gradient(40deg, #1e2362 0%, #403a81 45%, #a361cb 100%) !important;
+}
+
+.top-bar-logo .ion-chevron-left {
+  font-size: 1rem;
+  vertical-align: middle;
+  margin-right: 1rem;
+}
