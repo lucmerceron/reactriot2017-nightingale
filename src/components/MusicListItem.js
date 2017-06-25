@@ -14,9 +14,9 @@ const MusicListItem = ({ musicsToDisplay, addMusic, removeMusic, likeMusic, unli
   const getLikeAdd = youtubeId => {
     if (isInPlaylist(youtubeId)) {
       return isLiked(musicsToDisplay[youtubeId]) || (playlist && isLiked(playlist.musics[youtubeId]))
-        ? <span className="search-panel-result-like" onClick={() => unlikeMusic(youtubeId)}><i className="ion-ios-heart" /></span>
+        ? <span className="search-panel-result-like" onClick={() => unlikeMusic(youtubeId)}><i className="ion-android-favorite" /></span>
         : (<span className="search-panel-result-unlike" onClick={() => likeMusic(youtubeId)}>
-          <i className="ion-ios-heart-outline" />
+          <i className="ion-android-favorite-outline" />
         </span>)
     }
     return (<div className="search-panel-result-add" onClick={() => addMusic(youtubeId, musicsToDisplay[youtubeId])}>
