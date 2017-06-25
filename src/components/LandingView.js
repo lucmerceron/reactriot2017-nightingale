@@ -10,8 +10,6 @@ import ButtonMorphing from './generalPurpose/ButtonMorphing'
 import CreatePlaylistContent from './CreatePlaylistContent'
 import JoinPlaylistContent from './JoinPlaylistContent'
 
-import bgVideoUrl from '../assets/background-video.mp4'
-
 import './LandingView.css'
 
 class LandingView extends Component {
@@ -53,15 +51,18 @@ class LandingView extends Component {
       <div className="landing-view">
         <div className="landing-view-actions-wrapper">
           <div className={`landing-view-actions-background-position ${hasMorphed !== 0 ? 'button-morphed' : ''}`}>
-            {hasMorphed === 0 && <span className="ng-logo">Nightingale</span>}
-            {hasMorphed === 0 && <p className="ng-logo-subtitle">add . vote . listen</p>}
+            <span className="ng-logo">Nightingale</span>
+            <p className="ng-logo-subtitle">add . vote . listen</p>
             <div className="landing-view-actions-group">
-              {hasMorphed !== 2 && <ButtonMorphing label="join a playlist" onClick={() => this.setState({ hasMorphed: 1 })} content={<JoinPlaylistContent />} />}
-              {hasMorphed !== 1 && <ButtonMorphing label="create a playlist" onClick={() => this.setState({ hasMorphed: 2 })} content={<CreatePlaylistContent />} />}
+              <ButtonMorphing isMorphed={hasMorphed === 1} label="join a playlist" onClick={() => this.setState({ hasMorphed: 1 })} content={<JoinPlaylistContent />} />
+              <ButtonMorphing isMorphed={hasMorphed === 2} label="create a playlist" onClick={() => this.setState({ hasMorphed: 2 })} content={<CreatePlaylistContent />} />
             </div>
           </div>
         </div>
-        {hasMorphed === 0 && <span>developed by the Wing dev team with love</span>}
+        {hasMorphed === 0 &&
+          <span style={{ color: 'white' }}>
+            developed by the Wing dev team with <span className="ion-heart" style={{ verticalAlign: 'middle' }} />
+          </span>}
       </div>
     )
   }

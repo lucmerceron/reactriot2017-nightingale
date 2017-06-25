@@ -8,6 +8,7 @@
 
 .music-list-item {
   display: flex;
+  position: relative;
   flex-flow: row nowrap;
   align-items: center;
   padding: 0.5rem 1.5rem;
@@ -28,6 +29,21 @@
 .search-panel-result-title {
   font-size: 1rem;
   font-weight: 700;
+}
+
+.music-list-item-likes {
+  font-weight: 400;
+  position: absolute;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  background-color: #e91e64;
+  border-radius: 50%;
+  overflow: hidden;
+  right: 0;
+  top: 50%;
+  transform: translate(50%, -50%);
 }
 
 .search-panel-result-channel {
