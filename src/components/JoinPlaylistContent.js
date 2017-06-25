@@ -6,6 +6,7 @@ import { keys, difference } from 'lodash'
 
 import QrScanner from 'react-qr-reader'
 import FormInputText from './generalPurpose/form/FormInputText'
+import Button from './generalPurpose/Button'
 
 import { getPrivatePlaylist } from '../actionCreators/playlists'
 
@@ -48,20 +49,30 @@ class JoinPlaylistContent extends React.Component {
           {!qrScanMode && <img className="join-playlist-content-scann" src={qrCodeIns} alt="qr code instructions" onClick={() => this.setState({ qrScanMode: true })} />}
           {qrScanMode && <QrScanner onScan={() => console.log('scan')} onError={() => console.log('error')} />}
         </div>
-        <p>or search for a playlist</p>
-        <FormInputText placeholder="search for a playlist" onChange={(value) => this.setState({ privatePlaylistId: value })} />
-        <div onClick={() => gtPrivatePlaylist(privatePlaylistId)}>Join Private</div>
-        <ul>
-          {keys(playlists).map(key => (
-            !playlists[key].private
-            ? (
-              <li key={key}>
-                <div className="join-playlist-name">{playlists[key].name}</div>
-                <div className="join-playlist-tag">{playlists[key].tag}</div>
-                <div className="join-playlist-button" onClick={() => switchToPlaylist(key)}>Join</div>
-              </li>
-            ) : null))}
-        </ul>
+        <div className="join-playlist-url">
+          <p>- Or hop in via URL -</p>
+          <div className="join-playlist-url-input">
+            <span>playlists/</span>
+            <FormInputText placeholder="ex: -KnPqx6fv618vSwcMfHV" onChange={(value) => this.setState({ privatePlaylistId: value })} />
+          </div>
+          <Button label="Here we go" onClick={() => gtPrivatePlaylist(privatePlaylistId)} />
+        </div>
+        <div className="join-playlist-public">
+          <p>People may have good tastes too</p>
+          <ul className="join-playlist-public-list" >
+            {keys(playlists).map(key => (
+              !playlists[key].private
+              ? (
+                <li className="join-playlist-public-list-item" key={key}>
+                  <div className="join-playlist-public-list-item-info">
+                    <span className="join-playlist-name">{playlists[key].name}</span>
+                    <span className="join-playlist-tag">{playlists[key].tag}</span>
+                  </div>
+                  <div className="join-playlist-public-list-item-action" onClick={() => switchToPlaylist(key)}><i className="ion-ios-arrow-right" /></div>
+                </li>
+              ) : null))}
+          </ul>
+        </div>
       </div>
     )
   }
