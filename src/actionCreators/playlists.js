@@ -1,3 +1,4 @@
+import shortId from 'short-id'
 import makeActionCreator from './makeActionCreator'
 
 /* Action types */
@@ -50,7 +51,7 @@ export function createPrivatePlaylist(playlist, switchToNewPlaylist) {
     const userId = firebase.auth().currentUser.uid
 
     // Retrieve the key for onDisconnect use
-    const newPlaylistKey = firebase.database().ref('private_playlists').push().key
+    const newPlaylistKey = shortId.generate()
 
     firebase.database().ref(`private_playlists/${newPlaylistKey}`).once('value', snap => {
       if (snap.val()) switchToNewPlaylist('private', newPlaylistKey)
@@ -80,7 +81,7 @@ export function createPublicPlaylist(playlist, switchToNewPlaylist) {
     const userId = firebase.auth().currentUser.uid
 
     // Retrieve the key for onDisconnect use
-    const newPlaylistKey = firebase.database().ref('public_playlists').push().key
+    const newPlaylistKey = shortId.generate()
 
     firebase.database().ref(`public_playlists/${newPlaylistKey}`).once('value', snap => {
       if (snap.val()) switchToNewPlaylist('public', newPlaylistKey)
